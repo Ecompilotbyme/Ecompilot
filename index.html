@@ -2,29 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcomPilot – Smart PDF Label Cropper</title>
 
-<title>EcomPilot — Smart PDF Label Cropper</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs"
+        type="module"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 
 <style>
 *{
     box-sizing:border-box;
-    margin:0;
-    padding:0;
 }
 
 body{
+    margin:0;
     font-family:Arial,Helvetica,sans-serif;
-    background:#f4f8fc;
-    color:#09213d;
+    background:#f4f7fb;
+    color:#0b2239;
 }
 
-button,
-select,
-input{
+button,input,select{
     font:inherit;
 }
 
@@ -32,10 +30,11 @@ button{
     cursor:pointer;
 }
 
+/* HEADER */
 .header{
-    height:64px;
+    height:62px;
     background:#fff;
-    border-bottom:1px solid #e5edf5;
+    border-bottom:1px solid #e6edf5;
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -46,409 +45,425 @@ button{
 }
 
 .logo{
-    font-size:22px;
+    font-size:20px;
     font-weight:800;
-    color:#0879ed;
+    color:#087cf0;
 }
 
 .logo span{
-    color:#09213d;
+    color:#122b42;
+    font-size:10px;
+    font-weight:500;
+    margin-left:8px;
 }
 
 .nav{
     display:flex;
-    gap:28px;
+    gap:22px;
     align-items:center;
-    font-size:13px;
 }
 
 .nav a{
     text-decoration:none;
-    color:#20334b;
+    color:#27384a;
+    font-size:12px;
+    font-weight:600;
 }
 
-.top-btn{
-    background:#0879ed;
+.nav .start{
+    background:#087cf0;
     color:#fff;
-    border:0;
-    padding:12px 20px;
-    border-radius:9px;
-    font-weight:700;
+    padding:10px 16px;
+    border-radius:7px;
 }
 
+/* HERO */
 .hero{
-    padding:55px 5% 45px;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:45px;
+    padding:48px 5% 35px;
+    background:linear-gradient(135deg,#f7fbff,#eef5fc);
+}
+
+.hero-inner{
+    max-width:1180px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
     align-items:center;
-    background:linear-gradient(135deg,#f5fbff,#edf6ff);
+    gap:40px;
+}
+
+.hero-left{
+    max-width:550px;
 }
 
 .kicker{
-    color:#0879ed;
-    font-size:12px;
+    color:#087cf0;
+    font-size:10px;
     font-weight:800;
-    letter-spacing:.7px;
-    margin-bottom:12px;
+    letter-spacing:.5px;
 }
 
 .hero h1{
-    font-size:48px;
-    line-height:.98;
-    margin-bottom:20px;
+    margin:10px 0 12px;
+    font-size:34px;
+    line-height:1;
 }
 
 .hero h1 span{
-    color:#0879ed;
+    color:#087cf0;
 }
 
 .hero p{
-    color:#61758d;
+    color:#6d7c8b;
+    font-size:14px;
     line-height:1.6;
-    max-width:560px;
 }
 
 .hero-buttons{
-    margin-top:24px;
     display:flex;
-    gap:10px;
-    flex-wrap:wrap;
+    gap:8px;
+    margin-top:18px;
 }
 
-.primary{
-    border:0;
-    background:#0879ed;
-    color:white;
-    border-radius:8px;
-    padding:14px 22px;
-    font-weight:700;
-}
-
-.secondary{
-    border:1px solid #b9d4ee;
-    background:#fff;
-    color:#0879ed;
-    border-radius:8px;
-    padding:14px 22px;
-    font-weight:700;
-}
-
-.features{
-    margin-top:22px;
-    display:flex;
-    flex-wrap:wrap;
-    gap:16px;
+.primary-btn,
+.secondary-btn{
+    border-radius:7px;
+    padding:10px 16px;
     font-size:12px;
-    color:#63778d;
+    font-weight:700;
+    border:1px solid #d8e3ed;
 }
 
-.feature{
-    display:flex;
-    gap:5px;
+.primary-btn{
+    background:#087cf0;
+    color:white;
+    border-color:#087cf0;
 }
 
-.feature b{
-    color:#0879ed;
+.secondary-btn{
+    background:white;
+    color:#087cf0;
 }
 
 .hero-card{
-    background:white;
-    border:1px solid #dce8f3;
-    border-radius:16px;
-    padding:20px;
-    box-shadow:0 12px 35px rgba(24,64,102,.08);
+    background:#fff;
+    width:360px;
+    padding:13px;
+    border-radius:15px;
+    box-shadow:0 12px 35px rgba(27,57,85,.10);
 }
 
 .hero-card-title{
-    background:#08233d;
-    color:white;
-    padding:15px;
-    border-radius:8px;
-    font-weight:700;
-    margin-bottom:10px;
+    background:#09243d;
+    color:#fff;
+    border-radius:6px;
+    padding:10px;
+    font-size:12px;
+    font-weight:800;
 }
 
-.card-grid{
+.hero-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:9px;
+    gap:7px;
+    margin-top:7px;
 }
 
-.card-item{
-    border:1px solid #d5e3ef;
-    border-radius:8px;
-    padding:15px;
-    min-height:72px;
-    font-size:12px;
+.hero-box{
+    border:1px solid #dce6ee;
+    border-radius:5px;
+    padding:12px 10px;
+    font-size:9px;
+    color:#4d6070;
 }
 
-.card-item strong{
+.hero-box small{
     display:block;
-    margin-bottom:5px;
+    color:#8b98a4;
+    margin-top:3px;
 }
 
-.card-item small{
-    color:#71849a;
-}
-
-.tools{
-    padding:0 5% 30px;
-    background:#edf5fc;
-}
-
-.tool-grid{
+/* FEATURES */
+.features{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 5% 25px;
     display:grid;
     grid-template-columns:repeat(5,1fr);
-    gap:10px;
+    gap:8px;
 }
 
-.tool{
+.feature{
     background:#fff;
-    border:1px solid #dbe7f1;
-    border-radius:10px;
-    padding:17px;
-    min-height:80px;
+    border:1px solid #e3eaf0;
+    border-radius:8px;
+    padding:13px;
+    min-height:72px;
 }
 
-.tool strong{
+.feature strong{
     display:block;
-    font-size:13px;
-    margin-bottom:5px;
+    font-size:10px;
+    margin-bottom:3px;
 }
 
-.tool span{
-    color:#6d8095;
-    font-size:11px;
+.feature span{
+    color:#7a8793;
+    font-size:9px;
 }
 
+/* APP */
 .app{
-    margin:0 2.5% 55px;
-    background:white;
-    border:1px solid #dbe7f0;
-    border-radius:15px;
+    max-width:1180px;
+    margin:0 auto 40px;
+    background:#fff;
+    border:1px solid #e1e8ef;
+    border-radius:12px;
+    min-height:680px;
+    display:flex;
     overflow:hidden;
-    display:grid;
-    grid-template-columns:125px 1fr;
-    min-height:720px;
 }
 
+/* SIDEBAR */
 .sidebar{
-    background:#06213b;
-    color:white;
-    padding:20px 10px;
+    width:150px;
+    background:#06213a;
+    color:#fff;
+    padding:18px 9px;
+    flex-shrink:0;
 }
 
-.side-logo{
-    font-weight:800;
+.side-title{
     font-size:14px;
-    padding:0 8px 20px;
+    font-weight:800;
+    padding:0 5px 18px;
 }
 
 .side-item{
-    padding:11px 9px;
-    border-radius:6px;
-    margin-bottom:6px;
-    font-size:12px;
+    padding:9px 8px;
+    border-radius:5px;
+    font-size:11px;
+    margin-bottom:4px;
+    cursor:pointer;
 }
 
 .side-item.active{
-    background:#0879ed;
+    background:#087cf0;
 }
 
+/* WORKSPACE */
 .workspace{
-    padding:20px;
+    flex:1;
+    padding:18px;
+    min-width:0;
 }
 
 .workspace-head{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:18px;
 }
 
 .workspace-title{
-    font-size:20px;
+    font-size:18px;
     font-weight:800;
 }
 
 .workspace-sub{
-    color:#71849a;
-    font-size:11px;
-    margin-top:5px;
+    color:#87939d;
+    font-size:9px;
+    margin-top:3px;
 }
 
+.add-btn{
+    border:1px solid #cbdbe8;
+    background:#fff;
+    color:#087cf0;
+    border-radius:6px;
+    padding:8px 12px;
+    font-size:11px;
+    font-weight:700;
+}
+
+/* STEPS */
 .steps{
     display:flex;
-    justify-content:space-between;
-    margin:15px 25px 20px;
+    justify-content:center;
+    gap:50px;
+    margin:20px 0;
+    color:#9aa6b1;
+    font-size:9px;
 }
 
 .step{
-    color:#8b9bac;
-    font-size:11px;
     display:flex;
     align-items:center;
     gap:5px;
 }
 
-.step-number{
-    width:27px;
-    height:27px;
+.step-circle{
+    width:18px;
+    height:18px;
     border-radius:50%;
-    background:#edf1f5;
-    display:grid;
-    place-items:center;
-    font-weight:bold;
+    background:#eef2f5;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:9px;
 }
 
 .step.active{
-    color:#0879ed;
+    color:#087cf0;
+    font-weight:700;
 }
 
-.step.active .step-number{
-    background:#0879ed;
+.step.active .step-circle{
+    background:#087cf0;
     color:white;
 }
 
-.main-grid{
+/* TOOL GRID */
+.tool-grid{
     display:grid;
-    grid-template-columns:1fr 310px;
+    grid-template-columns:minmax(0,1.25fr) minmax(260px,.75fr);
     gap:18px;
 }
 
-.left{
-    min-width:0;
-}
-
-.upload{
-    border:1.5px dashed #b9d5ed;
-    border-radius:12px;
-    min-height:180px;
+/* UPLOAD */
+.upload-box{
+    border:1px dashed #b9cfdf;
+    border-radius:9px;
+    min-height:195px;
     display:flex;
-    flex-direction:column;
     align-items:center;
     justify-content:center;
-    text-align:center;
-    padding:20px;
-}
-
-.upload.drag{
-    background:#edf7ff;
-    border-color:#0879ed;
+    flex-direction:column;
+    padding:15px;
 }
 
 .upload-icon{
-    font-size:28px;
-    margin-bottom:8px;
+    font-size:25px;
+    margin-bottom:10px;
 }
 
-.upload h3{
-    font-size:15px;
-    margin-bottom:7px;
+.upload-title{
+    font-size:14px;
+    font-weight:800;
 }
 
-.upload p{
-    color:#8797a7;
+.upload-sub{
+    color:#8b98a4;
+    font-size:9px;
+    margin:8px 0;
+}
+
+.file-btn{
+    background:#087cf0;
+    color:#fff;
+    border:0;
+    border-radius:6px;
+    padding:9px 14px;
     font-size:11px;
-    margin-bottom:14px;
-}
-
-.file-input{
-    display:none;
+    font-weight:700;
 }
 
 .file-list{
     width:100%;
-    max-height:90px;
-    overflow:auto;
-    margin-top:12px;
+    margin-top:10px;
 }
 
 .file-row{
+    background:#f7fafc;
+    border:1px solid #e2eaf0;
+    padding:7px;
+    border-radius:5px;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    background:#f7f9fb;
-    border:1px solid #e5ebf0;
-    border-radius:7px;
-    padding:8px 10px;
-    font-size:10px;
-    margin-bottom:5px;
+    font-size:9px;
+    color:#617180;
 }
 
-.preview-box{
-    border:1px solid #dce6ee;
-    border-radius:11px;
+.file-row button{
+    border:0;
+    background:none;
+    color:#d9534f;
+    font-weight:bold;
+}
+
+/* PREVIEW */
+.preview-card{
     margin-top:12px;
+    border:1px solid #e1e8ef;
+    border-radius:9px;
     padding:10px;
 }
 
 .preview-head{
     display:flex;
     justify-content:space-between;
-    font-size:10px;
-    color:#52677d;
+    font-size:9px;
     margin-bottom:8px;
+    color:#647483;
 }
 
-.canvas-wrap{
-    background:#f8fafc;
-    border:1px solid #edf0f3;
-    border-radius:6px;
-    min-height:330px;
+.preview-area{
+    min-height:300px;
+    background:#f5f7f9;
+    border:1px solid #e2e7eb;
     display:flex;
-    align-items:center;
     justify-content:center;
-    overflow:auto;
+    align-items:center;
+    overflow:hidden;
+    border-radius:5px;
 }
 
-#previewCanvas{
+.preview-area canvas{
     max-width:100%;
     height:auto;
     display:block;
 }
 
-.detected{
-    text-align:center;
-    color:#657b91;
-    font-size:10px;
-    padding-top:7px;
+.preview-placeholder{
+    color:#9aa5ae;
+    font-size:11px;
 }
 
+/* SETTINGS */
 .settings{
-    border:1px solid #dce6ee;
-    border-radius:11px;
-    padding:14px;
+    border:1px solid #e1e8ef;
+    border-radius:9px;
+    padding:12px;
 }
 
 .settings h3{
-    font-size:15px;
-    margin-bottom:14px;
+    margin:0 0 12px;
+    font-size:14px;
 }
 
 .field{
-    margin-bottom:13px;
+    margin-bottom:11px;
 }
 
 .field label{
     display:block;
-    color:#72869b;
-    font-size:10px;
+    font-size:9px;
+    color:#778694;
     margin-bottom:5px;
 }
 
-select{
+.field select{
     width:100%;
-    border:1px solid #d4e0ea;
+    height:31px;
+    border:1px solid #d6e0e8;
+    border-radius:6px;
     background:#fff;
-    padding:9px;
-    border-radius:7px;
-    color:#1c3047;
-    outline:none;
+    padding:0 8px;
+    font-size:11px;
+    color:#263746;
 }
 
-.two{
+.two-fields{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:8px;
@@ -458,298 +473,324 @@ select{
     display:flex;
     align-items:center;
     gap:7px;
-    margin:10px 0;
-    font-size:11px;
-    color:#536a82;
+    font-size:10px;
+    margin:9px 0;
+    color:#455766;
 }
 
 .check input{
-    accent-color:#0879ed;
+    accent-color:#087cf0;
 }
 
-.action{
+.crop-btn{
     width:100%;
+    background:#087cf0;
+    color:#fff;
     border:0;
-    border-radius:8px;
-    background:#0879ed;
-    color:white;
-    padding:12px;
+    border-radius:7px;
+    padding:10px;
+    font-size:11px;
+    font-weight:800;
+    margin-top:5px;
+}
+
+.download-btn{
+    width:100%;
+    background:#fff;
+    color:#087cf0;
+    border:1px solid #c8dce9;
+    border-radius:7px;
+    padding:10px;
+    font-size:11px;
     font-weight:700;
     margin-top:7px;
 }
 
-.download-all{
-    width:100%;
-    border:1px solid #9fc6e8;
-    border-radius:8px;
-    background:white;
-    color:#0879ed;
-    padding:11px;
-    font-weight:700;
-    margin-top:8px;
-}
-
 .status{
-    display:none;
-    padding:11px;
-    border-radius:8px;
-    font-size:11px;
-    line-height:1.45;
     margin-top:10px;
-}
-
-.status.success{
-    display:block;
-    background:#e9f9f0;
-    color:#13834b;
-    border:1px solid #bcebd1;
+    padding:8px;
+    border-radius:5px;
+    background:#f5f8fa;
+    font-size:9px;
+    color:#657482;
+    line-height:1.45;
 }
 
 .status.error{
-    display:block;
     background:#fff0f0;
-    color:#c43e3e;
-    border:1px solid #f1cccc;
+    color:#c43d3d;
 }
 
-.status.info{
-    display:block;
-    background:#edf7ff;
-    color:#1668a5;
-    border:1px solid #c9e5fa;
+.status.success{
+    background:#edf9f0;
+    color:#278242;
 }
 
+/* MERGE */
 .merge{
+    border:1px solid #e1e8ef;
+    border-radius:9px;
+    padding:12px;
     margin-top:12px;
-    border:1px solid #dce6ee;
-    border-radius:11px;
-    padding:14px;
 }
 
 .merge h3{
-    font-size:14px;
-    margin-bottom:6px;
+    font-size:12px;
+    margin:0 0 5px;
 }
 
 .merge p{
-    color:#71849a;
-    font-size:10px;
-    margin-bottom:10px;
+    font-size:9px;
+    color:#84919d;
 }
 
+.merge-btn{
+    border:1px solid #c9dce9;
+    background:white;
+    color:#087cf0;
+    border-radius:6px;
+    padding:8px 11px;
+    font-size:10px;
+    font-weight:700;
+}
+
+/* FOOTER */
 .footer{
     text-align:center;
-    color:#8797a7;
-    font-size:10px;
-    padding-bottom:35px;
+    color:#9ba7b1;
+    font-size:9px;
+    padding:15px 0 30px;
 }
 
-/* Mobile */
-@media(max-width:900px){
+/* RESPONSIVE */
+@media(max-width:850px){
 
     .header{
         padding:0 18px;
     }
 
     .nav{
+        gap:8px;
+    }
+
+    .nav a:not(.start){
         display:none;
     }
 
     .hero{
-        grid-template-columns:1fr;
-        padding:35px 20px;
+        padding:30px 18px;
     }
 
-    .hero h1{
-        font-size:39px;
+    .hero-inner{
+        flex-direction:column;
+        align-items:flex-start;
     }
 
-    .tools{
-        padding:0 18px 25px;
+    .hero-card{
+        width:100%;
+        max-width:380px;
     }
 
-    .tool-grid{
+    .features{
+        padding:0 18px 20px;
         grid-template-columns:repeat(2,1fr);
     }
 
-    .tool:last-child{
-        grid-column:span 2;
-    }
-
     .app{
-        margin:0 10px 35px;
-        grid-template-columns:1fr;
+        margin:0 10px 25px;
+        min-height:0;
     }
 
     .sidebar{
-        display:none;
+        width:125px;
     }
 
     .workspace{
         padding:12px;
     }
 
-    .main-grid{
+    .tool-grid{
         grid-template-columns:1fr;
     }
 
     .steps{
-        margin:12px 5px;
-    }
-
-    .step{
-        font-size:9px;
-    }
-
-    .step-number{
-        width:22px;
-        height:22px;
-    }
-
-    .workspace-head{
-        align-items:flex-start;
-    }
-
-    .canvas-wrap{
-        min-height:300px;
+        gap:12px;
+        justify-content:flex-start;
+        overflow:auto;
     }
 }
 
-.hidden{
-    display:none!important;
+@media(max-width:600px){
+
+    .hero h1{
+        font-size:30px;
+    }
+
+    .features{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .sidebar{
+        width:105px;
+    }
+
+    .side-title{
+        font-size:12px;
+    }
+
+    .side-item{
+        font-size:9px;
+    }
+
+    .workspace-title{
+        font-size:15px;
+    }
 }
 </style>
 </head>
 
 <body>
 
+<!-- HEADER -->
 <header class="header">
-    <div class="logo">Ecom<span>Pilot</span></div>
+    <div class="logo">
+        EcomPilot
+        <span>Smart E-commerce PDF Toolkit</span>
+    </div>
 
     <nav class="nav">
         <a href="#">Home</a>
         <a href="#studio">Label Studio</a>
         <a href="#merge">Merge PDFs</a>
-        <button class="top-btn" onclick="openFiles()">Get Started Free</button>
+        <a href="#" class="start">Get Started Free</a>
     </nav>
 </header>
 
+<!-- HERO -->
 <section class="hero">
+    <div class="hero-inner">
 
-    <div>
-        <div class="kicker">SMART E-COMMERCE PDF TOOLS</div>
+        <div class="hero-left">
+            <div class="kicker">SMART E-COMMERCE PDF TOOLS</div>
 
-        <h1>
-            PDF Label<br>
-            <span>Cropper</span>
-        </h1>
+            <h1>
+                PDF Label<br>
+                <span>Cropper</span>
+            </h1>
 
-        <p>
-            Automatically detect the actual E-Kart / Flipkart-style
-            shipping-label area from PDF pages and remove the invoice
-            section below it.
-        </p>
+            <p>
+                Automatically detect the actual shipping-label area from
+                E-Kart / Flipkart-style PDF pages and remove the invoice
+                section and surrounding blank space.
+            </p>
 
-        <div class="hero-buttons">
-            <button class="primary" onclick="openFiles()">
-                Upload PDF Files →
-            </button>
+            <div class="hero-buttons">
+                <button class="primary-btn" onclick="document.getElementById('pdfInput').click()">
+                    Upload PDF Files →
+                </button>
 
-            <button class="secondary" onclick="document.getElementById('studio').scrollIntoView({behavior:'smooth'})">
-                Open Studio
-            </button>
+                <button class="secondary-btn" onclick="document.getElementById('studio').scrollIntoView({behavior:'smooth'})">
+                    Open Studio
+                </button>
+            </div>
         </div>
 
-        <div class="features">
-            <div class="feature"><b>✓</b> Smart E-Kart detection</div>
-            <div class="feature"><b>✓</b> Barcode safe</div>
-            <div class="feature"><b>✓</b> QR safe</div>
-            <div class="feature"><b>✓</b> Vector PDF</div>
-            <div class="feature"><b>✓</b> 4×6</div>
-            <div class="feature"><b>✓</b> Mobile friendly</div>
+        <div class="hero-card">
+            <div class="hero-card-title">
+                EcomPilot – Smart Shipping Label
+            </div>
+
+            <div class="hero-grid">
+                <div class="hero-box">
+                    ▫ E-Kart Detection
+                    <small>Detect shipping label</small>
+                </div>
+
+                <div class="hero-box">
+                    ▫ QR Code
+                    <small>Protected</small>
+                </div>
+
+                <div class="hero-box">
+                    ▫ Barcode
+                    <small>Original quality</small>
+                </div>
+
+                <div class="hero-box">
+                    ✓ Invoice Removed
+                    <small>Label only</small>
+                </div>
+            </div>
         </div>
+
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+
+    <div class="feature">
+        ⚡
+        <strong>Fast & Easy</strong>
+        <span>Browser processing.</span>
     </div>
 
-    <div class="hero-card">
+    <div class="feature">
+        🔍
+        <strong>Smart E-Kart Crop</strong>
+        <span>Finds shipping label boundary.</span>
+    </div>
 
-        <div class="hero-card-title">
-            EcomPilot — Smart Shipping Label
-        </div>
+    <div class="feature">
+        📐
+        <strong>4 × 6 Preset</strong>
+        <span>Standard shipping size.</span>
+    </div>
 
-        <div class="card-grid">
+    <div class="feature">
+        🔒
+        <strong>Local Processing</strong>
+        <span>Files stay in browser.</span>
+    </div>
 
-            <div class="card-item">
-                <strong>⌕ E-Kart Detection</strong>
-                <small>Detect shipping label</small>
-            </div>
-
-            <div class="card-item">
-                <strong>▦ QR Code</strong>
-                <small>Protected</small>
-            </div>
-
-            <div class="card-item">
-                <strong>▥ Barcode</strong>
-                <small>Original quality</small>
-            </div>
-
-            <div class="card-item">
-                <strong>✓ Invoice Removed</strong>
-                <small>Label only</small>
-            </div>
-
-        </div>
+    <div class="feature">
+        📱
+        <strong>All Devices</strong>
+        <span>Desktop & mobile.</span>
     </div>
 
 </section>
 
-<section class="tools">
+<!-- APPLICATION -->
+<section class="app" id="studio">
 
-    <div class="tool-grid">
-
-        <div class="tool">
-            <strong>⚡ Fast & Easy</strong>
-            <span>Browser processing.</span>
-        </div>
-
-        <div class="tool">
-            <strong>🔍 Smart E-Kart Crop</strong>
-            <span>Finds shipping label boundary.</span>
-        </div>
-
-        <div class="tool">
-            <strong>↗ 4 × 6 Preset</strong>
-            <span>Standard shipping size.</span>
-        </div>
-
-        <div class="tool">
-            <strong>🔒 Local Processing</strong>
-            <span>Files stay in browser.</span>
-        </div>
-
-        <div class="tool">
-            <strong>📱 All Devices</strong>
-            <span>Desktop & mobile.</span>
-        </div>
-
-    </div>
-
-</section>
-
-<main class="app" id="studio">
-
+    <!-- SIDEBAR -->
     <aside class="sidebar">
 
-        <div class="side-logo">✦ EcomPilot</div>
+        <div class="side-title">
+            ✈ EcomPilot
+        </div>
 
-        <div class="side-item active">⌂ Label Studio</div>
-        <div class="side-item" onclick="openFiles()">▣ Upload PDFs</div>
-        <div class="side-item" onclick="document.getElementById('merge').scrollIntoView()">▤ Merge PDFs</div>
-        <div class="side-item" onclick="clearAll()">↻ Clear</div>
+        <div class="side-item active">
+            ◇ Label Studio
+        </div>
+
+        <div class="side-item" onclick="document.getElementById('pdfInput').click()">
+            ▫ Upload PDFs
+        </div>
+
+        <div class="side-item" onclick="document.getElementById('merge').scrollIntoView({behavior:'smooth'})">
+            ▤ Merge PDFs
+        </div>
+
+        <div class="side-item" onclick="clearAll()">
+            ↻ Clear
+        </div>
 
     </aside>
 
-    <section class="workspace">
+    <!-- WORKSPACE -->
+    <main class="workspace">
 
         <div class="workspace-head">
 
@@ -763,102 +804,111 @@ select{
                 </div>
             </div>
 
-            <button class="secondary" onclick="openFiles()">
+            <button class="add-btn" onclick="document.getElementById('pdfInput').click()">
                 Add PDFs
             </button>
 
         </div>
 
+        <!-- STEPS -->
         <div class="steps">
 
             <div class="step active">
-                <span class="step-number">1</span> Upload
+                <span class="step-circle">1</span>
+                Upload
             </div>
 
             <div class="step">
-                <span class="step-number">2</span> Detect
+                <span class="step-circle">2</span>
+                Detect
             </div>
 
             <div class="step">
-                <span class="step-number">3</span> Crop
+                <span class="step-circle">3</span>
+                Crop
             </div>
 
             <div class="step">
-                <span class="step-number">4</span> Preview
+                <span class="step-circle">4</span>
+                Preview
             </div>
 
             <div class="step">
-                <span class="step-number">5</span> Download
+                <span class="step-circle">5</span>
+                Download
             </div>
 
         </div>
 
-        <div class="main-grid">
+        <!-- TOOL GRID -->
+        <div class="tool-grid">
 
-            <div class="left">
+            <div>
 
-                <div class="upload" id="dropZone">
+                <!-- UPLOAD -->
+                <div class="upload-box"
+                     id="dropZone">
 
                     <div class="upload-icon">☁</div>
 
-                    <h3>Drag & Drop PDF files here</h3>
+                    <div class="upload-title">
+                        Drag & Drop PDF files here
+                    </div>
 
-                    <p>
-                        or tap below • Multiple PDF files supported
-                    </p>
+                    <div class="upload-sub">
+                        or tap below · Multiple PDF files supported
+                    </div>
 
-                    <button class="primary" onclick="openFiles()">
+                    <button class="file-btn"
+                            onclick="document.getElementById('pdfInput').click()">
                         Choose PDF Files
                     </button>
 
                     <input
+                        id="pdfInput"
                         type="file"
-                        id="fileInput"
-                        class="file-input"
-                        accept="application/pdf,.pdf"
+                        accept="application/pdf"
                         multiple
+                        hidden
                     >
 
                     <div class="file-list" id="fileList"></div>
 
                 </div>
 
-                <div class="preview-box">
+                <!-- PREVIEW -->
+                <div class="preview-card">
 
                     <div class="preview-head">
+                        <strong>Shipping Label Preview</strong>
+                        <span id="pageInfo">Label Preview • Page 1 of 1</span>
+                    </div>
 
-                        <strong>
-                            Shipping Label Preview
-                        </strong>
+                    <div class="preview-area" id="previewArea">
 
-                        <span id="pageInfo">
-                            Label Preview
-                        </span>
+                        <div class="preview-placeholder">
+                            Upload a PDF to preview the detected label
+                        </div>
 
                     </div>
 
-                    <div class="canvas-wrap">
-
-                        <canvas id="previewCanvas"></canvas>
-
-                    </div>
-
-                    <div class="detected" id="detectedInfo">
-                        Upload a PDF to detect the shipping label.
+                    <div id="detectedInfo"
+                         style="text-align:center;font-size:9px;color:#8b98a4;margin-top:7px;">
                     </div>
 
                 </div>
 
+                <!-- MERGE -->
                 <div class="merge" id="merge">
 
                     <h3>📚 Merge Multiple PDF Files</h3>
 
                     <p>
-                        Select 2 or more PDFs above. They will be processed
-                        and combined in upload order.
+                        Select 2 or more PDFs above. Files are merged in upload order
+                        without converting pages into low-quality images.
                     </p>
 
-                    <button class="secondary" onclick="mergeAndDownload()">
+                    <button class="merge-btn" onclick="mergePDFs()">
                         Merge & Download
                     </button>
 
@@ -866,6 +916,7 @@ select{
 
             </div>
 
+            <!-- SETTINGS -->
             <div class="settings">
 
                 <h3>Crop & Output Settings</h3>
@@ -877,22 +928,22 @@ select{
                     <select id="cropMode">
 
                         <option value="smart">
-                            Smart — E-Kart Label
+                            Smart — Detect Label Content
                         </option>
 
                         <option value="visual">
                             Visual — Detect Content
                         </option>
 
-                        <option value="manual">
-                            Full Label Area
+                        <option value="tight">
+                            Tight — Outer Label Border
                         </option>
 
                     </select>
 
                 </div>
 
-                <div class="two">
+                <div class="two-fields">
 
                     <div class="field">
 
@@ -900,8 +951,8 @@ select{
 
                         <select id="labelWidth">
                             <option value="4">4 inch</option>
-                            <option value="3">3 inch</option>
                             <option value="4.5">4.5 inch</option>
+                            <option value="5">5 inch</option>
                         </select>
 
                     </div>
@@ -912,9 +963,9 @@ select{
 
                         <select id="labelHeight">
                             <option value="6">6 inch</option>
-                            <option value="4">4 inch</option>
-                            <option value="8">8 inch</option>
-                        </select>
+                            <option value="6.5">6.5 inch</option>
+                            <option value="7">7 inch</option>
+                    </select>
 
                     </div>
 
@@ -944,10 +995,21 @@ select{
 
                     <select id="margin">
 
-                        <option value="1">1 mm — Tight</option>
-                        <option value="2" selected>2 mm — Recommended</option>
-                        <option value="3">3 mm — Safe</option>
-                        <option value="4">4 mm — Extra Safe</option>
+                        <option value="0">
+                            0 mm — Exact
+                        </option>
+
+                        <option value="1">
+                            1 mm — Tight
+                        </option>
+
+                        <option value="2" selected>
+                            2 mm — Recommended
+                        </option>
+
+                        <option value="3">
+                            3 mm — Safe
+                        </option>
 
                     </select>
 
@@ -963,1027 +1025,275 @@ select{
                     Protect barcode / QR / bottom text
                 </label>
 
-                <button
-                    class="action"
-                    id="cropBtn"
-                    onclick="cropAndDownload()"
-                    disabled
-                >
+                <button class="crop-btn"
+                        id="cropBtn"
+                        onclick="cropAndDownload()">
                     ✂ Crop & Download
                 </button>
 
-                <button
-                    class="download-all"
-                    id="downloadAllBtn"
-                    onclick="downloadAll()"
-                    disabled
-                >
+                <button class="download-btn"
+                        id="downloadAllBtn"
+                        onclick="downloadAll()">
                     ↓ Download All Cropped
                 </button>
 
-                <div id="status" class="status"></div>
+                <div class="status" id="status">
+                    Upload a PDF to start.
+                </div>
 
             </div>
 
         </div>
 
-    </section>
+    </main>
 
-</main>
+</section>
 
 <footer class="footer">
     © 2026 EcomPilot • Smart tools for e-commerce sellers
 </footer>
 
 
-<script>
+<script type="module">
+
+/* ============================================================
+   PDF.JS
+============================================================ */
+
+import * as pdfjsLib from
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc =
-"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
 
-const { PDFDocument } = PDFLib;
 
-let files = [];
+/* ============================================================
+   GLOBAL VARIABLES
+============================================================ */
+
+let uploadedFiles = [];
 let processedFiles = [];
+
 let currentPDF = null;
-let currentPage = null;
+let currentPageNumber = 1;
 let currentDetection = null;
 
 
-/* -------------------------------
+/* ============================================================
+   ELEMENTS
+============================================================ */
+
+const pdfInput =
+document.getElementById("pdfInput");
+
+const dropZone =
+document.getElementById("dropZone");
+
+const fileList =
+document.getElementById("fileList");
+
+const previewArea =
+document.getElementById("previewArea");
+
+const statusBox =
+document.getElementById("status");
+
+const detectedInfo =
+document.getElementById("detectedInfo");
+
+const pageInfo =
+document.getElementById("pageInfo");
+
+
+/* ============================================================
    FILE INPUT
--------------------------------- */
+============================================================ */
 
-const fileInput = document.getElementById("fileInput");
-const dropZone = document.getElementById("dropZone");
+pdfInput.addEventListener("change", async function(e){
 
-function openFiles(){
-    fileInput.click();
-}
+    const files = Array.from(e.target.files || []);
 
-fileInput.addEventListener("change", e=>{
-    addFiles([...e.target.files]);
+    if(!files.length) return;
+
+    await addFiles(files);
+
+    pdfInput.value = "";
+
 });
 
-dropZone.addEventListener("dragover", e=>{
+
+/* ============================================================
+   DRAG DROP
+============================================================ */
+
+dropZone.addEventListener("dragover",function(e){
+
     e.preventDefault();
-    dropZone.classList.add("drag");
+
+    dropZone.style.background="#f3f8fd";
+
 });
 
-dropZone.addEventListener("dragleave", ()=>{
-    dropZone.classList.remove("drag");
+dropZone.addEventListener("dragleave",function(){
+
+    dropZone.style.background="";
+
 });
 
-dropZone.addEventListener("drop", e=>{
+dropZone.addEventListener("drop",async function(e){
+
     e.preventDefault();
-    dropZone.classList.remove("drag");
 
-    const dropped = [...e.dataTransfer.files]
-        .filter(f=>f.type==="application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
+    dropZone.style.background="";
 
-    addFiles(dropped);
-});
-
-
-/* -------------------------------
-   ADD FILES
--------------------------------- */
-
-async function addFiles(newFiles){
-
-    if(!newFiles.length) return;
-
-    files = files.concat(newFiles);
-
-    renderFileList();
-
-    await loadFirstPDF();
-
-    document.getElementById("cropBtn").disabled = false;
-    document.getElementById("downloadAllBtn").disabled = false;
-
-    setStatus(
-        "PDF loaded. Shipping label boundary detected automatically.",
-        "success"
+    const files =
+    Array.from(e.dataTransfer.files || [])
+    .filter(file =>
+        file.type === "application/pdf" ||
+        file.name.toLowerCase().endsWith(".pdf")
     );
-}
-
-
-function renderFileList(){
-
-    const box = document.getElementById("fileList");
-
-    box.innerHTML = "";
-
-    files.forEach((file,index)=>{
-
-        const row = document.createElement("div");
-        row.className = "file-row";
-
-        row.innerHTML = `
-            <span>📄 ${escapeHTML(file.name)} • ${formatBytes(file.size)}</span>
-            <button
-                onclick="removeFile(${index})"
-                style="border:0;background:none;color:#d33;font-weight:bold"
-            >×</button>
-        `;
-
-        box.appendChild(row);
-    });
-}
-
-
-function removeFile(index){
-
-    files.splice(index,1);
-
-    renderFileList();
-
-    if(!files.length){
-        clearAll();
-    }
-}
-
-
-function escapeHTML(str){
-
-    return str.replace(/[&<>"']/g,m=>({
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#039;"
-    }[m]));
-}
-
-
-function formatBytes(bytes){
-
-    if(bytes < 1024) return bytes+" B";
-
-    if(bytes < 1024*1024)
-        return (bytes/1024).toFixed(1)+" KB";
-
-    return (bytes/1024/1024).toFixed(1)+" MB";
-}
-
-
-/* -------------------------------
-   LOAD FIRST PDF
--------------------------------- */
-
-async function loadFirstPDF(){
-
-    const file = files[0];
-
-    if(!file) return;
-
-    const buffer = await file.arrayBuffer();
-
-    currentPDF = await pdfjsLib.getDocument({
-        data:new Uint8Array(buffer)
-    }).promise;
-
-    currentPage = await currentPDF.getPage(1);
-
-    await renderDetectionPreview(currentPage);
-
-    document.getElementById("pageInfo").textContent =
-        `Page 1 of ${currentPDF.numPages}`;
-}
-
-
-/* -------------------------------
-   RENDER + DETECT
--------------------------------- */
-
-async function renderDetectionPreview(page){
-
-    const baseViewport = page.getViewport({
-        scale:1
-    });
-
-    /*
-       High enough resolution for barcode,
-       QR and small printed text.
-    */
-
-    const scale = 2.2;
-
-    const viewport = page.getViewport({
-        scale
-    });
-
-    const canvas = document.createElement("canvas");
-
-    canvas.width = Math.ceil(viewport.width);
-    canvas.height = Math.ceil(viewport.height);
-
-    const ctx = canvas.getContext("2d",{
-        willReadFrequently:true
-    });
-
-    ctx.fillStyle = "#fff";
-
-    ctx.fillRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-    await page.render({
-        canvasContext:ctx,
-        viewport
-    }).promise;
-
-    const detection = detectShippingLabel(
-        canvas,
-        baseViewport.width,
-        baseViewport.height
-    );
-
-    currentDetection = detection;
-
-    drawPreview(
-        canvas,
-        detection
-    );
-
-    document.getElementById("detectedInfo").textContent =
-        `Detected label size: ${
-            detection.width.toFixed(1)
-        } × ${
-            detection.height.toFixed(1)
-        } pt`;
-}
-
-
-/* -------------------------------
-   SHIPPING LABEL DETECTOR
--------------------------------- */
-
-/*
-   Important:
-   The supplied E-Kart layout has a shipping label
-   followed by an invoice section.
-
-   We detect:
-   1. Main dark-content area
-   2. Strong outer border
-   3. Horizontal separator
-   4. Keep the bottom border / printed date
-   5. Remove content below label
-*/
-
-function detectShippingLabel(
-    canvas,
-    pdfWidth,
-    pdfHeight
-){
-
-    const ctx = canvas.getContext("2d",{
-        willReadFrequently:true
-    });
-
-    const w = canvas.width;
-    const h = canvas.height;
-
-    const data = ctx.getImageData(
-        0,
-        0,
-        w,
-        h
-    ).data;
-
-    /*
-       Downsample to make detection fast.
-    */
-
-    const maxW = 700;
-    const factor = Math.max(
-        1,
-        Math.ceil(w/maxW)
-    );
-
-    const sw = Math.ceil(w/factor);
-    const sh = Math.ceil(h/factor);
-
-    const gray = new Uint8Array(sw*sh);
-
-    for(let y=0;y<sh;y++){
-
-        const sy = Math.min(
-            h-1,
-            y*factor
-        );
-
-        for(let x=0;x<sw;x++){
-
-            const sx = Math.min(
-                w-1,
-                x*factor
-            );
-
-            const i =
-                (sy*w+sx)*4;
-
-            const r = data[i];
-            const g = data[i+1];
-            const b = data[i+2];
-
-            gray[y*sw+x] =
-                (0.299*r+
-                 0.587*g+
-                 0.114*b);
-        }
-    }
-
-    /*
-       Dark pixel projections.
-    */
-
-    const rowCount = new Int32Array(sh);
-    const colCount = new Int32Array(sw);
-
-    for(let y=0;y<sh;y++){
-
-        for(let x=0;x<sw;x++){
-
-            if(gray[y*sw+x] < 90){
-
-                rowCount[y]++;
-                colCount[x]++;
-            }
-        }
-    }
-
-    /*
-       Find content columns.
-       Ignore tiny isolated marks.
-    */
-
-    let left = 0;
-    let right = sw-1;
-
-    const colThreshold =
-        Math.max(4,Math.floor(sh*0.015));
-
-    for(let x=0;x<sw;x++){
-
-        if(colCount[x] > colThreshold){
-            left=x;
-            break;
-        }
-    }
-
-    for(let x=sw-1;x>=0;x--){
-
-        if(colCount[x] > colThreshold){
-            right=x;
-            break;
-        }
-    }
-
-    /*
-       E-Kart labels are normally centered.
-       Expand slightly so border is not lost.
-    */
-
-    const contentWidth =
-        right-left;
-
-    if(contentWidth <= 20){
-
-        return {
-            x:pdfWidth*.20,
-            y:pdfHeight*.20,
-            width:pdfWidth*.60,
-            height:pdfHeight*.60
-        };
-    }
-
-    /*
-       Find horizontal separator candidates.
-
-       The invoice is normally below the shipping label.
-       We look for a long horizontal line/dashed line
-       after the main upper content.
-    */
-
-    const rowScore = new Float32Array(sh);
-
-    for(let y=0;y<sh;y++){
-
-        let run=0;
-        let segments=0;
-        let longest=0;
-
-        for(let x=left;x<=right;x++){
-
-            if(gray[y*sw+x]<100){
-
-                run++;
-
-                if(run>longest)
-                    longest=run;
-
-            }else{
-
-                if(run>=2)
-                    segments++;
-
-                run=0;
-            }
-        }
-
-        if(run>=2)
-            segments++;
-
-        /*
-           Combine continuous line strength and
-           dashed-line segment count.
-        */
-
-        rowScore[y] =
-            longest*2 +
-            segments*1.5 +
-            rowCount[y]*0.08;
-    }
-
-    /*
-       Search lower 35%-85% of page.
-       This avoids selecting top label borders.
-    */
-
-    let separatorY = -1;
-    let bestScore = 0;
-
-    const startY =
-        Math.floor(sh*0.30);
-
-    const endY =
-        Math.floor(sh*0.88);
-
-    for(let y=startY;y<endY;y++){
-
-        const score=rowScore[y];
-
-        if(score>bestScore){
-
-            bestScore=score;
-            separatorY=y;
-        }
-    }
-
-    /*
-       The separator should not be too close to page top.
-       Also inspect nearby rows and choose a stable
-       dark horizontal boundary.
-    */
-
-    if(separatorY<0){
-
-        separatorY =
-            Math.floor(sh*0.65);
-    }
-
-    /*
-       Detect the actual lower label border.
-
-       Search around the detected separator for
-       nearby strong rows.
-    */
-
-    let bottomY=separatorY;
-
-    for(
-        let y=Math.min(sh-1,separatorY+Math.floor(sh*.025));
-        y>=separatorY;
-        y--
-    ){
-
-        if(rowCount[y] >
-           Math.max(
-              8,
-              contentWidth*.08
-           )
-        ){
-
-            bottomY=y;
-            break;
-        }
-    }
-
-    /*
-       If selected line is too high, use
-       content distribution.
-
-       Most E-Kart label pages have invoice
-       starting after approximately 55-70%.
-    */
-
-    const ratio =
-        bottomY/sh;
-
-    if(ratio < .42){
-
-        bottomY =
-            Math.floor(sh*.62);
-    }
-
-    /*
-       Find top of label.
-
-       Search from page top for the first
-       meaningful content band.
-    */
-
-    let topY=0;
-
-    const rowThreshold =
-        Math.max(
-            3,
-            Math.floor(contentWidth*.02)
-        );
-
-    for(let y=0;y<Math.floor(sh*.50);y++){
-
-        if(rowCount[y]>rowThreshold){
-
-            /*
-               Require a few nearby rows so
-               a random mark is not selected.
-            */
-
-            let nearby=0;
-
-            for(
-                let yy=y;
-                yy<Math.min(sh,y+8);
-                yy++
-            ){
-
-                if(rowCount[yy]>rowThreshold)
-                    nearby++;
-            }
-
-            if(nearby>=3){
-
-                topY=y;
-                break;
-            }
-        }
-    }
-
-    /*
-       If black page background exists above label,
-       topY is automatically placed at the label.
-    */
-
-    /*
-       Convert from rendered coordinates
-       to PDF points.
-
-       PDF coordinate system:
-       bottom-left origin.
-    */
-
-    const marginMM =
-        Number(
-            document.getElementById("margin").value
-        );
-
-    const marginPt =
-        marginMM*72/25.4;
-
-    let x =
-        left*factor/scale;
-
-    let yTop =
-        topY*factor/scale;
-
-    let width =
-        (right-left)*factor/scale;
-
-    let height =
-        (bottomY-topY)*factor/scale;
-
-    /*
-       Add a small safe margin.
-
-       This is especially important for:
-       - Printed at time/date
-       - Bottom barcode
-       - B2/B6 box
-       - Label border
-    */
-
-    x -= marginPt;
-    yTop -= marginPt;
-
-    width += marginPt*2;
-    height += marginPt*2;
-
-    /*
-       Don't allow crop outside page.
-    */
-
-    x=Math.max(0,x);
-    yTop=Math.max(0,y);
-
-    if(x+width>pdfWidth)
-        width=pdfWidth-x;
-
-    if(yTop+height>pdfHeight)
-        height=pdfHeight-yTop;
-
-    /*
-       PDF bottom coordinate.
-    */
-
-    const y =
-        pdfHeight -
-        yTop -
-        height;
-
-    return {
-        x,
-        y,
-        width,
-        height
-    };
-}
-
-
-/* -------------------------------
-   PREVIEW
--------------------------------- */
-
-function drawPreview(
-    sourceCanvas,
-    detection
-){
-
-    const canvas =
-        document.getElementById("previewCanvas");
-
-    const scaleX =
-        sourceCanvas.width /
-        (
-            currentPage.getViewport({
-                scale:1
-            }).width
-        );
-
-    const scaleY =
-        sourceCanvas.height /
-        (
-            currentPage.getViewport({
-                scale:1
-            }).height
-        );
-
-    const x =
-        detection.x*scaleX;
-
-    /*
-       PDF y is bottom-left.
-       Canvas y is top-left.
-    */
-
-    const y =
-        sourceCanvas.height -
-        (detection.y+detection.height)*scaleY;
-
-    const width =
-        detection.width*scaleX;
-
-    const height =
-        detection.height*scaleY;
-
-    canvas.width =
-        Math.max(1,Math.floor(width));
-
-    canvas.height =
-        Math.max(1,Math.floor(height));
-
-    const ctx =
-        canvas.getContext("2d");
-
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-    ctx.drawImage(
-        sourceCanvas,
-        x,
-        y,
-        width,
-        height,
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-}
-
-
-/* -------------------------------
-   CROP PDF
--------------------------------- */
-
-async function cropPDFFile(file){
-
-    const arrayBuffer =
-        await file.arrayBuffer();
-
-    /*
-       IMPORTANT:
-       We load the original PDF and modify
-       its existing pages.
-
-       No addPage().
-       No copyPages().
-       This prevents the previous
-       PDFDocument.addPage error.
-    */
-
-    const pdfDoc =
-        await PDFDocument.load(
-            arrayBuffer,
-            {
-                ignoreEncryption:false
-            }
-        );
-
-    const pdfJs =
-        await pdfjsLib.getDocument({
-            data:new Uint8Array(arrayBuffer)
-        }).promise;
-
-    const pages =
-        pdfDoc.getPages();
-
-    for(let i=0;i<pages.length;i++){
-
-        const pdfPage =
-            pages[i];
-
-        const jsPage =
-            await pdfJs.getPage(i+1);
-
-        const viewport =
-            jsPage.getViewport({
-                scale:1
-            });
-
-        /*
-           Render page for detection.
-        */
-
-        const scale=1.7;
-
-        const renderViewport =
-            jsPage.getViewport({
-                scale
-            });
-
-        const canvas =
-            document.createElement("canvas");
-
-        canvas.width =
-            Math.ceil(renderViewport.width);
-
-        canvas.height =
-            Math.ceil(renderViewport.height);
-
-        const ctx =
-            canvas.getContext("2d",{
-                willReadFrequently:true
-            });
-
-        ctx.fillStyle="#fff";
-
-        ctx.fillRect(
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
-
-        await jsPage.render({
-            canvasContext:ctx,
-            viewport:renderViewport
-        }).promise;
-
-        let detection;
-
-        const mode =
-            document.getElementById("cropMode").value;
-
-        if(mode==="manual"){
-
-            /*
-               4:6 proportional fallback.
-            */
-
-            const targetRatio=4/6;
-
-            let w=viewport.width*.68;
-            let h=w/targetRatio;
-
-            if(h>viewport.height*.88){
-
-                h=viewport.height*.88;
-                w=h*targetRatio;
-            }
-
-            detection={
-                x:(viewport.width-w)/2,
-                y:(viewport.height-h)/2,
-                width:w,
-                height:h
-            };
-
-        }else{
-
-            detection =
-                detectShippingLabel(
-                    canvas,
-                    viewport.width,
-                    viewport.height
-                );
-        }
-
-        /*
-           Protect bottom text.
-        */
-
-        if(
-            document.getElementById("protectCodes").checked
-        ){
-
-            /*
-               Give extra 1.5mm bottom protection.
-            */
-
-            const safe =
-                1.5*72/25.4;
-
-            detection.y =
-                Math.max(
-                    0,
-                    detection.y-safe
-                );
-
-            detection.height += safe;
-        }
-
-        /*
-           Clamp.
-        */
-
-        detection.x =
-            Math.max(
-                0,
-                Math.min(
-                    detection.x,
-                    viewport.width
-                )
-            );
-
-        detection.y =
-            Math.max(
-                0,
-                Math.min(
-                    detection.y,
-                    viewport.height
-                )
-            );
-
-        detection.width =
-            Math.min(
-                detection.width,
-                viewport.width-detection.x
-            );
-
-        detection.height =
-            Math.min(
-                detection.height,
-                viewport.height-detection.y
-            );
-
-        /*
-           Set CropBox on existing PDF page.
-           This preserves vector content.
-        */
-
-        pdfPage.setCropBox(
-            detection.x,
-            detection.y,
-            detection.width,
-            detection.height
-        );
-
-        /*
-           Also set MediaBox to CropBox.
-
-           This makes downloaded PDF physically
-           appear as the cropped label rather than
-           retaining the large original page.
-        */
-
-        pdfPage.setMediaBox(
-            detection.x,
-            detection.y,
-            detection.width,
-            detection.height
-        );
-    }
-
-    const bytes =
-        await pdfDoc.save({
-            useObjectStreams:true,
-            addDefaultPage:false
-        });
-
-    return bytes;
-}
-
-
-/* -------------------------------
-   CROP + DOWNLOAD
--------------------------------- */
-
-async function cropAndDownload(){
 
     if(!files.length){
 
         setStatus(
-            "Please upload a PDF first.",
+            "Please drop PDF files only.",
             "error"
         );
 
         return;
     }
 
-    const button =
-        document.getElementById("cropBtn");
+    await addFiles(files);
 
-    button.disabled=true;
+});
 
-    button.textContent =
-        "⏳ Processing...";
 
-    setStatus(
-        "Detecting shipping label and creating cropped PDF...",
-        "info"
-    );
+/* ============================================================
+   ADD FILES
+============================================================ */
 
-    processedFiles=[];
+async function addFiles(files){
+
+    uploadedFiles = uploadedFiles.concat(files);
+
+    renderFileList();
+
+    if(!currentPDF){
+
+        await loadFirstPDF();
+
+    }else{
+
+        setStatus(
+            `${uploadedFiles.length} PDF file(s) ready.`,
+            "success"
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   FILE LIST
+============================================================ */
+
+function renderFileList(){
+
+    fileList.innerHTML="";
+
+    uploadedFiles.forEach((file,index)=>{
+
+        const row =
+        document.createElement("div");
+
+        row.className="file-row";
+
+        row.innerHTML = `
+
+            <span>
+                📄 ${escapeHTML(file.name)}
+                · ${formatBytes(file.size)}
+            </span>
+
+            <button
+                onclick="removeFile(${index})">
+                ×
+            </button>
+
+        `;
+
+        fileList.appendChild(row);
+
+    });
+
+}
+
+
+window.removeFile = async function(index){
+
+    uploadedFiles.splice(index,1);
+
+    renderFileList();
+
+    if(!uploadedFiles.length){
+
+        currentPDF=null;
+        currentDetection=null;
+
+        previewArea.innerHTML =
+        `<div class="preview-placeholder">
+            Upload a PDF to preview the detected label
+        </div>`;
+
+        detectedInfo.textContent="";
+
+        setStatus(
+            "Upload a PDF to start.",
+            ""
+        );
+
+        return;
+    }
+
+    await loadFirstPDF();
+
+};
+
+
+/* ============================================================
+   LOAD FIRST PDF
+============================================================ */
+
+async function loadFirstPDF(){
 
     try{
 
-        for(let i=0;i<files.length;i++){
+        setStatus(
+            "Loading PDF and detecting shipping label...",
+            ""
+        );
 
-            const file=files[i];
+        const file =
+        uploadedFiles[0];
 
-            const bytes =
-                await cropPDFFile(file);
+        const buffer =
+        await file.arrayBuffer();
 
-            const name =
-                file.name.replace(
-                    /\.pdf$/i,
-                    ""
-                )+"_cropped.pdf";
+        currentPDF =
+        await pdfjsLib.getDocument({
+            data:buffer
+        }).promise;
 
-            processedFiles.push({
-                name,
-                bytes
-            });
-        }
+        currentPageNumber=1;
 
-        /*
-           Download first file.
-        */
-
-        if(processedFiles.length){
-
-            downloadBytes(
-                processedFiles[0].bytes,
-                processedFiles[0].name
-            );
-        }
+        await renderAndDetect(
+            currentPDF,
+            currentPageNumber
+        );
 
         setStatus(
-            `✓ ${processedFiles.length} PDF ${
-                processedFiles.length===1
-                ?"processed":"files processed"
-            } successfully. Only the shipping-label area is retained.`,
+            `PDF loaded successfully. ${currentPDF.numPages} page(s) detected.`,
             "success"
         );
 
@@ -1992,73 +1302,1475 @@ async function cropAndDownload(){
         console.error(error);
 
         setStatus(
-            "Crop failed: "+
-            (error.message || error),
+            "Unable to read this PDF: " + error.message,
             "error"
         );
 
-    }finally{
-
-        button.disabled=false;
-
-        button.textContent =
-            "✂ Crop & Download";
     }
+
 }
 
 
-/* -------------------------------
-   DOWNLOAD ALL
--------------------------------- */
+/* ============================================================
+   RENDER PAGE
+============================================================ */
 
-function downloadAll(){
+async function renderAndDetect(pdf,pageNumber){
 
-    if(!processedFiles.length){
+    try{
+
+        const page =
+        await pdf.getPage(pageNumber);
+
+        /*
+         * Higher rendering resolution makes border detection
+         * much more reliable.
+         */
+        const scale=2.5;
+
+        const viewport =
+        page.getViewport({
+            scale:scale
+        });
+
+        const canvas =
+        document.createElement("canvas");
+
+        const ctx =
+        canvas.getContext("2d",{
+            willReadFrequently:true
+        });
+
+        canvas.width =
+        Math.ceil(viewport.width);
+
+        canvas.height =
+        Math.ceil(viewport.height);
+
+        await page.render({
+            canvasContext:ctx,
+            viewport:viewport
+        }).promise;
+
+        /*
+         * Detect actual label rectangle.
+         */
+        const detection =
+        detectLabelRectangle(
+            canvas
+        );
+
+        currentDetection = {
+            ...detection,
+            pageWidth:canvas.width,
+            pageHeight:canvas.height,
+            pdfWidth:page.view[2],
+            pdfHeight:page.view[3]
+        };
+
+        /*
+         * Show detected crop preview.
+         */
+        drawPreview(
+            canvas,
+            detection
+        );
+
+        pageInfo.textContent =
+        `Label Preview • Page ${pageNumber} of ${pdf.numPages}`;
+
+        detectedInfo.textContent =
+        `Detected label: ${formatNumber(detection.widthPdf)} × ${formatNumber(detection.heightPdf)} pt`;
+
+    }catch(error){
+
+        console.error(error);
 
         setStatus(
-            "Please crop the PDFs first.",
+            "Preview/detection failed: " + error.message,
+            "error"
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   LABEL DETECTION
+============================================================ */
+
+/*
+ * This is the important part.
+ *
+ * The uploaded PDF in your example contains:
+ *
+ *     large blank area
+ *     ---------------------
+ *       actual shipping label
+ *       QR
+ *       barcode
+ *       address
+ *       SKU
+ *       bottom barcode
+ *       Printed at ...
+ *     ---------------------
+ *     invoice / extra area
+ *
+ * We search for the strongest rectangular ink region
+ * instead of simply cropping a fixed 4x6 area.
+ */
+
+function detectLabelRectangle(canvas){
+
+    const ctx =
+    canvas.getContext("2d",{
+        willReadFrequently:true
+    });
+
+    const w=canvas.width;
+    const h=canvas.height;
+
+    const image =
+    ctx.getImageData(
+        0,
+        0,
+        w,
+        h
+    );
+
+    const data=image.data;
+
+    /*
+     * Downsample for faster analysis.
+     */
+    const step=3;
+
+    const rowScore =
+    new Float32Array(
+        Math.ceil(h/step)
+    );
+
+    const colScore =
+    new Float32Array(
+        Math.ceil(w/step)
+    );
+
+    /*
+     * Count dark pixels.
+     */
+    for(let y=0;y<h;y+=step){
+
+        let rowCount=0;
+
+        for(let x=0;x<w;x+=step){
+
+            const i=(y*w+x)*4;
+
+            const r=data[i];
+            const g=data[i+1];
+            const b=data[i+2];
+
+            const brightness =
+            (r+g+b)/3;
+
+            if(brightness < 150){
+
+                rowCount++;
+                colScore[
+                    Math.floor(x/step)
+                ]++;
+
+            }
+
+        }
+
+        rowScore[
+            Math.floor(y/step)
+        ]=rowCount;
+
+    }
+
+    /*
+     * Convert scores into normalized density.
+     */
+    const maxRow =
+    Math.max(...rowScore);
+
+    const maxCol =
+    Math.max(...colScore);
+
+    /*
+     * Find meaningful content region.
+     *
+     * We intentionally don't use the first black pixel,
+     * because the source PDF may contain page separators.
+     */
+    let top=0;
+    let bottom=h-1;
+    let left=0;
+    let right=w-1;
+
+    const rowThreshold =
+    Math.max(
+        3,
+        maxRow*0.045
+    );
+
+    const colThreshold =
+    Math.max(
+        3,
+        maxCol*0.045
+    );
+
+    for(let i=0;i<rowScore.length;i++){
+
+        if(rowScore[i]>=rowThreshold){
+
+            top=i*step;
+            break;
+
+        }
+
+    }
+
+    for(let i=rowScore.length-1;i>=0;i--){
+
+        if(rowScore[i]>=rowThreshold){
+
+            bottom=Math.min(
+                h-1,
+                (i+1)*step
+            );
+
+            break;
+
+        }
+
+    }
+
+    for(let i=0;i<colScore.length;i++){
+
+        if(colScore[i]>=colThreshold){
+
+            left=i*step;
+            break;
+
+        }
+
+    }
+
+    for(let i=colScore.length-1;i>=0;i--){
+
+        if(colScore[i]>=colThreshold){
+
+            right=Math.min(
+                w-1,
+                (i+1)*step
+            );
+
+            break;
+
+        }
+
+    }
+
+    /*
+     * Refine boundaries.
+     *
+     * Search for a rectangular black border around the label.
+     * This helps remove the huge white area surrounding
+     * the actual label.
+     */
+
+    const refined =
+    refineRectangle(
+        canvas,
+        {
+            left,
+            top,
+            right,
+            bottom
+        }
+    );
+
+    left=refined.left;
+    top=refined.top;
+    right=refined.right;
+    bottom=refined.bottom;
+
+    /*
+     * Safety fallback.
+     */
+    if(
+        right-left < w*0.10 ||
+        bottom-top < h*0.10
+    ){
+
+        left=Math.round(w*0.20);
+        right=Math.round(w*0.80);
+        top=Math.round(h*0.10);
+        bottom=Math.round(h*0.90);
+
+    }
+
+    /*
+     * Convert canvas pixels to PDF points.
+     */
+    const page =
+    currentPDF
+    ? null
+    : null;
+
+    /*
+     * PDF.js scale used above = 2.5.
+     *
+     * PDF coordinates use bottom-left origin.
+     */
+    const scale=2.5;
+
+    const widthPdf =
+    (right-left)/scale;
+
+    const heightPdf =
+    (bottom-top)/scale;
+
+    return {
+        left,
+        top,
+        right,
+        bottom,
+
+        width:right-left,
+        height:bottom-top,
+
+        widthPdf,
+        heightPdf,
+
+        /*
+         * PDF coordinate rectangle.
+         */
+        x:left/scale,
+
+        y:(
+            currentPDF
+            ? 0
+            : 0
+        )
+    };
+
+}
+
+
+/* ============================================================
+   RECTANGLE REFINEMENT
+============================================================ */
+
+function refineRectangle(canvas,box){
+
+    const ctx =
+    canvas.getContext("2d",{
+        willReadFrequently:true
+    });
+
+    const image =
+    ctx.getImageData(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    const data=image.data;
+
+    let {
+        left,
+        top,
+        right,
+        bottom
+    }=box;
+
+    /*
+     * We search around the rough content area for long
+     * horizontal / vertical dark lines.
+     */
+
+    function dark(x,y){
+
+        if(
+            x<0 ||
+            y<0 ||
+            x>=canvas.width ||
+            y>=canvas.height
+        ){
+            return false;
+        }
+
+        const i=
+        (y*canvas.width+x)*4;
+
+        return (
+            data[i] < 110 &&
+            data[i+1] < 110 &&
+            data[i+2] < 110
+        );
+
+    }
+
+    function horizontalScore(y){
+
+        const start=
+        Math.max(
+            0,
+            Math.floor(left)
+        );
+
+        const end=
+        Math.min(
+            canvas.width-1,
+            Math.floor(right)
+        );
+
+        let count=0;
+
+        for(
+            let x=start;
+            x<=end;
+            x+=4
+        ){
+
+            if(dark(x,y)){
+                count++;
+            }
+
+        }
+
+        const total =
+        Math.max(
+            1,
+            Math.floor(
+                (end-start)/4
+            )
+        );
+
+        return count/total;
+
+    }
+
+    function verticalScore(x){
+
+        const start=
+        Math.max(
+            0,
+            Math.floor(top)
+        );
+
+        const end=
+        Math.min(
+            canvas.height-1,
+            Math.floor(bottom)
+        );
+
+        let count=0;
+
+        for(
+            let y=start;
+            y<=end;
+            y+=4
+        ){
+
+            if(dark(x,y)){
+                count++;
+            }
+
+        }
+
+        const total =
+        Math.max(
+            1,
+            Math.floor(
+                (end-start)/4
+            )
+        );
+
+        return count/total;
+
+    }
+
+    /*
+     * Search only around the rough boundaries.
+     */
+
+    const searchY=50;
+    const searchX=50;
+
+    let bestTop=top;
+    let bestTopScore=0;
+
+    for(
+        let y=Math.max(0,top-searchY);
+        y<=Math.min(canvas.height-1,top+searchY);
+        y+=2
+    ){
+
+        const score=
+        horizontalScore(y);
+
+        if(score>bestTopScore){
+
+            bestTopScore=score;
+            bestTop=y;
+
+        }
+
+    }
+
+    let bestBottom=bottom;
+    let bestBottomScore=0;
+
+    for(
+        let y=Math.max(0,bottom-searchY);
+        y<=Math.min(canvas.height-1,bottom+searchY);
+        y+=2
+    ){
+
+        const score=
+        horizontalScore(y);
+
+        if(score>bestBottomScore){
+
+            bestBottomScore=score;
+            bestBottom=y;
+
+        }
+
+    }
+
+    let bestLeft=left;
+    let bestLeftScore=0;
+
+    for(
+        let x=Math.max(0,left-searchX);
+        x<=Math.min(canvas.width-1,left+searchX);
+        x+=2
+    ){
+
+        const score=
+        verticalScore(x);
+
+        if(score>bestLeftScore){
+
+            bestLeftScore=score;
+            bestLeft=x;
+
+        }
+
+    }
+
+    let bestRight=right;
+    let bestRightScore=0;
+
+    for(
+        let x=Math.max(0,right-searchX);
+        x<=Math.min(canvas.width-1,right+searchX);
+        x+=2
+    ){
+
+        const score=
+        verticalScore(x);
+
+        if(score>bestRightScore){
+
+            bestRightScore=score;
+            bestRight=x;
+
+        }
+
+    }
+
+    /*
+     * Only accept refinement when the line is reasonably long.
+     */
+    if(bestTopScore>0.35){
+        top=bestTop;
+    }
+
+    if(bestBottomScore>0.35){
+        bottom=bestBottom;
+    }
+
+    if(bestLeftScore>0.35){
+        left=bestLeft;
+    }
+
+    if(bestRightScore>0.35){
+        right=bestRight;
+    }
+
+    return {
+        left,
+        top,
+        right,
+        bottom
+    };
+
+}
+
+
+/* ============================================================
+   PREVIEW
+============================================================ */
+
+function drawPreview(sourceCanvas,detection){
+
+    const previewCanvas =
+    document.createElement("canvas");
+
+    const maxWidth=350;
+
+    const scale=
+    Math.min(
+        1,
+        maxWidth/sourceCanvas.width
+    );
+
+    previewCanvas.width=
+    Math.round(
+        detection.width*scale
+    );
+
+    previewCanvas.height=
+    Math.round(
+        detection.height*scale
+    );
+
+    const ctx=
+    previewCanvas.getContext("2d");
+
+    ctx.drawImage(
+        sourceCanvas,
+
+        detection.left,
+        detection.top,
+        detection.width,
+        detection.height,
+
+        0,
+        0,
+        previewCanvas.width,
+        previewCanvas.height
+    );
+
+    previewArea.innerHTML="";
+
+    previewArea.appendChild(
+        previewCanvas
+    );
+
+}
+
+
+/* ============================================================
+   CROP AND DOWNLOAD
+============================================================ */
+
+window.cropAndDownload =
+async function(){
+
+    if(!uploadedFiles.length){
+
+        setStatus(
+            "Please upload at least one PDF.",
             "error"
         );
 
         return;
     }
 
-    processedFiles.forEach((item,index)=>{
+    try{
 
-        setTimeout(()=>{
+        setStatus(
+            "Cropping label while preserving original PDF quality...",
+            ""
+        );
 
-            downloadBytes(
-                item.bytes,
-                item.name
+        processedFiles=[];
+
+        /*
+         * Process every uploaded PDF.
+         */
+        for(
+            let i=0;
+            i<uploadedFiles.length;
+            i++
+        ){
+
+            const file=
+            uploadedFiles[i];
+
+            const output=
+            await cropPDFFile(file);
+
+            processedFiles.push(output);
+
+        }
+
+        /*
+         * Download first output immediately.
+         */
+        if(processedFiles.length){
+
+            downloadBlob(
+                processedFiles[0].blob,
+                processedFiles[0].name
             );
 
-        },index*500);
+        }
 
+        setStatus(
+            `${processedFiles.length} PDF file(s) cropped successfully. Label border kept tight and original PDF quality preserved.`,
+            "success"
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        setStatus(
+            "Crop failed: " + error.message,
+            "error"
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+   CROP PDF FILE
+============================================================ */
+
+async function cropPDFFile(file){
+
+    const sourceBytes =
+    await file.arrayBuffer();
+
+    /*
+     * Load PDF using PDF-LIB.
+     */
+    const sourceDoc =
+    await PDFLib.PDFDocument.load(
+        sourceBytes,
+        {
+            ignoreEncryption:true
+        }
+    );
+
+    /*
+     * Create completely new PDF.
+     */
+    const outputDoc =
+    await PDFLib.PDFDocument.create();
+
+    const pageCount =
+    sourceDoc.getPageCount();
+
+    /*
+     * Use PDF.js for visual detection.
+     */
+    const detectPdf =
+    await pdfjsLib.getDocument({
+        data:sourceBytes.slice(0)
+    }).promise;
+
+    for(
+        let pageIndex=0;
+        pageIndex<pageCount;
+        pageIndex++
+    ){
+
+        const sourcePage =
+        sourceDoc.getPage(pageIndex);
+
+        const pdfjsPage =
+        await detectPdf.getPage(
+            pageIndex+1
+        );
+
+        /*
+         * Render at same scale used by detector.
+         */
+        const scale=2.5;
+
+        const viewport =
+        pdfjsPage.getViewport({
+            scale
+        });
+
+        const canvas =
+        document.createElement("canvas");
+
+        canvas.width=
+        Math.ceil(viewport.width);
+
+        canvas.height=
+        Math.ceil(viewport.height);
+
+        const ctx=
+        canvas.getContext("2d",{
+            willReadFrequently:true
+        });
+
+        await pdfjsPage.render({
+            canvasContext:ctx,
+            viewport
+        }).promise;
+
+        const detection =
+        detectLabelRectangleForPage(
+            canvas,
+            sourcePage
+        );
+
+        /*
+         * Original PDF page dimensions.
+         */
+        const pageWidth =
+        sourcePage.getWidth();
+
+        const pageHeight =
+        sourcePage.getHeight();
+
+        /*
+         * Convert canvas crop coordinates to PDF points.
+         */
+        let x =
+        detection.left/scale;
+
+        let cropTop =
+        detection.top/scale;
+
+        let cropRight =
+        detection.right/scale;
+
+        let cropBottom =
+        detection.bottom/scale;
+
+        /*
+         * PDF.js canvas starts at TOP.
+         * PDF coordinates start at BOTTOM.
+         */
+        let y =
+        pageHeight -
+        cropBottom;
+
+        let width =
+        cropRight-x;
+
+        let height =
+        cropBottom-cropTop;
+
+        /*
+         * Detection margin.
+         */
+        const marginMM =
+        Number(
+            document.getElementById("margin").value
+        );
+
+        const marginPt =
+        marginMM * 72 / 25.4;
+
+        /*
+         * Add a tiny safe margin.
+         * This prevents barcode / printed date clipping.
+         */
+        x -= marginPt;
+        y -= marginPt;
+
+        width +=
+        marginPt*2;
+
+        height +=
+        marginPt*2;
+
+        /*
+         * Clamp.
+         */
+        x=Math.max(0,x);
+        y=Math.max(0,y);
+
+        if(
+            x+width>pageWidth
+        ){
+            width=
+            pageWidth-x;
+        }
+
+        if(
+            y+height>pageHeight
+        ){
+            height=
+            pageHeight-y;
+        }
+
+        /*
+         * Copy page into new PDF.
+         *
+         * IMPORTANT:
+         * We copy each source page independently into the
+         * new document. No cross-document page.insertAfter /
+         * copyPages misuse.
+         */
+        const [newPage] =
+        await outputDoc.copyPages(
+            sourceDoc,
+            [pageIndex]
+        );
+
+        outputDoc.addPage(newPage);
+
+        /*
+         * Crop page.
+         *
+         * PDF-LIB page coordinates use bottom-left.
+         */
+        newPage.setMediaBox(
+            x,
+            y,
+            width,
+            height
+        );
+
+        newPage.setCropBox(
+            x,
+            y,
+            width,
+            height
+        );
+
+        /*
+         * IMPORTANT:
+         *
+         * We do NOT translate the PDF content.
+         *
+         * Keeping original coordinates together with the
+         * crop box preserves the exact vector content and
+         * prevents barcode/QR/text from being resampled.
+         */
+
+    }
+
+    const bytes =
+    await outputDoc.save({
+        useObjectStreams:true
     });
 
-    setStatus(
-        `✓ Downloading ${processedFiles.length} cropped PDF(s).`,
-        "success"
+    const blob =
+    new Blob(
+        [bytes],
+        {
+            type:"application/pdf"
+        }
     );
+
+    const base =
+    file.name
+    .replace(/\.pdf$/i,"");
+
+    return {
+        blob,
+        name:
+        `${base}_LABEL_CROPPED.pdf`
+    };
+
 }
 
 
-function downloadBytes(
-    bytes,
+/* ============================================================
+   PAGE-SPECIFIC DETECTOR
+============================================================ */
+
+function detectLabelRectangleForPage(
+    canvas,
+    pdfPage
+){
+
+    const result =
+    detectLabelRectangle(canvas);
+
+    /*
+     * Use the same detection but refine based on page aspect.
+     *
+     * For E-Kart style label:
+     * label is normally tall and relatively narrow.
+     *
+     * We don't force 4x6 because that could cut content.
+     */
+
+    let left=result.left;
+    let right=result.right;
+    let top=result.top;
+    let bottom=result.bottom;
+
+    const w=canvas.width;
+    const h=canvas.height;
+
+    /*
+     * Remove obvious page-wide separator lines.
+     *
+     * If the detected region is almost entire page,
+     * search for the strongest central label region.
+     */
+    if(
+        (right-left)>w*0.90 ||
+        (bottom-top)>h*0.95
+    ){
+
+        const tighter =
+        findCentralLabel(
+            canvas
+        );
+
+        if(tighter){
+
+            left=tighter.left;
+            right=tighter.right;
+            top=tighter.top;
+            bottom=tighter.bottom;
+
+        }
+
+    }
+
+    /*
+     * Never allow crop to become too tiny.
+     */
+    if(
+        right-left < w*0.25
+    ){
+
+        const cx=(left+right)/2;
+        const desired=w*0.55;
+
+        left=Math.max(
+            0,
+            cx-desired/2
+        );
+
+        right=Math.min(
+            w,
+            cx+desired/2
+        );
+
+    }
+
+    return {
+        left,
+        right,
+        top,
+        bottom
+    };
+
+}
+
+
+/* ============================================================
+   CENTRAL LABEL FALLBACK
+============================================================ */
+
+function findCentralLabel(canvas){
+
+    const ctx =
+    canvas.getContext("2d",{
+        willReadFrequently:true
+    });
+
+    const w=canvas.width;
+    const h=canvas.height;
+
+    const image =
+    ctx.getImageData(
+        0,
+        0,
+        w,
+        h
+    );
+
+    const data=image.data;
+
+    /*
+     * Find vertical dark density.
+     */
+    const columns =
+    new Float32Array(w);
+
+    for(
+        let x=0;
+        x<w;
+        x+=3
+    ){
+
+        let count=0;
+
+        for(
+            let y=0;
+            y<h;
+            y+=5
+        ){
+
+            const i=
+            (y*w+x)*4;
+
+            const brightness=
+            (
+                data[i]+
+                data[i+1]+
+                data[i+2]
+            )/3;
+
+            if(brightness<130){
+                count++;
+            }
+
+        }
+
+        columns[x]=count;
+
+    }
+
+    /*
+     * Find strongest central continuous area.
+     */
+    let max=0;
+
+    for(let i=0;i<w;i++){
+
+        if(columns[i]>max){
+            max=columns[i];
+        }
+
+    }
+
+    const threshold=max*0.20;
+
+    let start=-1;
+    let end=-1;
+
+    for(
+        let x=Math.floor(w*.10);
+        x<Math.floor(w*.90);
+        x+=3
+    ){
+
+        if(columns[x]>threshold){
+
+            if(start===-1){
+                start=x;
+            }
+
+            end=x;
+
+        }else{
+
+            if(
+                start!==-1 &&
+                end-start>w*.12
+            ){
+                break;
+            }
+
+        }
+
+    }
+
+    if(
+        start===-1 ||
+        end===-1
+    ){
+        return null;
+    }
+
+    /*
+     * Add a small horizontal safety area.
+     */
+    start=Math.max(
+        0,
+        start-15
+    );
+
+    end=Math.min(
+        w,
+        end+15
+    );
+
+    /*
+     * Vertical region is usually the main content zone.
+     */
+    const top=
+    Math.floor(h*.05);
+
+    const bottom=
+    Math.floor(h*.95);
+
+    return {
+        left:start,
+        right:end,
+        top,
+        bottom
+    };
+
+}
+
+
+/* ============================================================
+   SPECIAL PDF CROP MODE
+============================================================ */
+
+/*
+ * The user requested tight label cropping.
+ *
+ * The default is Smart detection.
+ *
+ * "Tight" simply uses the same border detection but with
+ * zero/very-low margin.
+ */
+
+document.getElementById("cropMode")
+.addEventListener("change",function(){
+
+    const mode=this.value;
+
+    if(mode==="tight"){
+
+        document.getElementById("margin").value="0";
+
+        setStatus(
+            "Tight mode selected — outer label border will be used.",
+            ""
+        );
+
+    }
+
+    if(mode==="smart"){
+
+        document.getElementById("margin").value="2";
+
+        setStatus(
+            "Smart mode selected — label border + safe margin.",
+            ""
+        );
+
+    }
+
+    if(mode==="visual"){
+
+        document.getElementById("margin").value="1";
+
+        setStatus(
+            "Visual mode selected — detected content boundary.",
+            ""
+        );
+
+    }
+
+});
+
+
+/* ============================================================
+   DOWNLOAD ALL
+============================================================ */
+
+window.downloadAll =
+async function(){
+
+    if(!processedFiles.length){
+
+        /*
+         * If user has not clicked Crop yet,
+         * process everything first.
+         */
+        await cropAndDownload();
+
+        return;
+
+    }
+
+    for(
+        const file of processedFiles
+    ){
+
+        downloadBlob(
+            file.blob,
+            file.name
+        );
+
+        /*
+         * Small delay prevents mobile browser download
+         * blocking when multiple files are downloaded.
+         */
+        await sleep(350);
+
+    }
+
+};
+
+
+/* ============================================================
+   MERGE PDFS
+============================================================ */
+
+window.mergePDFs =
+async function(){
+
+    if(uploadedFiles.length<2){
+
+        setStatus(
+            "Please upload at least 2 PDF files to merge.",
+            "error"
+        );
+
+        return;
+    }
+
+    try{
+
+        setStatus(
+            "Merging PDF files...",
+            ""
+        );
+
+        const merged =
+        await PDFLib.PDFDocument.create();
+
+        for(
+            const file of uploadedFiles
+        ){
+
+            const bytes=
+            await file.arrayBuffer();
+
+            const source=
+            await PDFLib.PDFDocument.load(
+                bytes
+            );
+
+            const pages=
+            await merged.copyPages(
+                source,
+                source.getPageIndices()
+            );
+
+            pages.forEach(
+                page =>
+                merged.addPage(page)
+            );
+
+        }
+
+        const bytes=
+        await merged.save();
+
+        const blob=
+        new Blob(
+            [bytes],
+            {
+                type:"application/pdf"
+            }
+        );
+
+        downloadBlob(
+            blob,
+            "EcomPilot_Merged.pdf"
+        );
+
+        setStatus(
+            "PDFs merged successfully.",
+            "success"
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        setStatus(
+            "Merge failed: " + error.message,
+            "error"
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+   CLEAR
+============================================================ */
+
+window.clearAll =
+function(){
+
+    uploadedFiles=[];
+    processedFiles=[];
+    currentPDF=null;
+    currentDetection=null;
+
+    renderFileList();
+
+    previewArea.innerHTML =
+    `<div class="preview-placeholder">
+        Upload a PDF to preview the detected label
+    </div>`;
+
+    detectedInfo.textContent="";
+
+    pageInfo.textContent=
+    "Label Preview • Page 1 of 1";
+
+    setStatus(
+        "Upload a PDF to start.",
+        ""
+    );
+
+};
+
+
+/* ============================================================
+   STATUS
+============================================================ */
+
+function setStatus(
+    message,
+    type
+){
+
+    statusBox.textContent=
+    message;
+
+    statusBox.className=
+    "status";
+
+    if(type){
+        statusBox.classList.add(type);
+    }
+
+}
+
+
+/* ============================================================
+   DOWNLOAD HELPER
+============================================================ */
+
+function downloadBlob(
+    blob,
     filename
 ){
 
-    const blob =
-        new Blob(
-            [bytes],
-            {type:"application/pdf"}
-        );
+    const url=
+    URL.createObjectURL(blob);
 
-    const url =
-        URL.createObjectURL(blob);
-
-    const a =
-        document.createElement("a");
+    const a=
+    document.createElement("a");
 
     a.href=url;
     a.download=filename;
@@ -2069,167 +2781,86 @@ function downloadBytes(
 
     a.remove();
 
-    setTimeout(()=>{
-        URL.revokeObjectURL(url);
-    },2000);
+    setTimeout(
+        ()=>{
+            URL.revokeObjectURL(url);
+        },
+        1500
+    );
+
 }
 
 
-/* -------------------------------
-   MERGE
--------------------------------- */
+/* ============================================================
+   UTILS
+============================================================ */
 
-async function mergeAndDownload(){
+function sleep(ms){
 
-    if(!files.length){
+    return new Promise(
+        resolve =>
+        setTimeout(resolve,ms)
+    );
 
-        setStatus(
-            "Please upload PDFs first.",
-            "error"
-        );
+}
 
-        return;
+
+function formatBytes(bytes){
+
+    if(bytes===0){
+        return "0 B";
     }
 
-    if(files.length===1){
+    const units=[
+        "B",
+        "KB",
+        "MB",
+        "GB"
+    ];
 
-        setStatus(
-            "Upload 2 or more PDFs to merge.",
-            "info"
-        );
+    const i=
+    Math.floor(
+        Math.log(bytes)/Math.log(1024)
+    );
 
-        return;
-    }
+    return (
+        bytes/
+        Math.pow(1024,i)
+    ).toFixed(1)
+    +" "+
+    units[i];
 
-    try{
-
-        setStatus(
-            "Merging PDFs...",
-            "info"
-        );
-
-        const merged =
-            await PDFDocument.create();
-
-        for(const file of files){
-
-            const bytes =
-                await file.arrayBuffer();
-
-            const source =
-                await PDFDocument.load(bytes);
-
-            const copied =
-                await merged.copyPages(
-                    source,
-                    source.getPageIndices()
-                );
-
-            copied.forEach(page=>{
-                merged.addPage(page);
-            });
-        }
-
-        const bytes =
-            await merged.save();
-
-        downloadBytes(
-            bytes,
-            "EcomPilot_Merged.pdf"
-        );
-
-        setStatus(
-            "✓ PDFs merged successfully.",
-            "success"
-        );
-
-    }catch(error){
-
-        console.error(error);
-
-        setStatus(
-            "Merge failed: "+
-            error.message,
-            "error"
-        );
-    }
 }
 
 
-/* -------------------------------
-   STATUS
--------------------------------- */
+function formatNumber(num){
 
-function setStatus(
-    message,
-    type
-){
+    return Number(num)
+    .toFixed(1);
 
-    const box =
-        document.getElementById("status");
-
-    box.className =
-        "status "+type;
-
-    box.textContent=message;
 }
 
 
-/* -------------------------------
-   CLEAR
--------------------------------- */
+function escapeHTML(value){
 
-function clearAll(){
+    return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
-    files=[];
-    processedFiles=[];
-    currentPDF=null;
-    currentPage=null;
-    currentDetection=null;
-
-    document.getElementById("fileList").innerHTML="";
-
-    document.getElementById("previewCanvas")
-        .getContext("2d")
-        .clearRect(
-            0,
-            0,
-            document.getElementById("previewCanvas").width,
-            document.getElementById("previewCanvas").height
-        );
-
-    document.getElementById("detectedInfo").textContent =
-        "Upload a PDF to detect the shipping label.";
-
-    document.getElementById("cropBtn").disabled=true;
-    document.getElementById("downloadAllBtn").disabled=true;
-
-    document.getElementById("status").className="status";
 }
 
 
-/* -------------------------------
-   MARGIN UPDATE
--------------------------------- */
+/* ============================================================
+   INITIAL MESSAGE
+============================================================ */
 
-document.getElementById("margin")
-    .addEventListener("change",async()=>{
-
-        if(currentPage){
-
-            await renderDetectionPreview(
-                currentPage
-            );
-        }
-    });
-
-
-/* -------------------------------
-   INITIAL STATE
--------------------------------- */
-
-document.getElementById("cropBtn").disabled=true;
-document.getElementById("downloadAllBtn").disabled=true;
+setStatus(
+    "Upload a PDF to start.",
+    ""
+);
 
 </script>
 
