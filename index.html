@@ -2,17 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>EcomPilot — Smart Label Cropper</title>
+<title>EcomPilot — Smart E-commerce Label Cropper</title>
 
-<!-- PDF LIB -->
 <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 
-<!-- PDF JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <style>
+
 *{
     box-sizing:border-box;
 }
@@ -30,6 +29,14 @@ input{
     font:inherit;
 }
 
+button{
+    -webkit-tap-highlight-color:transparent;
+}
+
+/* =========================
+   HEADER
+========================= */
+
 .top{
     height:68px;
     background:#fff;
@@ -40,7 +47,7 @@ input{
     gap:22px;
     position:sticky;
     top:0;
-    z-index:10;
+    z-index:20;
 }
 
 .brand{
@@ -91,11 +98,21 @@ input{
     background:#066de0;
 }
 
+.primary:disabled,
+.outline:disabled{
+    opacity:.55;
+    cursor:not-allowed;
+}
+
 .outline{
     background:#fff;
     color:#0878f9;
     border:1px solid #9bc9ff;
 }
+
+/* =========================
+   HERO
+========================= */
 
 .hero{
     display:grid;
@@ -154,6 +171,10 @@ input{
     height:72px;
 }
 
+/* =========================
+   FEATURES
+========================= */
+
 .features{
     display:grid;
     grid-template-columns:repeat(5,1fr);
@@ -176,6 +197,10 @@ input{
 .feature small{
     color:#66758a;
 }
+
+/* =========================
+   APP
+========================= */
 
 .app{
     margin:0 2.5% 45px;
@@ -227,6 +252,7 @@ input{
     display:flex;
     justify-content:space-between;
     align-items:center;
+    gap:12px;
 }
 
 .title h2{
@@ -238,6 +264,10 @@ input{
     color:#66758a;
     margin-top:4px;
 }
+
+/* =========================
+   STEPS
+========================= */
 
 .steps{
     display:grid;
@@ -272,6 +302,10 @@ input{
     color:#fff;
 }
 
+/* =========================
+   WORKSPACE
+========================= */
+
 .workspace{
     display:grid;
     grid-template-columns:1fr 310px;
@@ -300,6 +334,10 @@ input{
     font-size:12px;
     color:#66758a;
 }
+
+/* =========================
+   FILE LIST
+========================= */
 
 .file-list{
     width:100%;
@@ -334,6 +372,10 @@ input{
     font-size:18px;
     cursor:pointer;
 }
+
+/* =========================
+   PANEL
+========================= */
 
 .panel{
     border:1px solid #d9e5f2;
@@ -403,17 +445,9 @@ input{
     color:#0867c9;
 }
 
-.merge{
-    margin-top:16px;
-    border:1px solid #d9e5f2;
-    border-radius:12px;
-    padding:14px;
-}
-
-.merge p{
-    font-size:11px;
-    color:#66758a;
-}
+/* =========================
+   PREVIEW
+========================= */
 
 .preview{
     margin-top:16px;
@@ -443,7 +477,28 @@ input{
     margin-top:8px;
     font-size:10px;
     color:#64748b;
+    line-height:1.5;
 }
+
+/* =========================
+   MERGE
+========================= */
+
+.merge{
+    margin-top:16px;
+    border:1px solid #d9e5f2;
+    border-radius:12px;
+    padding:14px;
+}
+
+.merge p{
+    font-size:11px;
+    color:#66758a;
+}
+
+/* =========================
+   FOOTER
+========================= */
 
 .footer{
     text-align:center;
@@ -452,9 +507,9 @@ input{
     padding:10px 0 35px;
 }
 
-.hidden{
-    display:none!important;
-}
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media(max-width:900px){
 
@@ -511,7 +566,11 @@ input{
     }
 
     .title{
-        gap:10px;
+        gap:8px;
+    }
+
+    .title h2{
+        font-size:18px;
     }
 
     .title .outline{
@@ -532,10 +591,17 @@ input{
         margin:0 auto 3px;
     }
 }
+
 </style>
 </head>
 
+
 <body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <header class="top">
 
@@ -548,19 +614,39 @@ input{
     </div>
 
     <nav class="nav">
-        <a href="#home">Home</a>
-        <a href="#studio">Label Studio</a>
-        <a href="#merge">Merge PDFs</a>
+
+        <a href="#home">
+            Home
+        </a>
+
+        <a href="#studio">
+            Label Studio
+        </a>
+
+        <a href="#merge">
+            Merge PDFs
+        </a>
+
     </nav>
 
-    <button class="primary" onclick="openFilePicker()">
+    <button
+        class="primary"
+        onclick="openFilePicker()">
+
         Get Started Free
+
     </button>
 
 </header>
 
 
-<section class="hero" id="home">
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section
+    class="hero"
+    id="home">
 
     <div>
 
@@ -569,31 +655,48 @@ input{
         </div>
 
         <h1>
+
             PDF Label<br>
-            <span style="color:#0878f9">Cropper</span>
+
+            <span style="color:#0878f9">
+                Cropper
+            </span>
+
         </h1>
 
         <p>
-            Automatically detect the actual shipping-label content
-            and crop unnecessary white margins without converting
-            your PDF into low-quality images.
+
+            Automatically detect the actual shipping-label
+            area from E-Kart / Flipkart-style PDF pages
+            and remove the invoice section below it.
+
         </p>
 
-        <button class="primary" onclick="openFilePicker()">
+        <button
+            class="primary"
+            onclick="openFilePicker()">
+
             Upload PDF Files →
+
         </button>
 
-        <button class="outline"
-                onclick="document.getElementById('studio').scrollIntoView({behavior:'smooth'})">
+        <button
+            class="outline"
+            onclick="scrollToStudio()">
+
             Open Studio
+
         </button>
 
         <p style="font-size:12px">
-            ✓ Smart content detection
+
+            ✓ Smart E-Kart detection
             &nbsp; ✓ Barcode safe
+            &nbsp; ✓ QR safe
             &nbsp; ✓ Vector PDF
             &nbsp; ✓ 4×6
             &nbsp; ✓ Mobile friendly
+
         </p>
 
     </div>
@@ -602,29 +705,51 @@ input{
     <div class="mock">
 
         <div class="mockhead">
-            EcomPilot — Smart Label
+
+            EcomPilot — Smart Shipping Label
+
         </div>
 
         <div class="mockgrid">
 
             <div>
-                ▣ Label Detection<br>
-                <small>Automatic content boundary</small>
+
+                ▣ E-Kart Detection<br>
+
+                <small>
+                    Detect shipping label
+                </small>
+
             </div>
 
             <div>
+
                 ▦ QR Code<br>
-                <small>Not cut during crop</small>
+
+                <small>
+                    Protected
+                </small>
+
             </div>
 
             <div>
+
                 ▥ Barcode<br>
-                <small>Original vector quality</small>
+
+                <small>
+                    Original quality
+                </small>
+
             </div>
 
             <div>
-                ✓ 4 × 6 inch<br>
-                <small>Safe proportional fitting</small>
+
+                ✓ Invoice Removed<br>
+
+                <small>
+                    Label only
+                </small>
+
             </div>
 
         </div>
@@ -634,42 +759,99 @@ input{
 </section>
 
 
+<!-- =====================================================
+     FEATURES
+===================================================== -->
+
 <section class="features">
 
     <div class="feature">
+
         ⚡
-        <strong>Fast & Easy</strong>
-        <small>Browser processing.</small>
+
+        <strong>
+            Fast & Easy
+        </strong>
+
+        <small>
+            Browser processing.
+        </small>
+
     </div>
 
+
     <div class="feature">
+
         🔍
-        <strong>Smart Crop</strong>
-        <small>Detects actual label content.</small>
+
+        <strong>
+            Smart E-Kart Crop
+        </strong>
+
+        <small>
+            Finds shipping label boundary.
+        </small>
+
     </div>
 
+
     <div class="feature">
+
         📐
-        <strong>4 × 6 Preset</strong>
-        <small>Standard shipping size.</small>
+
+        <strong>
+            4 × 6 Preset
+        </strong>
+
+        <small>
+            Standard shipping size.
+        </small>
+
     </div>
 
+
     <div class="feature">
+
         🔒
-        <strong>Local Processing</strong>
-        <small>Files stay in browser.</small>
+
+        <strong>
+            Local Processing
+        </strong>
+
+        <small>
+            Files stay in browser.
+        </small>
+
     </div>
 
+
     <div class="feature">
+
         📱
-        <strong>All Devices</strong>
-        <small>Desktop & mobile.</small>
+
+        <strong>
+            All Devices
+        </strong>
+
+        <small>
+            Desktop & mobile.
+        </small>
+
     </div>
 
 </section>
 
 
-<section class="app" id="studio">
+<!-- =====================================================
+     APP
+===================================================== -->
+
+<section
+    class="app"
+    id="studio">
+
+
+    <!-- SIDEBAR -->
 
     <aside class="side">
 
@@ -677,46 +859,72 @@ input{
             ✈ EcomPilot
         </h3>
 
+
         <button class="active">
+
             ⌂ Label Studio
+
         </button>
+
 
         <button onclick="openFilePicker()">
+
             ▣ Upload PDFs
+
         </button>
+
 
         <button onclick="mergePDFs()">
+
             ▤ Merge PDFs
+
         </button>
 
+
         <button onclick="clearAll()">
+
             ↻ Clear
+
         </button>
 
     </aside>
 
 
+    <!-- MAIN -->
+
     <main class="content">
+
 
         <div class="title">
 
             <div>
+
                 <h2>
                     📄 PDF Label Studio
                 </h2>
 
                 <div class="sub">
-                    Smart crop keeps barcode, QR, address and printed date intact.
+
+                    Detect shipping label and remove
+                    invoice section automatically.
+
                 </div>
+
             </div>
 
-            <button class="outline"
-                    onclick="openFilePicker()">
+
+            <button
+                class="outline"
+                onclick="openFilePicker()">
+
                 Add PDFs
+
             </button>
 
         </div>
 
+
+        <!-- STEPS -->
 
         <div class="steps">
 
@@ -743,6 +951,8 @@ input{
         </div>
 
 
+        <!-- FILE INPUT -->
+
         <input
             id="file"
             type="file"
@@ -754,44 +964,64 @@ input{
 
         <div class="workspace">
 
+
+            <!-- LEFT -->
+
             <div>
 
-                <div class="drop" id="drop">
+
+                <!-- DROP -->
+
+                <div
+                    class="drop"
+                    id="drop">
+
 
                     <div style="font-size:32px">
                         ☁
                     </div>
 
+
                     <h3>
                         Drag & Drop PDF files here
                     </h3>
+
 
                     <p>
                         or tap below • Multiple PDF files supported
                     </p>
 
-                    <button class="primary"
-                            onclick="openFilePicker()">
+
+                    <button
+                        class="primary"
+                        onclick="openFilePicker()">
+
                         Choose PDF Files
+
                     </button>
+
 
                     <div
                         class="file-list"
                         id="fileList">
                     </div>
 
+
                 </div>
 
+
+                <!-- PREVIEW -->
 
                 <div
                     class="preview"
                     id="preview"
                     style="display:none">
 
+
                     <div class="preview-title">
 
                         <b>
-                            Label Preview
+                            Shipping Label Preview
                         </b>
 
                         <span id="previewPage">
@@ -800,41 +1030,59 @@ input{
 
                     </div>
 
+
                     <canvas id="canvas"></canvas>
+
 
                     <div
                         class="crop-info"
                         id="cropInfo">
                     </div>
 
+
                 </div>
 
+
+                <!-- MERGE -->
 
                 <div
                     class="merge"
                     id="merge">
 
+
                     <b>
                         📚 Merge Multiple PDF Files
                     </b>
 
+
                     <p>
+
                         Select 2 or more PDFs above.
                         Pages are combined in upload order
                         without converting pages into images.
+
                     </p>
 
-                    <button class="outline"
-                            onclick="mergePDFs()">
+
+                    <button
+                        class="outline"
+                        onclick="mergePDFs()">
+
                         Merge & Download
+
                     </button>
 
+
                 </div>
+
 
             </div>
 
 
+            <!-- RIGHT SETTINGS -->
+
             <div class="panel">
+
 
                 <h3>
                     Crop & Output Settings
@@ -847,10 +1095,15 @@ input{
                         Crop Mode
                     </label>
 
+
                     <select id="mode">
 
-                        <option value="smart">
-                            Smart — Detect Label Content
+                        <option value="smart" selected>
+                            Smart — E-Kart Label
+                        </option>
+
+                        <option value="visual">
+                            Visual — Detect Content
                         </option>
 
                         <option value="full">
@@ -864,15 +1117,17 @@ input{
 
                 <div class="row">
 
+
                     <div class="field">
 
                         <label>
                             Label Width
                         </label>
 
+
                         <select id="width">
 
-                            <option value="4">
+                            <option value="4" selected>
                                 4 inch
                             </option>
 
@@ -891,9 +1146,10 @@ input{
                             Label Height
                         </label>
 
+
                         <select id="height">
 
-                            <option value="6">
+                            <option value="6" selected>
                                 6 inch
                             </option>
 
@@ -905,6 +1161,7 @@ input{
 
                     </div>
 
+
                 </div>
 
 
@@ -914,9 +1171,10 @@ input{
                         Output Size
                     </label>
 
+
                     <select id="outputMode">
 
-                        <option value="original">
+                        <option value="original" selected>
                             Original Cropped Size
                         </option>
 
@@ -935,14 +1193,19 @@ input{
                         Detection Margin
                     </label>
 
+
                     <select id="margin">
 
                         <option value="1">
                             1 mm — Tight
                         </option>
 
-                        <option value="2" selected>
+                        <option
+                            value="2"
+                            selected>
+
                             2 mm — Recommended
+
                         </option>
 
                         <option value="3">
@@ -974,7 +1237,7 @@ input{
                 <label class="check">
 
                     <input
-                        id="safeCrop"
+                        id="protect"
                         type="checkbox"
                         checked
                     >
@@ -985,6 +1248,7 @@ input{
 
 
                 <div class="actions">
+
 
                     <button
                         class="primary"
@@ -1003,6 +1267,7 @@ input{
 
                     </button>
 
+
                 </div>
 
 
@@ -1014,7 +1279,9 @@ input{
 
                 </div>
 
+
             </div>
+
 
         </div>
 
@@ -1033,31 +1300,36 @@ input{
 <script>
 
 /* =========================================================
-   PDF.JS SETUP
-========================================================= */
-
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-
-
-/* =========================================================
-   VARIABLES
+   PDF SETUP
 ========================================================= */
 
 const {
     PDFDocument
 } = PDFLib;
 
+
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+
+/* =========================================================
+   GLOBAL VARIABLES
+========================================================= */
+
 let files = [];
+
 let current = null;
 
 
 /* =========================================================
-   HELPERS
+   HELPER
 ========================================================= */
 
-const $ = id =>
-    document.getElementById(id);
+function $(id){
+
+    return document.getElementById(id);
+
+}
 
 
 function openFilePicker(){
@@ -1067,11 +1339,25 @@ function openFilePicker(){
 }
 
 
-function setStatus(text,type=""){
+function scrollToStudio(){
 
-    const box = $("status");
+    $("studio").scrollIntoView({
+        behavior:"smooth"
+    });
 
-    box.textContent = text;
+}
+
+
+function setStatus(
+    text,
+    type=""
+){
+
+    const box =
+        $("status");
+
+    box.textContent =
+        text;
 
     box.className =
         "status" +
@@ -1102,59 +1388,84 @@ function esc(text){
 
 function listFiles(){
 
-    $("fileList").innerHTML = "";
+    const list =
+        $("fileList");
 
-    files.forEach((f,index)=>{
+    list.innerHTML = "";
 
-        const item =
-            document.createElement("div");
 
-        item.className =
-            "file-item";
+    files.forEach(
+        (f,index)=>{
 
-        item.innerHTML = `
-            <span>
-                📄 ${esc(f.name)}
-            </span>
+            const item =
+                document.createElement(
+                    "div"
+                );
 
-            <small>
-                ${(f.size / 1048576).toFixed(1)} MB
-            </small>
 
-            <button
-                class="remove"
-                title="Remove">
-                ×
-            </button>
-        `;
+            item.className =
+                "file-item";
 
-        item
-            .querySelector(".remove")
-            .onclick = () => {
 
-                files.splice(index,1);
+            item.innerHTML = `
 
-                if(current === f){
+                <span>
+                    📄 ${esc(f.name)}
+                </span>
 
-                    current =
-                        files[0] || null;
+                <small>
+                    ${(f.size / 1048576).toFixed(1)} MB
+                </small>
 
-                }
+                <button
+                    class="remove"
+                    title="Remove">
 
-                listFiles();
+                    ×
 
-                if(current){
+                </button>
 
-                    previewPDF(current);
+            `;
 
-                }
 
-            };
+            item
+                .querySelector(".remove")
+                .onclick = async () => {
 
-        $("fileList")
-            .appendChild(item);
+                    files.splice(
+                        index,
+                        1
+                    );
 
-    });
+
+                    if(
+                        current === f
+                    ){
+
+                        current =
+                            files[0] || null;
+
+                    }
+
+
+                    listFiles();
+
+
+                    if(current){
+
+                        await previewPDF(
+                            current
+                        );
+
+                    }
+
+                };
+
+
+            list.appendChild(item);
+
+        }
+    );
 
 }
 
@@ -1169,15 +1480,19 @@ $("file").addEventListener(
 
         const selected =
             [...event.target.files]
-            .filter(f =>
-                f.type === "application/pdf" ||
-                f.name.toLowerCase().endsWith(".pdf")
+            .filter(
+                f =>
+                    f.type === "application/pdf" ||
+                    f.name
+                        .toLowerCase()
+                        .endsWith(".pdf")
             );
+
 
         if(!selected.length){
 
             setStatus(
-                "No valid PDF files selected.",
+                "Please select PDF files only.",
                 "error"
             );
 
@@ -1185,23 +1500,37 @@ $("file").addEventListener(
 
         }
 
-        files.push(...selected);
+
+        files.push(
+            ...selected
+        );
+
 
         current =
             files[0] || null;
 
+
         listFiles();
 
+
         setStatus(
-            `${files.length} PDF file(s) selected.`,
-            ""
+            `${files.length} PDF file(s) selected.`
         );
+
 
         if(current){
 
-            await previewPDF(current);
+            await previewPDF(
+                current
+            );
 
         }
+
+
+        /*
+            Reset input so the same file
+            can be selected again.
+        */
 
         $("file").value = "";
 
@@ -1210,7 +1539,7 @@ $("file").addEventListener(
 
 
 /* =========================================================
-   DRAG & DROP
+   DRAG DROP
 ========================================================= */
 
 $("drop").addEventListener(
@@ -1219,7 +1548,9 @@ $("drop").addEventListener(
 
         event.preventDefault();
 
-        $("drop").classList.add("drag");
+        $("drop")
+            .classList
+            .add("drag");
 
     }
 );
@@ -1229,7 +1560,9 @@ $("drop").addEventListener(
     "dragleave",
     () => {
 
-        $("drop").classList.remove("drag");
+        $("drop")
+            .classList
+            .remove("drag");
 
     }
 );
@@ -1241,13 +1574,21 @@ $("drop").addEventListener(
 
         event.preventDefault();
 
-        $("drop").classList.remove("drag");
+
+        $("drop")
+            .classList
+            .remove("drag");
+
 
         const dropped =
             [...event.dataTransfer.files]
-            .filter(f =>
-                f.name.toLowerCase().endsWith(".pdf")
+            .filter(
+                f =>
+                    f.name
+                        .toLowerCase()
+                        .endsWith(".pdf")
             );
+
 
         if(!dropped.length){
 
@@ -1260,21 +1601,29 @@ $("drop").addEventListener(
 
         }
 
-        files.push(...dropped);
+
+        files.push(
+            ...dropped
+        );
+
 
         current =
             files[0] || null;
 
+
         listFiles();
 
+
         setStatus(
-            `${files.length} PDF file(s) selected.`,
-            ""
+            `${files.length} PDF file(s) selected.`
         );
+
 
         if(current){
 
-            await previewPDF(current);
+            await previewPDF(
+                current
+            );
 
         }
 
@@ -1283,50 +1632,276 @@ $("drop").addEventListener(
 
 
 /* =========================================================
-   PDF BYTE LOADER
+   GET PDF PAGE
 ========================================================= */
 
-async function loadPdfBytes(file){
+async function getPdfJS(
+    file
+){
 
-    return await file.arrayBuffer();
+    /*
+        IMPORTANT:
+
+        Make a COPY of ArrayBuffer.
+
+        PDF.js is allowed to transfer/detach its
+        own buffer. The original buffer remains
+        available for PDF-LIB.
+    */
+
+    const original =
+        await file.arrayBuffer();
+
+
+    const pdfBytes =
+        new Uint8Array(
+            original.slice(0)
+        );
+
+
+    const pdf =
+        await pdfjsLib
+            .getDocument({
+                data:pdfBytes
+            })
+            .promise;
+
+
+    return {
+        pdf,
+        original
+    };
 
 }
 
 
 /* =========================================================
-   SMART CONTENT DETECTION
+   TEXT NORMALIZATION
+========================================================= */
+
+function normalizeText(
+    text
+){
+
+    return String(text || "")
+        .replace(/\s+/g," ")
+        .trim()
+        .toLowerCase();
+
+}
+
+
+/* =========================================================
+   FIND E-KART LABEL BOTTOM
 ========================================================= */
 
 /*
-    This is the important part.
+    This function uses PDF text itself first.
 
-    PDF page is rendered temporarily as an image.
+    For E-Kart labels the phrase:
 
-    We scan pixels for non-white content.
+        "Not for resale"
+        "Printed at"
 
-    This detects:
-    - border
-    - barcode
-    - QR
-    - text
-    - lines
-    - bottom printed date
-    - AWB
-    - address
+    appears near the bottom of the shipping label.
 
-    Then the detected rectangle is converted back
-    into PDF coordinates.
+    The invoice begins below that area.
 
-    The original PDF content is NOT converted into
-    an image for the final output.
+    Therefore this is much more reliable than simply
+    finding all non-white pixels.
 */
 
-async function detectContentBounds(
+async function findEKartBottom(
     pdfPage,
-    marginMM = 2
+    pageHeight
 ){
 
-    const scale = 3;
+    try{
+
+        const content =
+            await pdfPage.getTextContent();
+
+
+        const items =
+            content.items || [];
+
+
+        let candidates = [];
+
+
+        for(
+            const item of items
+        ){
+
+            const text =
+                normalizeText(
+                    item.str
+                );
+
+
+            if(!text){
+                continue;
+            }
+
+
+            /*
+                Strongest signal.
+            */
+
+            if(
+                text.includes(
+                    "not for resale"
+                ) ||
+                text.includes(
+                    "printed at"
+                )
+            ){
+
+                const transform =
+                    item.transform || [];
+
+
+                /*
+                    PDF.js text transform:
+
+                    [a,b,c,d,e,f]
+
+                    e = X
+                    f = Y
+                */
+
+                const x =
+                    Number(
+                        transform[4] || 0
+                    );
+
+
+                const y =
+                    Number(
+                        transform[5] || 0
+                    );
+
+
+                const height =
+                    Math.abs(
+                        Number(
+                            transform[3] || 0
+                        )
+                    ) || 8;
+
+
+                candidates.push({
+
+                    x:x,
+
+                    y:y,
+
+                    height:height,
+
+                    text:text
+
+                });
+
+            }
+
+        }
+
+
+        if(!candidates.length){
+
+            return null;
+
+        }
+
+
+        /*
+            Prefer "printed at" because it is generally
+            the last shipping-label text.
+        */
+
+        candidates.sort(
+            (a,b)=>{
+
+                const aPrinted =
+                    a.text.includes(
+                        "printed at"
+                    ) ? 1 : 0;
+
+
+                const bPrinted =
+                    b.text.includes(
+                        "printed at"
+                    ) ? 1 : 0;
+
+
+                if(
+                    aPrinted !==
+                    bPrinted
+                ){
+
+                    return (
+                        bPrinted -
+                        aPrinted
+                    );
+
+                }
+
+
+                return b.y - a.y;
+
+            }
+        );
+
+
+        const target =
+            candidates[0];
+
+
+        /*
+            Add a little room below the text.
+
+            This protects descenders, borders and
+            the bottom part of the shipping label.
+        */
+
+        const bottomY =
+            Math.max(
+                0,
+                target.y -
+                target.height -
+                10
+            );
+
+
+        return bottomY;
+
+    }catch(error){
+
+        console.warn(
+            "Text detection failed:",
+            error
+        );
+
+        return null;
+
+    }
+
+}
+
+
+/* =========================================================
+   VISUAL FALLBACK
+========================================================= */
+
+async function findVisualLabelBounds(
+    pdfPage,
+    pageWidth,
+    pageHeight,
+    marginMM
+){
+
+    const scale = 2.2;
+
 
     const viewport =
         pdfPage.getViewport({
@@ -1334,19 +1909,33 @@ async function detectContentBounds(
             rotation:0
         });
 
+
     const canvas =
-        document.createElement("canvas");
+        document.createElement(
+            "canvas"
+        );
+
 
     canvas.width =
-        Math.ceil(viewport.width);
+        Math.ceil(
+            viewport.width
+        );
+
 
     canvas.height =
-        Math.ceil(viewport.height);
+        Math.ceil(
+            viewport.height
+        );
+
 
     const ctx =
-        canvas.getContext("2d",{
-            willReadFrequently:true
-        });
+        canvas.getContext(
+            "2d",
+            {
+                willReadFrequently:true
+            }
+        );
+
 
     await pdfPage.render({
         canvasContext:ctx,
@@ -1354,7 +1943,7 @@ async function detectContentBounds(
     }).promise;
 
 
-    const imageData =
+    const image =
         ctx.getImageData(
             0,
             0,
@@ -1364,31 +1953,186 @@ async function detectContentBounds(
 
 
     const data =
-        imageData.data;
+        image.data;
 
-    let minX =
-        canvas.width;
 
-    let minY =
-        canvas.height;
-
-    let maxX = -1;
-
-    let maxY = -1;
+    const rows =
+        new Float32Array(
+            canvas.height
+        );
 
 
     /*
-        Ignore extremely light pixels.
-
-        This helps avoid tiny rendering noise.
+        Calculate amount of dark/printed content
+        in every horizontal row.
     */
-
-    const threshold = 245;
-
 
     for(
         let y=0;
         y<canvas.height;
+        y++
+    ){
+
+        let count = 0;
+
+
+        for(
+            let x=0;
+            x<canvas.width;
+            x++
+        ){
+
+            const p =
+                (
+                    y *
+                    canvas.width +
+                    x
+                ) * 4;
+
+
+            const r =
+                data[p];
+
+
+            const g =
+                data[p+1];
+
+
+            const b =
+                data[p+2];
+
+
+            if(
+                r < 235 ||
+                g < 235 ||
+                b < 235
+            ){
+
+                count++;
+
+            }
+
+        }
+
+
+        rows[y] =
+            count /
+            canvas.width;
+
+    }
+
+
+    /*
+        E-Kart label normally occupies the upper
+        portion of the page.
+
+        We search for a horizontal structural gap
+        in the lower half of that area.
+    */
+
+    const start =
+        Math.floor(
+            canvas.height * .30
+        );
+
+
+    const end =
+        Math.floor(
+            canvas.height * .72
+        );
+
+
+    let bestY = -1;
+
+    let bestScore = 0;
+
+
+    for(
+        let y=start;
+        y<end;
+        y++
+    ){
+
+        const before =
+            (
+                rows[Math.max(0,y-8)] +
+                rows[Math.max(0,y-6)] +
+                rows[Math.max(0,y-4)]
+            ) / 3;
+
+
+        const after =
+            (
+                rows[Math.min(canvas.height-1,y+4)] +
+                rows[Math.min(canvas.height-1,y+6)] +
+                rows[Math.min(canvas.height-1,y+8)]
+            ) / 3;
+
+
+        /*
+            Structural change.
+        */
+
+        const score =
+            Math.abs(
+                before-after
+            );
+
+
+        if(
+            score >
+            bestScore
+        ){
+
+            bestScore =
+                score;
+
+            bestY =
+                y;
+
+        }
+
+    }
+
+
+    /*
+        If no strong separator found,
+        use a conservative upper 55%.
+    */
+
+    if(bestY < 0){
+
+        bestY =
+            Math.floor(
+                canvas.height * .55
+            );
+
+    }
+
+
+    /*
+        Determine left/right printed boundary
+        ABOVE detected label bottom.
+    */
+
+    let minX =
+        canvas.width;
+
+
+    let maxX = -1;
+
+
+    let minY =
+        canvas.height;
+
+
+    let maxY =
+        bestY;
+
+
+    for(
+        let y=0;
+        y<=bestY;
         y++
     ){
 
@@ -1398,28 +2142,58 @@ async function detectContentBounds(
             x++
         ){
 
-            const index =
-                (y * canvas.width + x) * 4;
+            const p =
+                (
+                    y *
+                    canvas.width +
+                    x
+                ) * 4;
 
-            const r = data[index];
-            const g = data[index+1];
-            const b = data[index+2];
-            const a = data[index+3];
+
+            const r =
+                data[p];
+
+
+            const g =
+                data[p+1];
+
+
+            const b =
+                data[p+2];
 
 
             if(
-                a > 20 &&
-                (
-                    r < threshold ||
-                    g < threshold ||
-                    b < threshold
-                )
+                r < 245 ||
+                g < 245 ||
+                b < 245
             ){
 
-                if(x < minX) minX = x;
-                if(y < minY) minY = y;
-                if(x > maxX) maxX = x;
-                if(y > maxY) maxY = y;
+                minX =
+                    Math.min(
+                        minX,
+                        x
+                    );
+
+
+                maxX =
+                    Math.max(
+                        maxX,
+                        x
+                    );
+
+
+                minY =
+                    Math.min(
+                        minY,
+                        y
+                    );
+
+
+                maxY =
+                    Math.max(
+                        maxY,
+                        y
+                    );
 
             }
 
@@ -1428,232 +2202,258 @@ async function detectContentBounds(
     }
 
 
-    /*
-        If no content detected,
-        return complete page.
-    */
-
-    if(maxX < 0){
+    if(
+        maxX < 0
+    ){
 
         return {
+
             x:0,
-            y:0,
-            width:pdfPage.getViewport({
-                scale:1
-            }).width,
-            height:pdfPage.getViewport({
-                scale:1
-            }).height
+
+            y:
+                pageHeight *
+                .45,
+
+            width:
+                pageWidth,
+
+            height:
+                pageHeight *
+                .55
+
         };
 
     }
 
 
-    const pageWidth =
-        pdfPage.view[2] -
-        pdfPage.view[0];
+    const margin =
+        marginMM *
+        2.83464567;
 
-    const pageHeight =
-        pdfPage.view[3] -
-        pdfPage.view[1];
-
-
-    /*
-        Convert pixels -> PDF points
-    */
 
     let left =
         minX / scale;
 
-    let top =
-        minY / scale;
 
     let right =
         maxX / scale;
+
+
+    let top =
+        minY / scale;
+
 
     let bottom =
         maxY / scale;
 
 
-    /*
-        Safety margin.
-
-        1 mm = 2.83465 PDF points
-    */
-
-    const margin =
-        marginMM * 2.83464567;
-
-
     left -= margin;
-    top -= margin;
     right += margin;
+    top -= margin;
     bottom += margin;
 
 
-    /*
-        Clamp to page
-    */
-
     left =
-        Math.max(0,left);
+        Math.max(
+            0,
+            left
+        );
 
-    top =
-        Math.max(0,top);
 
     right =
-        Math.min(pageWidth,right);
+        Math.min(
+            pageWidth,
+            right
+        );
+
+
+    top =
+        Math.max(
+            0,
+            top
+        );
+
 
     bottom =
-        Math.min(pageHeight,bottom);
-
-
-    /*
-        PDF coordinates start at bottom-left,
-        while canvas starts at top-left.
-
-        Convert top/bottom accordingly.
-    */
-
-    const pdfY =
-        pageHeight - bottom;
-
-    const cropHeight =
-        bottom - top;
-
-    const cropWidth =
-        right - left;
+        Math.min(
+            pageHeight,
+            bottom
+        );
 
 
     return {
+
         x:left,
-        y:pdfY,
-        width:cropWidth,
-        height:cropHeight
+
+        y:
+            pageHeight -
+            bottom,
+
+        width:
+            right -
+            left,
+
+        height:
+            bottom -
+            top
+
     };
 
 }
 
 
 /* =========================================================
-   PREVIEW
+   SMART E-KART CROP
 ========================================================= */
 
-async function previewPDF(file){
+async function detectShippingLabel(
+    pdfPage,
+    pageWidth,
+    pageHeight,
+    marginMM
+){
 
-    try{
+    /*
+        First attempt:
 
-        $("preview").style.display =
-            "block";
+        Search PDF text for:
+        - Not for resale
+        - Printed at
+    */
 
-        $("previewPage").textContent =
-            "Detecting label…";
-
-        const bytes =
-            await loadPdfBytes(file);
-
-        const loadingTask =
-            pdfjsLib.getDocument({
-                data:bytes
-            });
-
-        const pdf =
-            await loadingTask.promise;
-
-        const page =
-            await pdf.getPage(1);
+    const textBottom =
+        await findEKartBottom(
+            pdfPage,
+            pageHeight
+        );
 
 
-        const viewport =
-            page.getViewport({
-                scale:1.5
-            });
+    if(
+        textBottom !== null
+    ){
 
+        /*
+            Label starts from the top of the page.
 
-        const canvas =
-            $("canvas");
+            We intentionally preserve a little extra
+            space around all four sides.
 
-        canvas.width =
-            viewport.width;
-
-        canvas.height =
-            viewport.height;
-
-
-        const ctx =
-            canvas.getContext("2d");
-
-        await page.render({
-            canvasContext:ctx,
-            viewport:viewport
-        }).promise;
-
+            This prevents barcode / QR / border
+            clipping.
+        */
 
         const margin =
-            parseFloat(
-                $("margin").value
-            );
+            marginMM *
+            2.83464567;
 
 
-        const bounds =
-            await detectContentBounds(
-                page,
+        const top =
+            Math.max(
+                0,
+                pageHeight -
                 margin
             );
 
 
-        $("previewPage").textContent =
-            `Page 1 of ${pdf.numPages}`;
+        const bottom =
+            Math.max(
+                0,
+                textBottom -
+                margin
+            );
 
 
-        $("cropInfo").textContent =
-            `Detected crop: ${bounds.width.toFixed(1)} × ${bounds.height.toFixed(1)} pt`;
+        /*
+            PDF coordinates use bottom-left origin.
+
+            The shipping label is the upper section.
+        */
+
+        const cropY =
+            bottom;
 
 
-    }catch(error){
+        const cropHeight =
+            top -
+            bottom;
 
-        console.error(error);
 
-        $("preview").style.display =
-            "none";
+        return {
 
-        setStatus(
-            "Preview failed: " + error.message,
-            "error"
-        );
+            x:0,
+
+            y:cropY,
+
+            width:pageWidth,
+
+            height:cropHeight
+
+        };
 
     }
+
+
+    /*
+        Text detection not available.
+
+        Use visual fallback.
+    */
+
+    return await findVisualLabelBounds(
+        pdfPage,
+        pageWidth,
+        pageHeight,
+        marginMM
+    );
 
 }
 
 
 /* =========================================================
-   CROP ONE PDF
+   CREATE CROPPED PDF
 ========================================================= */
 
-async function cropPDF(file){
+async function cropPDF(
+    file
+){
 
-    const sourceBytes =
+    /*
+        Read original bytes once.
+    */
+
+    const originalBytes =
         await file.arrayBuffer();
 
 
     /*
-        Load PDF.js version for detection
+        PDF.js gets a COPY.
+
+        This fixes:
+
+        "Cannot perform Construct on a detached ArrayBuffer"
     */
 
+    const pdfJSBytes =
+        new Uint8Array(
+            originalBytes.slice(0)
+        );
+
+
     const pdfJS =
-        await pdfjsLib.getDocument({
-            data:sourceBytes
-        }).promise;
+        await pdfjsLib
+            .getDocument({
+                data:pdfJSBytes
+            })
+            .promise;
 
 
     /*
-        Load original PDF with PDF-LIB
+        PDF-LIB uses the ORIGINAL buffer.
     */
 
     const source =
         await PDFDocument.load(
-            sourceBytes
+            originalBytes
         );
 
 
@@ -1677,49 +2477,100 @@ async function cropPDF(file){
         );
 
 
-        const originalPage =
-            source.getPage(pageIndices[i]);
-
-
-        const jsPage =
-            await pdfJS.getPage(i+1);
+        const sourcePage =
+            source.getPage(
+                pageIndices[i]
+            );
 
 
         const pageSize =
-            originalPage.getSize();
+            sourcePage.getSize();
+
+
+        const jsPage =
+            await pdfJS.getPage(
+                i+1
+            );
 
 
         let cropBox;
 
 
+        /* =============================================
+           FULL PAGE
+        ============================================= */
+
         if(
-            $("mode").value === "full"
+            $("mode").value ===
+            "full"
         ){
 
             cropBox = {
+
                 x:0,
+
                 y:0,
-                width:pageSize.width,
-                height:pageSize.height
+
+                width:
+                    pageSize.width,
+
+                height:
+                    pageSize.height
+
             };
 
-        }else{
+        }
+
+
+        /* =============================================
+           VISUAL MODE
+        ============================================= */
+
+        else if(
+            $("mode").value ===
+            "visual"
+        ){
 
             cropBox =
-                await detectContentBounds(
+                await findVisualLabelBounds(
                     jsPage,
-                    parseFloat($("margin").value)
+                    pageSize.width,
+                    pageSize.height,
+                    parseFloat(
+                        $("margin").value
+                    )
+                );
+
+        }
+
+
+        /* =============================================
+           SMART E-KART MODE
+        ============================================= */
+
+        else{
+
+            cropBox =
+                await detectShippingLabel(
+                    jsPage,
+                    pageSize.width,
+                    pageSize.height,
+                    parseFloat(
+                        $("margin").value
+                    )
                 );
 
         }
 
 
         /*
-            Copy page without rasterizing.
+            Copy original vector page.
+
+            NO IMAGE CONVERSION.
         */
 
         const copiedPages =
-            await output.copyPages(
+            await source.copyPages(
                 source,
                 [pageIndices[i]]
             );
@@ -1729,11 +2580,16 @@ async function cropPDF(file){
             copiedPages[0];
 
 
-        output.addPage(page);
+        output.addPage(
+            page
+        );
 
 
         /*
-            Set exact detected crop.
+            Apply crop.
+
+            Barcode, QR and text remain original
+            PDF objects.
         */
 
         page.setCropBox(
@@ -1754,17 +2610,13 @@ async function cropPDF(file){
     }
 
 
-    /*
-        Optional 4×6 / 6×4 fitting.
-
-        IMPORTANT:
-        It scales proportionally.
-
-        It NEVER stretches or cuts the label.
-    */
+    /* =============================================
+       FIT TO 4×6 / 6×4
+    ============================================= */
 
     if(
-        $("outputMode").value === "fit"
+        $("outputMode").value ===
+        "fit"
     ){
 
         const targetWidth =
@@ -1772,116 +2624,357 @@ async function cropPDF(file){
                 $("width").value
             ) * 72;
 
+
         const targetHeight =
             parseFloat(
                 $("height").value
             ) * 72;
 
 
-        const outputPages =
-            output.getPages();
+        output
+            .getPages()
+            .forEach(
+                page => {
+
+                    const box =
+                        page.getMediaBox();
 
 
-        outputPages.forEach(page=>{
-
-            const box =
-                page.getMediaBox();
+                    const oldWidth =
+                        box.width;
 
 
-            const oldWidth =
-                box.width;
-
-            const oldHeight =
-                box.height;
+                    const oldHeight =
+                        box.height;
 
 
-            const scaleX =
-                targetWidth /
-                oldWidth;
+                    /*
+                        Proportional scaling.
 
-            const scaleY =
-                targetHeight /
-                oldHeight;
+                        Never stretch.
+                        Never crop.
+                    */
 
+                    const scale =
+                        Math.min(
+                            targetWidth /
+                                oldWidth,
 
-            /*
-                Proportional scale.
-            */
-
-            const scale =
-                Math.min(
-                    scaleX,
-                    scaleY
-                );
+                            targetHeight /
+                                oldHeight
+                        );
 
 
-            const newWidth =
-                oldWidth * scale;
-
-            const newHeight =
-                oldHeight * scale;
+                    const newWidth =
+                        oldWidth *
+                        scale;
 
 
-            /*
-                Center label inside selected
-                page size.
-            */
-
-            const offsetX =
-                (targetWidth - newWidth) / 2;
-
-            const offsetY =
-                (targetHeight - newHeight) / 2;
+                    const newHeight =
+                        oldHeight *
+                        scale;
 
 
-            page.scaleContent(
-                scale,
-                scale
+                    /*
+                        Center on selected
+                        label page.
+                    */
+
+                    const offsetX =
+                        (
+                            targetWidth -
+                            newWidth
+                        ) / 2;
+
+
+                    const offsetY =
+                        (
+                            targetHeight -
+                            newHeight
+                        ) / 2;
+
+
+                    page.scaleContent(
+                        scale,
+                        scale
+                    );
+
+
+                    page.translateContent(
+                        offsetX,
+                        offsetY
+                    );
+
+
+                    page.setMediaBox(
+                        0,
+                        0,
+                        targetWidth,
+                        targetHeight
+                    );
+
+
+                    page.setCropBox(
+                        0,
+                        0,
+                        targetWidth,
+                        targetHeight
+                    );
+
+                }
             );
-
-
-            page.translateContent(
-                offsetX,
-                offsetY
-            );
-
-
-            page.setMediaBox(
-                0,
-                0,
-                targetWidth,
-                targetHeight
-            );
-
-
-            page.setCropBox(
-                0,
-                0,
-                targetWidth,
-                targetHeight
-            );
-
-        });
 
     }
 
 
     /*
-        Save as real PDF.
-
-        No screenshot/image conversion.
+        Save original PDF/vector objects.
     */
 
     return await output.save({
+
         useObjectStreams:true,
+
         addDefaultPage:false
+
     });
 
 }
 
 
 /* =========================================================
-   DOWNLOAD
+   PREVIEW CROPPED LABEL
+========================================================= */
+
+async function previewPDF(
+    file
+){
+
+    try{
+
+        $("preview").style.display =
+            "block";
+
+
+        $("previewPage").textContent =
+            "Detecting…";
+
+
+        setStatus(
+            "Analyzing shipping label…",
+            "processing"
+        );
+
+
+        /*
+            PDF.js receives its own buffer copy.
+        */
+
+        const pdfJSBytes =
+            new Uint8Array(
+                (
+                    await file.arrayBuffer()
+                ).slice(0)
+            );
+
+
+        const pdf =
+            await pdfjsLib
+                .getDocument({
+                    data:pdfJSBytes
+                })
+                .promise;
+
+
+        const page =
+            await pdf.getPage(1);
+
+
+        const pageWidth =
+            page.view[2] -
+            page.view[0];
+
+
+        const pageHeight =
+            page.view[3] -
+            page.view[1];
+
+
+        let bounds;
+
+
+        if(
+            $("mode").value ===
+            "full"
+        ){
+
+            bounds = {
+
+                x:0,
+
+                y:0,
+
+                width:pageWidth,
+
+                height:pageHeight
+
+            };
+
+        }
+
+        else if(
+            $("mode").value ===
+            "visual"
+        ){
+
+            bounds =
+                await findVisualLabelBounds(
+                    page,
+                    pageWidth,
+                    pageHeight,
+                    parseFloat(
+                        $("margin").value
+                    )
+                );
+
+        }
+
+        else{
+
+            bounds =
+                await detectShippingLabel(
+                    page,
+                    pageWidth,
+                    pageHeight,
+                    parseFloat(
+                        $("margin").value
+                    )
+                );
+
+        }
+
+
+        /*
+            Render ONLY the detected crop.
+
+            This makes the preview match
+            the actual output much more closely.
+        */
+
+        const scale =
+            1.7;
+
+
+        const viewport =
+            page.getViewport({
+                scale:scale
+            });
+
+
+        const canvas =
+            $("canvas");
+
+
+        canvas.width =
+            Math.ceil(
+                bounds.width *
+                scale
+            );
+
+
+        canvas.height =
+            Math.ceil(
+                bounds.height *
+                scale
+            );
+
+
+        const ctx =
+            canvas.getContext("2d");
+
+
+        ctx.fillStyle =
+            "#ffffff";
+
+
+        ctx.fillRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+
+        /*
+            Convert PDF crop box to viewport.
+
+            PDF Y starts from bottom.
+        */
+
+        const renderViewport =
+            page.getViewport({
+                scale:scale,
+                offsetX:
+                    -bounds.x *
+                    scale,
+                offsetY:
+                    -(
+                        pageHeight -
+                        bounds.y -
+                        bounds.height
+                    ) *
+                    scale
+            });
+
+
+        await page.render({
+
+            canvasContext:ctx,
+
+            viewport:renderViewport
+
+        }).promise;
+
+
+        $("previewPage").textContent =
+            `Label Preview • Page 1 of ${pdf.numPages}`;
+
+
+        $("cropInfo").textContent =
+            `Detected label size: ${
+                bounds.width.toFixed(1)
+            } × ${
+                bounds.height.toFixed(1)
+            } pt`;
+
+
+        setStatus(
+            "Label detected — ready to crop."
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+
+        $("preview").style.display =
+            "none";
+
+
+        setStatus(
+            "Preview failed: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DOWNLOAD PDF
 ========================================================= */
 
 function downloadPDF(
@@ -1899,152 +2992,95 @@ function downloadPDF(
 
 
     const url =
-        URL.createObjectURL(blob);
+        URL.createObjectURL(
+            blob
+        );
 
 
     const link =
-        document.createElement("a");
+        document.createElement(
+            "a"
+        );
 
 
-    link.href = url;
-    link.download = filename;
+    link.href =
+        url;
 
-    document.body.appendChild(link);
+
+    link.download =
+        filename;
+
+
+    document.body.appendChild(
+        link
+    );
+
 
     link.click();
+
 
     link.remove();
 
 
     setTimeout(
-        () => URL.revokeObjectURL(url),
-        2000
+        () =>
+            URL.revokeObjectURL(
+                url
+            ),
+        3000
     );
 
 }
 
 
 /* =========================================================
-   SINGLE CROP
+   CROP CURRENT PDF
 ========================================================= */
 
-$("cropBtn").onclick =
-async function(){
+$("cropBtn").addEventListener(
+    "click",
+    async () => {
 
-    if(!current){
+        if(!current){
 
-        setStatus(
-            "Please choose a PDF first.",
-            "error"
-        );
+            setStatus(
+                "Please choose a PDF first.",
+                "error"
+            );
 
-        return;
+            return;
 
-    }
-
-
-    try{
-
-        $("cropBtn").disabled = true;
-
-        setStatus(
-            "Analyzing label content…",
-            "processing"
-        );
+        }
 
 
-        const bytes =
-            await cropPDF(current);
+        try{
+
+            $("cropBtn").disabled =
+                true;
 
 
-        const outputName =
-            current.name.replace(
-                /\.pdf$/i,
-                ""
-            ) +
-            "_cropped.pdf";
-
-
-        downloadPDF(
-            bytes,
-            outputName
-        );
-
-
-        setStatus(
-            "Done — label cropped successfully. Barcode, QR and bottom text are preserved."
-        );
-
-
-    }catch(error){
-
-        console.error(error);
-
-        setStatus(
-            "Crop failed: " +
-            error.message,
-            "error"
-        );
-
-    }finally{
-
-        $("cropBtn").disabled = false;
-
-    }
-
-};
-
-
-/* =========================================================
-   CROP ALL FILES
-========================================================= */
-
-$("allBtn").onclick =
-async function(){
-
-    if(!files.length){
-
-        setStatus(
-            "Please choose PDF files first.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    try{
-
-        $("allBtn").disabled = true;
-
-
-        for(
-            let i=0;
-            i<files.length;
-            i++
-        ){
-
-            const f =
-                files[i];
+            $("allBtn").disabled =
+                true;
 
 
             setStatus(
-                `Processing ${i+1} of ${files.length}: ${f.name}`,
+                "Creating cropped shipping label…",
                 "processing"
             );
 
 
             const bytes =
-                await cropPDF(f);
+                await cropPDF(
+                    current
+                );
 
 
             const outputName =
-                f.name.replace(
+                current.name.replace(
                     /\.pdf$/i,
                     ""
                 ) +
-                "_cropped.pdf";
+                "_label.pdf";
 
 
             downloadPDF(
@@ -2053,44 +3089,147 @@ async function(){
             );
 
 
-            /*
-                Small delay prevents some mobile browsers
-                from blocking multiple downloads.
-            */
-
-            await new Promise(
-                resolve =>
-                    setTimeout(
-                        resolve,
-                        350
-                    )
+            setStatus(
+                "Done — shipping label downloaded successfully."
             );
+
+
+        }catch(error){
+
+            console.error(error);
+
+
+            setStatus(
+                "Crop failed: " +
+                error.message,
+                "error"
+            );
+
+        }finally{
+
+            $("cropBtn").disabled =
+                false;
+
+
+            $("allBtn").disabled =
+                false;
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   CROP ALL
+========================================================= */
+
+$("allBtn").addEventListener(
+    "click",
+    async () => {
+
+        if(!files.length){
+
+            setStatus(
+                "Please choose PDF files first.",
+                "error"
+            );
+
+            return;
 
         }
 
 
-        setStatus(
-            "All cropped PDFs downloaded successfully."
-        );
+        try{
+
+            $("cropBtn").disabled =
+                true;
 
 
-    }catch(error){
+            $("allBtn").disabled =
+                true;
 
-        console.error(error);
 
-        setStatus(
-            "Processing failed: " +
-            error.message,
-            "error"
-        );
+            for(
+                let i=0;
+                i<files.length;
+                i++
+            ){
 
-    }finally{
+                const file =
+                    files[i];
 
-        $("allBtn").disabled = false;
+
+                setStatus(
+                    `Processing ${i+1} of ${files.length}: ${file.name}`,
+                    "processing"
+                );
+
+
+                const bytes =
+                    await cropPDF(
+                        file
+                    );
+
+
+                const outputName =
+                    file.name.replace(
+                        /\.pdf$/i,
+                        ""
+                    ) +
+                    "_label.pdf";
+
+
+                downloadPDF(
+                    bytes,
+                    outputName
+                );
+
+
+                /*
+                    Small delay helps mobile browsers.
+                */
+
+                await new Promise(
+                    resolve =>
+                        setTimeout(
+                            resolve,
+                            500
+                        )
+                );
+
+            }
+
+
+            setStatus(
+                "All shipping labels downloaded successfully."
+            );
+
+
+        }catch(error){
+
+            console.error(error);
+
+
+            setStatus(
+                "Processing failed: " +
+                error.message,
+                "error"
+            );
+
+        }finally{
+
+            $("cropBtn").disabled =
+                false;
+
+
+            $("allBtn").disabled =
+                false;
+
+        }
 
     }
-
-};
+);
 
 
 /* =========================================================
@@ -2146,7 +3285,9 @@ async function mergePDFs(){
 
             pages.forEach(
                 page =>
-                    output.addPage(page)
+                    output.addPage(
+                        page
+                    )
             );
 
         }
@@ -2160,7 +3301,7 @@ async function mergePDFs(){
 
         downloadPDF(
             bytes,
-            "EcomPilot_merged_labels.pdf"
+            "EcomPilot_merged.pdf"
         );
 
 
@@ -2172,6 +3313,7 @@ async function mergePDFs(){
     }catch(error){
 
         console.error(error);
+
 
         setStatus(
             "Merge failed: " +
@@ -2209,7 +3351,7 @@ function clearAll(){
 
 
 /* =========================================================
-   INITIALIZATION
+   LIVE PREVIEW WHEN SETTINGS CHANGE
 ========================================================= */
 
 $("mode").addEventListener(
@@ -2218,7 +3360,9 @@ $("mode").addEventListener(
 
         if(current){
 
-            previewPDF(current);
+            previewPDF(
+                current
+            );
 
         }
 
@@ -2232,13 +3376,23 @@ $("margin").addEventListener(
 
         if(current){
 
-            previewPDF(current);
+            previewPDF(
+                current
+            );
 
         }
 
     }
 );
 
+
+/* =========================================================
+   PAGE LOAD
+========================================================= */
+
+setStatus(
+    "Ready — choose PDF files."
+);
 
 </script>
 
