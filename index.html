@@ -3,497 +3,502 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-
 <title>EcomPilot — Smart PDF Label Cropper</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 
 <style>
 :root{
-  --blue:#0878f9;
-  --navy:#081d35;
-  --bg:#f4f8fc;
-  --line:#dfe7ef;
-  --muted:#667085;
-  --green:#159447;
-  --danger:#d92d20
+ --blue:#0878f9;
+ --navy:#081d35;
+ --bg:#f4f8fc;
+ --line:#dfe7ef;
+ --muted:#667085;
+ --green:#159447;
+ --danger:#d92d20
 }
 
 *{box-sizing:border-box}
 
 body{
-  margin:0;
-  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  background:var(--bg);
-  color:#152238
+ margin:0;
+ font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+ background:var(--bg);
+ color:#152238
 }
 
 button,input,select{font:inherit}
 button{cursor:pointer}
 
 .top{
-  height:68px;
-  background:#fff;
-  border-bottom:1px solid var(--line);
-  display:flex;
-  align-items:center;
-  gap:24px;
-  padding:0 5%;
-  position:sticky;
-  top:0;
-  z-index:5
+ height:68px;
+ background:#fff;
+ border-bottom:1px solid var(--line);
+ display:flex;
+ align-items:center;
+ gap:24px;
+ padding:0 5%;
+ position:sticky;
+ top:0;
+ z-index:5
 }
 
 .brand{
-  font-weight:800;
-  font-size:20px;
-  color:var(--blue);
-  white-space:nowrap
+ font-weight:800;
+ font-size:20px;
+ color:var(--blue);
+ white-space:nowrap
 }
 
 .brand span{color:#111}
 
 .tag{
-  font-size:11px;
-  color:#667085
+ font-size:11px;
+ color:#667085
 }
 
 .nav{
-  margin-left:auto;
-  display:flex;
-  gap:22px
+ margin-left:auto;
+ display:flex;
+ gap:22px
 }
 
 .nav a{
-  color:#26364a;
-  text-decoration:none;
-  font-size:13px;
-  font-weight:600
+ color:#26364a;
+ text-decoration:none;
+ font-size:13px;
+ font-weight:600
 }
 
 .btn{
-  border:1px solid #cbd8e6;
-  background:#fff;
-  color:var(--blue);
-  padding:10px 16px;
-  border-radius:9px;
-  font-weight:700
+ border:1px solid #cbd8e6;
+ background:#fff;
+ color:var(--blue);
+ padding:10px 16px;
+ border-radius:9px;
+ font-weight:700
 }
 
 .primary{
-  background:var(--blue);
-  border-color:var(--blue);
-  color:#fff
+ background:var(--blue);
+ border-color:var(--blue);
+ color:#fff
 }
 
 .hero{
-  padding:48px 7%;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:35px;
-  align-items:center;
-  background:linear-gradient(120deg,#eaf5ff,#fff)
+ padding:48px 7%;
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:35px;
+ align-items:center;
+ background:linear-gradient(120deg,#eaf5ff,#fff)
 }
 
 .hero h1{
-  font-size:46px;
-  line-height:1.02;
-  margin:12px 0
+ font-size:46px;
+ line-height:1.02;
+ margin:12px 0
 }
 
 .hero h1 b{color:var(--blue)}
 
 .hero p{
-  color:#5f6f82;
-  line-height:1.65;
-  max-width:600px
+ color:#5f6f82;
+ line-height:1.65;
+ max-width:600px
 }
 
 .eyebrow{
-  display:inline-block;
-  background:#dceeff;
-  color:#0878f9;
-  padding:7px 12px;
-  border-radius:99px;
-  font-size:11px;
-  font-weight:800
+ display:inline-block;
+ background:#dceeff;
+ color:#0878f9;
+ padding:7px 12px;
+ border-radius:99px;
+ font-size:11px;
+ font-weight:800
 }
 
 .hero-art{
-  background:#fff;
-  border:1px solid #dce6f0;
-  border-radius:22px;
-  padding:22px;
-  box-shadow:0 18px 45px #0b315d16
+ background:#fff;
+ border:1px solid #dce6f0;
+ border-radius:22px;
+ padding:22px;
+ box-shadow:0 18px 45px #0b315d16
 }
 
 .mock{
-  background:#f3f7fb;
-  border-radius:14px;
-  padding:18px;
-  display:grid;
-  grid-template-columns:110px 1fr;
-  gap:12px;
-  min-height:230px
+ background:#f3f7fb;
+ border-radius:14px;
+ padding:18px;
+ display:grid;
+ grid-template-columns:110px 1fr;
+ gap:12px;
+ min-height:230px
 }
 
 .mock-side{
-  background:var(--navy);
-  color:#fff;
-  border-radius:10px;
-  padding:14px;
-  font-size:11px
+ background:var(--navy);
+ color:#fff;
+ border-radius:10px;
+ padding:14px;
+ font-size:11px
 }
 
 .mock-side div{padding:8px 0}
 
 .mock-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:9px
 }
 
 .mock-card{
-  background:#fff;
-  border:2px solid #9cc9ff;
-  border-radius:8px;
-  padding:12px;
-  font-size:10px
+ background:#fff;
+ border:2px solid #9cc9ff;
+ border-radius:8px;
+ padding:12px;
+ font-size:10px
 }
 
 .features{
-  padding:20px 7%;
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:12px
+ padding:20px 7%;
+ display:grid;
+ grid-template-columns:repeat(5,1fr);
+ gap:12px
 }
 
 .feature{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:16px
+ background:#fff;
+ border:1px solid var(--line);
+ border-radius:12px;
+ padding:16px
 }
 
 .feature strong{
-  display:block;
-  font-size:13px
+ display:block;
+ font-size:13px
 }
 
 .feature small{
-  color:#667085;
-  line-height:1.4
+ color:#667085;
+ line-height:1.4
 }
 
 .app{
-  margin:10px auto 40px;
-  max-width:1250px;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:18px;
-  overflow:hidden;
-  display:grid;
-  grid-template-columns:205px 1fr;
-  box-shadow:0 12px 40px #12304b0d
+ margin:10px auto 40px;
+ max-width:1250px;
+ background:#fff;
+ border:1px solid var(--line);
+ border-radius:18px;
+ overflow:hidden;
+ display:grid;
+ grid-template-columns:205px 1fr;
+ box-shadow:0 12px 40px #12304b0d
 }
 
 .side{
-  background:var(--navy);
-  color:#fff;
-  padding:24px 15px
+ background:var(--navy);
+ color:#fff;
+ padding:24px 15px
 }
 
 .side h3{
-  margin:0 0 22px;
-  font-size:18px
+ margin:0 0 22px;
+ font-size:18px
 }
 
 .side .item{
-  padding:11px 12px;
-  border-radius:8px;
-  font-size:12px;
-  margin:3px 0;
-  color:#d8e4f1
+ padding:11px 12px;
+ border-radius:8px;
+ font-size:12px;
+ margin:3px 0;
+ color:#d8e4f1
 }
 
 .side .active{
-  background:var(--blue);
-  color:#fff
+ background:var(--blue);
+ color:#fff
 }
 
 .main{padding:24px}
 
 .apphead{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:15px
 }
 
 .apphead h2{
-  margin:0;
-  font-size:20px
+ margin:0;
+ font-size:20px
 }
 
 .apphead p{
-  margin:5px 0;
-  color:var(--muted);
-  font-size:12px
+ margin:5px 0;
+ color:var(--muted);
+ font-size:12px
 }
 
 .steps{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:7px;
-  margin:22px 0
+ display:grid;
+ grid-template-columns:repeat(5,1fr);
+ gap:7px;
+ margin:22px 0
 }
 
 .step{
-  font-size:11px;
-  color:#758297;
-  text-align:center
+ font-size:11px;
+ color:#758297;
+ text-align:center
 }
 
 .step i{
-  display:inline-grid;
-  place-items:center;
-  width:25px;
-  height:25px;
-  border-radius:50%;
-  background:#edf2f7;
-  font-style:normal;
-  font-weight:800;
-  margin-right:5px
+ display:inline-grid;
+ place-items:center;
+ width:25px;
+ height:25px;
+ border-radius:50%;
+ background:#edf2f7;
+ font-style:normal;
+ font-weight:800;
+ margin-right:5px
 }
 
 .step.on i{
-  background:var(--blue);
-  color:#fff
+ background:var(--blue);
+ color:#fff
 }
 
 .workspace{
-  display:grid;
-  grid-template-columns:1fr 330px;
-  gap:14px
+ display:grid;
+ grid-template-columns:1fr 330px;
+ gap:14px
 }
 
 .panel{
-  border:1px solid var(--line);
-  border-radius:13px;
-  padding:14px
+ border:1px solid var(--line);
+ border-radius:13px;
+ padding:14px
 }
 
 .upload{
-  min-height:430px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  background:#fbfdff
+ min-height:430px;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ background:#fbfdff
 }
 
 .drop{
-  border:2px dashed #b9d8f8;
-  border-radius:12px;
-  width:100%;
-  padding:55px 15px
+ border:2px dashed #b9d8f8;
+ border-radius:12px;
+ width:100%;
+ padding:55px 15px
 }
 
 .drop .icon{
-  font-size:42px;
-  color:var(--blue)
+ font-size:42px;
+ color:var(--blue)
 }
 
-.drop h3{margin:12px 0 5px}
+.drop h3{
+ margin:12px 0 5px
+}
 
 .drop p{
-  font-size:12px;
-  color:var(--muted)
+ font-size:12px;
+ color:var(--muted)
 }
 
 .status{
-  margin-top:12px;
-  padding:9px;
-  border-radius:8px;
-  background:#edf9f0;
-  color:#237a3c;
-  font-size:12px
+ margin-top:12px;
+ padding:9px;
+ border-radius:8px;
+ background:#edf9f0;
+ color:#237a3c;
+ font-size:12px
 }
 
 .preview{
-  width:100%;
-  max-height:500px;
-  overflow:auto;
-  text-align:center;
-  margin-top:12px;
-  background:#f4f7fa;
-  border-radius:9px
+ width:100%;
+ max-height:500px;
+ overflow:auto;
+ text-align:center;
+ margin-top:12px;
+ background:#f4f7fa;
+ border-radius:9px
 }
 
 .preview canvas{
-  max-width:100%;
-  height:auto
+ max-width:100%;
+ height:auto
 }
 
 .list{
-  max-height:430px;
-  overflow:auto
+ max-height:430px;
+ overflow:auto
 }
 
 .label-card{
-  display:flex;
-  gap:9px;
-  border:1px solid var(--line);
-  border-radius:9px;
-  padding:8px;
-  margin:7px 0;
-  align-items:center
+ display:flex;
+ gap:9px;
+ border:1px solid var(--line);
+ border-radius:9px;
+ padding:8px;
+ margin:7px 0;
+ align-items:center
 }
 
 .label-card.selected{
-  border:2px solid var(--blue)
+ border:2px solid var(--blue)
 }
 
 .label-card img{
-  width:68px;
-  height:75px;
-  object-fit:contain;
-  background:#f5f6f8;
-  border-radius:5px
+ width:68px;
+ height:75px;
+ object-fit:contain;
+ background:#f5f6f8;
+ border-radius:5px
 }
 
-.label-card b{font-size:12px}
+.label-card b{
+ font-size:12px
+}
 
 .label-card small{
-  display:block;
-  color:var(--muted);
-  margin-top:3px
+ display:block;
+ color:var(--muted);
+ margin-top:3px
 }
 
 .controls{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px;
-  margin-top:12px
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:9px;
+ margin-top:12px
 }
 
 .controls label{
-  font-size:11px;
-  color:#667085
+ font-size:11px;
+ color:#667085
 }
 
 .controls input,
 .controls select{
-  width:100%;
-  margin-top:5px;
-  border:1px solid #d2dbe5;
-  border-radius:8px;
-  padding:9px;
-  background:#fff
+ width:100%;
+ margin-top:5px;
+ border:1px solid #d2dbe5;
+ border-radius:8px;
+ padding:9px;
+ background:#fff
 }
 
 .actions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px;
-  margin-top:12px
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:9px;
+ margin-top:12px
 }
 
-.full{grid-column:1/-1}
+.full{
+ grid-column:1/-1
+}
 
 .bottom{
-  display:flex;
-  justify-content:space-between;
-  color:#6d7b8c;
-  font-size:11px;
-  padding:12px 2px
+ display:flex;
+ justify-content:space-between;
+ color:#6d7b8c;
+ font-size:11px;
+ padding:12px 2px
 }
 
-.hidden{display:none!important}
+.hidden{
+ display:none!important
+}
 
 .note{
-  font-size:11px;
-  color:#667085;
-  margin-top:10px;
-  line-height:1.45
+ font-size:11px;
+ color:#667085;
+ margin-top:10px;
+ line-height:1.45
 }
 
 footer{
-  text-align:center;
-  color:#7c899b;
-  font-size:11px;
-  padding:25px
+ text-align:center;
+ color:#7c899b;
+ font-size:11px;
+ padding:25px
 }
 
 @media(max-width:900px){
 
-  .hero{
-    grid-template-columns:1fr;
-    padding:32px 6%
-  }
+ .hero{
+  grid-template-columns:1fr;
+  padding:32px 6%
+ }
 
-  .hero h1{font-size:38px}
+ .hero h1{font-size:38px}
 
-  .features{
-    grid-template-columns:repeat(2,1fr);
-    padding:15px 6%
-  }
+ .features{
+  grid-template-columns:repeat(2,1fr);
+  padding:15px 6%
+ }
 
-  .app{
-    margin:8px 10px 30px;
-    grid-template-columns:1fr
-  }
+ .app{
+  margin:8px 10px 30px;
+  grid-template-columns:1fr
+ }
 
-  .side{display:none}
+ .side{display:none}
 
-  .workspace{grid-template-columns:1fr}
+ .workspace{
+  grid-template-columns:1fr
+ }
 
-  .main{padding:14px}
+ .main{padding:14px}
 
-  .nav{display:none}
+ .nav{display:none}
 
-  .top{padding:0 16px}
+ .top{padding:0 16px}
 
-  .steps{
-    grid-template-columns:repeat(5,1fr)
-  }
+ .steps{
+  grid-template-columns:repeat(5,1fr)
+ }
 
-  .step{font-size:9px}
+ .step{font-size:9px}
 
-  .step i{
-    display:block;
-    margin:0 auto 4px
-  }
+ .step i{
+  display:block;
+  margin:0 auto 4px
+ }
 
-  .hero-art{display:none}
+ .hero-art{display:none}
 }
 
 @media(max-width:520px){
 
-  .features{
-    grid-template-columns:1fr 1fr
-  }
+ .features{
+  grid-template-columns:1fr 1fr
+ }
 
-  .features .feature:nth-child(n+5){
-    display:none
-  }
+ .features .feature:nth-child(n+5){
+  display:none
+ }
 
-  .hero h1{font-size:34px}
+ .hero h1{font-size:34px}
 
-  .actions{
-    grid-template-columns:1fr
-  }
+ .actions{
+  grid-template-columns:1fr
+ }
 
-  .controls{
-    grid-template-columns:1fr 1fr
-  }
+ .controls{
+  grid-template-columns:1fr 1fr
+ }
 
-  .drop{
-    padding:38px 10px
-  }
+ .drop{
+  padding:38px 10px
+ }
 }
 </style>
 </head>
@@ -502,25 +507,26 @@ footer{
 
 <header class="top">
 
-  <div class="brand">
-    ✈ Ecom<span>Pilot</span>
-  </div>
+ <div class="brand">
+  ✈ Ecom<span>Pilot</span>
+ </div>
 
-  <div class="tag">
-    Your Smart E-commerce Toolkit
-  </div>
+ <div class="tag">
+  Your Smart E-commerce Toolkit
+ </div>
 
-  <nav class="nav">
-    <a href="#home">Home</a>
-    <a href="#tools">All Tools</a>
-    <a href="#cropper">PDF Label Cropper</a>
-    <a href="#help">Help & Support</a>
-  </nav>
+ <nav class="nav">
+  <a href="#home">Home</a>
+  <a href="#tools">All Tools</a>
+  <a href="#cropper">PDF Label Cropper</a>
+  <a href="#help">Help & Support</a>
+ </nav>
 
-  <button class="btn primary"
-    onclick="document.getElementById('file').click()">
-    Get Started Free
-  </button>
+ <button
+  class="btn primary"
+  onclick="document.getElementById('file').click()">
+  Get Started Free
+ </button>
 
 </header>
 
@@ -530,35 +536,37 @@ footer{
  <div>
 
   <span class="eyebrow">
-    SMART E-COMMERCE TOOLS
+   SMART E-COMMERCE TOOLS
   </span>
 
   <h1>
-    PDF Label<br>
-    <b>Cropper</b>
+   PDF Label<br>
+   <b>Cropper</b>
   </h1>
 
   <p>
-    Automatically detect, crop and download shipping labels
-    from multi-page PDF files. Label boundaries are detected
-    from the actual page content.
+   Automatically detect, crop and download shipping labels
+   from multi-page PDF files. Label boundaries and size are
+   detected from the actual page content.
   </p>
 
-  <button class="btn primary"
-    onclick="document.getElementById('file').click()">
-    Upload PDF File →
+  <button
+   class="btn primary"
+   onclick="document.getElementById('file').click()">
+   Upload PDF File →
   </button>
 
-  <button class="btn"
-    onclick="document.getElementById('cropper').scrollIntoView({behavior:'smooth'})">
-    Explore All Tools
+  <button
+   class="btn"
+   onclick="document.getElementById('cropper').scrollIntoView({behavior:'smooth'})">
+   Explore All Tools
   </button>
 
   <div class="note">
-    ✓ Smart detection &nbsp;
-    ✓ Full label detection &nbsp;
-    ✓ PDF / PNG / JPG &nbsp;
-    ✓ Mobile friendly
+   ✓ Smart detection &nbsp;
+   ✓ Full label detection &nbsp;
+   ✓ PDF / PNG / JPG &nbsp;
+   ✓ Mobile friendly
   </div>
 
  </div>
@@ -582,26 +590,26 @@ footer{
    <div class="mock-grid">
 
     <div class="mock-card">
-      ORDER<br>
-      <b>123456</b><br><br>
-      Customer Name<br>
-      Address Lines
+     ORDER<br>
+     <b>123456</b><br><br>
+     Customer Name<br>
+     Address Lines
     </div>
 
     <div class="mock-card">
-      PREPAID<br>
-      <b>AWB: 1234567890</b><br><br>
-      Shipping Label
+     PREPAID<br>
+     <b>AWB: 1234567890</b><br><br>
+     Shipping Label
     </div>
 
     <div class="mock-card">
-      BARCODE<br>
-      Product Details
+     BARCODE<br>
+     Product Details
     </div>
 
     <div class="mock-card">
-      DELIVERY<br>
-      Address & Mobile
+     DELIVERY<br>
+     Address & Mobile
     </div>
 
    </div>
@@ -624,7 +632,7 @@ footer{
  <div class="feature">
   🎯
   <strong>Smart Detection</strong>
-  <small>Find complete shipping label automatically.</small>
+  <small>Find actual label boundaries automatically.</small>
  </div>
 
  <div class="feature">
@@ -650,300 +658,339 @@ footer{
 
 <section class="app" id="cropper">
 
-<aside class="side">
+ <aside class="side">
 
- <h3>✈ EcomPilot</h3>
+  <h3>✈ EcomPilot</h3>
 
- <div class="item">⌂ Home</div>
+  <div class="item">⌂ Home</div>
 
- <div class="item active">
+  <div class="item active">
    ▣ PDF Label Cropper
- </div>
+  </div>
 
- <div class="item">
+  <div class="item">
    ▤ Label Splitter
- </div>
+  </div>
 
- <div class="item">
+  <div class="item">
    ▧ PDF Merger / Splitter
- </div>
+  </div>
 
- <br>
+  <br>
 
- <small>Image Tools</small>
+  <small>Image Tools</small>
 
- <div class="item">
+  <div class="item">
    ▧ Image Resizer
- </div>
+  </div>
 
- <div class="item">
+  <div class="item">
    ⇄ Image Converter
- </div>
+  </div>
 
- <br>
+  <br>
 
- <small>Utility Tools</small>
+  <small>Utility Tools</small>
 
- <div class="item">
+  <div class="item">
    ⌁ Shipping Label Manager
- </div>
+  </div>
 
- <div class="item">
+  <div class="item">
    ⇩ Bulk Download (ZIP)
- </div>
+  </div>
 
-</aside>
+ </aside>
 
 
-<main class="main">
+ <main class="main">
 
- <div class="apphead">
+  <div class="apphead">
 
-  <div>
+   <div>
 
-   <h2>
+    <h2>
      📄 PDF Label Cropper
-   </h2>
-
-   <p>
-     Detect label regions, review them, adjust the crop and download only what you need.
-   </p>
-
-  </div>
-
-  <button class="btn" onclick="showHelp()">
-    ⓘ How it works?
-  </button>
-
- </div>
-
-
- <div class="steps">
-
-  <div class="step on">
-    <i>1</i>Upload PDF
-  </div>
-
-  <div class="step" id="s2">
-    <i>2</i>Detect Labels
-  </div>
-
-  <div class="step" id="s3">
-    <i>3</i>Crop & Adjust
-  </div>
-
-  <div class="step" id="s4">
-    <i>4</i>Preview
-  </div>
-
-  <div class="step" id="s5">
-    <i>5</i>Download
-  </div>
-
- </div>
-
-
- <div class="workspace">
-
-
-  <section class="panel upload" id="uploadPanel">
-
-   <div class="drop" id="drop">
-
-    <div class="icon">☁</div>
-
-    <h3>
-      Drag & Drop your PDF here
-    </h3>
+    </h2>
 
     <p>
-      or click to browse
+     Detect label regions, review them, adjust the crop
+     and download only what you need.
     </p>
 
-    <button class="btn primary"
+   </div>
+
+   <button
+    class="btn"
+    onclick="showHelp()">
+    ⓘ How it works?
+   </button>
+
+  </div>
+
+
+  <div class="steps">
+
+   <div class="step on">
+    <i>1</i>
+    Upload PDF
+   </div>
+
+   <div class="step" id="s2">
+    <i>2</i>
+    Detect Labels
+   </div>
+
+   <div class="step" id="s3">
+    <i>3</i>
+    Crop & Adjust
+   </div>
+
+   <div class="step" id="s4">
+    <i>4</i>
+    Preview
+   </div>
+
+   <div class="step" id="s5">
+    <i>5</i>
+    Download
+   </div>
+
+  </div>
+
+
+  <div class="workspace">
+
+
+   <section class="panel upload" id="uploadPanel">
+
+    <div class="drop" id="drop">
+
+     <div class="icon">
+      ☁
+     </div>
+
+     <h3>
+      Drag & Drop your PDF here
+     </h3>
+
+     <p>
+      or click to browse
+     </p>
+
+     <button
+      class="btn primary"
       onclick="document.getElementById('file').click()">
       Choose PDF File
-    </button>
+     </button>
 
-    <p>
+     <p>
       PDF up to 50MB
-    </p>
+     </p>
 
-   </div>
-
-   <div class="status" id="status">
-     Ready — choose a PDF to begin.
-   </div>
-
-   <div class="preview" id="preview">
-     <span style="font-size:11px;color:#7c899b">
-       Page preview appears here
-     </span>
-   </div>
-
-  </section>
-
-
-  <section class="panel">
-
-   <div style="display:flex;justify-content:space-between;align-items:center">
-
-    <b>
-      Detected Labels (<span id="count">0</span>)
-    </b>
-
-    <label style="font-size:11px">
-      Smart Detect
-      <input id="smart" type="checkbox" checked>
-    </label>
-
-   </div>
-
-
-   <div class="list" id="list">
-
-    <div style="padding:35px 8px;text-align:center;color:#7c899b;font-size:11px">
-      Upload a PDF to detect labels
     </div>
 
-   </div>
+
+    <div
+     class="status"
+     id="status">
+     Ready — choose a PDF to begin.
+    </div>
 
 
-   <div class="controls">
+    <div
+     class="preview"
+     id="preview">
 
-    <label>
+     <span
+      style="font-size:11px;color:#7c899b">
+      Page preview appears here
+     </span>
+
+    </div>
+
+   </section>
+
+
+   <section class="panel">
+
+    <div
+     style="display:flex;justify-content:space-between;align-items:center">
+
+     <b>
+      Detected Labels
+      (<span id="count">0</span>)
+     </b>
+
+     <label style="font-size:11px">
+      Smart Detect
+      <input
+       id="smart"
+       type="checkbox"
+       checked>
+     </label>
+
+    </div>
+
+
+    <div
+     class="list"
+     id="list">
+
+     <div
+      style="padding:35px 8px;text-align:center;color:#7c899b;font-size:11px">
+      Upload a PDF to detect labels
+     </div>
+
+    </div>
+
+
+    <div class="controls">
+
+     <label>
       Crop Mode
 
       <select id="mode">
 
        <option value="auto">
-         Auto (Full Label)
+        Auto
        </option>
 
        <option value="manual">
-         Manual
+        Manual
        </option>
 
        <option value="page">
-         Whole Page
+        Whole Page
        </option>
 
       </select>
 
-    </label>
+     </label>
 
 
-    <label>
+     <label>
       Format
 
       <select id="format">
 
        <option value="pdf">
-         PDF
+        PDF
        </option>
 
        <option value="png">
-         PNG
+        PNG
        </option>
 
        <option value="jpg">
-         JPG
+        JPG
        </option>
 
       </select>
 
-    </label>
+     </label>
 
 
-    <label>
+     <label>
       X %
-      <input id="x"
-        type="number"
-        min="0"
-        max="100"
-        step=".1">
-    </label>
+
+      <input
+       id="x"
+       type="number"
+       min="0"
+       max="100"
+       step=".1">
+     </label>
 
 
-    <label>
+     <label>
       Y %
-      <input id="y"
-        type="number"
-        min="0"
-        max="100"
-        step=".1">
-    </label>
+
+      <input
+       id="y"
+       type="number"
+       min="0"
+       max="100"
+       step=".1">
+     </label>
 
 
-    <label>
+     <label>
       Width %
-      <input id="w"
-        type="number"
-        min=".1"
-        max="100"
-        step=".1">
-    </label>
+
+      <input
+       id="w"
+       type="number"
+       min=".1"
+       max="100"
+       step=".1">
+     </label>
 
 
-    <label>
+     <label>
       Height %
-      <input id="h"
-        type="number"
-        min=".1"
-        max="100"
-        step=".1">
-    </label>
 
-   </div>
+      <input
+       id="h"
+       type="number"
+       min=".1"
+       max="100"
+       step=".1">
+     </label>
+
+    </div>
 
 
-   <div class="actions">
+    <div class="actions">
 
-    <button class="btn primary"
+     <button
+      class="btn primary"
       id="downloadOne">
       Crop & Download
-    </button>
+     </button>
 
-    <button class="btn"
+     <button
+      class="btn"
       id="downloadZip">
       Download All as ZIP
-    </button>
+     </button>
 
-    <button class="btn full"
+     <button
+      class="btn full"
       onclick="redetect()">
       ↻ Re-detect Labels
-    </button>
+     </button>
 
-   </div>
-
-
-   <div class="note">
-
-    Auto detection looks for the complete Ekart / Flipkart
-    shipping-label outer border. The crop includes the bottom
-    barcode, B4 box, “Not for resale” and printed date/time,
-    while excluding the Tax Invoice below.
-
-   </div>
-
-  </section>
-
- </div>
+    </div>
 
 
- <div class="bottom">
+    <div class="note">
 
-  <span id="summary">
+     Auto mode detects the complete Ekart/Flipkart
+     shipping-label outer border. The crop includes the
+     bottom barcode, B4 box, “Not for resale” and printed
+     date/time, while excluding the Tax Invoice below.
+
+    </div>
+
+   </section>
+
+  </div>
+
+
+  <div class="bottom">
+
+   <span id="summary">
     No file loaded.
-  </span>
+   </span>
 
-  <span>
+   <span>
     For best results, use PDFs with clear whitespace between labels.
-  </span>
+   </span>
 
- </div>
+  </div>
 
-</main>
+ </main>
 
 </section>
 
@@ -954,2354 +1001,17 @@ footer{
 
 
 <input
-  id="file"
-  type="file"
-  accept="application/pdf,.pdf"
-  multiple
-  class="hidden"
->
+ id="file"
+ type="file"
+ accept="application/pdf,.pdf"
+ multiple
+ class="hidden">
 
 
-<script>
+<script type="module">
 
-const PDFDocument = window.PDFLib.PDFDocument;
-const JSZip = window.JSZip;
-
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-
-
-const $ = id => document.getElementById(id);
-
-let pdf = null;
-let pages = [];
-let labels = [];
-let selected = 0;
-let sourceFiles = [];
-
-
-function setStatus(text,good=true){
-
-  $("status").textContent = text;
-
-  $("status").style.background =
-    good ? "#edf9f0" : "#fff1f0";
-
-  $("status").style.color =
-    good ? "#237a3c" : "#b42318";
-}
-
-
-function step(n){
-
-  for(let i=2;i<=5;i++){
-
-    $("s"+i).classList.toggle(
-      "on",
-      i<=n
-    );
-
-  }
-
-}
-
-
-function clamp(v,a,b){
-  return Math.max(a,Math.min(b,v));
-}
-
-
-function escapeHtml(s){
-
-  return String(s).replace(
-    /[&<>"']/g,
-    m => ({
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      "\"":"&quot;",
-      "'":"&#039;"
-    }[m])
-  );
-
-}
-
-
-/* =========================================================
-   IMAGE / PDF DETECTION
-   ========================================================= */
-
-
-function createDetectionCanvas(source){
-
-  const maxWidth = 1600;
-
-  const scale =
-    Math.min(
-      1,
-      maxWidth/source.width
-    );
-
-  const w =
-    Math.max(
-      1,
-      Math.round(source.width*scale)
-    );
-
-  const h =
-    Math.max(
-      1,
-      Math.round(source.height*scale)
-    );
-
-  const c =
-    document.createElement("canvas");
-
-  c.width = w;
-  c.height = h;
-
-  const ctx =
-    c.getContext(
-      "2d",
-      {willReadFrequently:true}
-    );
-
-  ctx.drawImage(
-    source,
-    0,
-    0,
-    w,
-    h
-  );
-
-  return c;
-}
-
-
-function getDarkMask(canvas){
-
-  const ctx =
-    canvas.getContext(
-      "2d",
-      {willReadFrequently:true}
-    );
-
-  const data =
-    ctx.getImageData(
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    ).data;
-
-  const w = canvas.width;
-  const h = canvas.height;
-
-  const mask =
-    new Uint8Array(w*h);
-
-
-  for(let i=0,p=0;i<data.length;i+=4,p++){
-
-    const r=data[i];
-    const g=data[i+1];
-    const b=data[i+2];
-
-    const lum =
-      0.299*r+
-      0.587*g+
-      0.114*b;
-
-    mask[p] =
-      lum < 230 ? 1 : 0;
-  }
-
-  return mask;
-}
-
-
-/* Longest dark run in a row/column */
-function longestRun(arr,gap=2){
-
-  let best=0;
-  let current=0;
-  let start=0;
-  let bestStart=0;
-  let empty=0;
-
-  for(let i=0;i<arr.length;i++){
-
-    if(arr[i]){
-
-      if(current===0)
-        start=i;
-
-      current++;
-      empty=0;
-
-    }else{
-
-      empty++;
-
-      if(empty<=gap){
-
-        current++;
-
-      }else{
-
-        if(current>best){
-
-          best=current;
-          bestStart=start;
-
-        }
-
-        current=0;
-        empty=0;
-        start=i+1;
-
-      }
-
-    }
-
-  }
-
-
-  if(current>best){
-
-    best=current;
-    bestStart=start;
-
-  }
-
-
-  return {
-    len:best,
-    start:bestStart,
-    end:bestStart+best
-  };
-
-}
-
-
-/* =========================================================
-   STRONG OUTER BORDER DETECTION
-   ========================================================= */
-
-function detectOuterBorder(canvas){
-
-  const c =
-    createDetectionCanvas(canvas);
-
-  const w=c.width;
-  const h=c.height;
-
-  const mask =
-    getDarkMask(c);
-
-
-  /*
-    Calculate darkness density for every row.
-    Horizontal border lines have a long continuous
-    dark run.
-  */
-
-  const rows=[];
-
-  for(
-    let y=0;
-    y<h;
-    y++
-  ){
-
-    const row =
-      mask.subarray(
-        y*w,
-        (y+1)*w
-      );
-
-    const run =
-      longestRun(row,3);
-
-    const ratio =
-      run.len/w;
-
-    if(ratio>=0.20){
-
-      rows.push({
-        y,
-        run,
-        ratio
-      });
-
-    }
-
-  }
-
-
-  /*
-    Merge nearby horizontal rows.
-  */
-
-  const horizontal=[];
-
-  for(const r of rows){
-
-    const last =
-      horizontal[horizontal.length-1];
-
-    if(
-      !last ||
-      r.y-last.lastY>4
-    ){
-
-      horizontal.push({
-        firstY:r.y,
-        lastY:r.y,
-        items:[r]
-      });
-
-    }else{
-
-      last.lastY=r.y;
-      last.items.push(r);
-
-    }
-
-  }
-
-
-  const hLines =
-    horizontal.map(g=>{
-
-      let strongest =
-        g.items[0];
-
-      for(const x of g.items){
-
-        if(x.run.len>strongest.run.len)
-          strongest=x;
-
-      }
-
-      return {
-        y:
-          Math.round(
-            (g.firstY+g.lastY)/2
-          ),
-        start:strongest.run.start,
-        end:strongest.run.end,
-        ratio:strongest.ratio
-      };
-
-    });
-
-
-  /*
-    Vertical border candidates.
-  */
-
-  const cols=[];
-
-  for(
-    let x=0;
-    x<w;
-    x++
-  ){
-
-    const col =
-      new Uint8Array(h);
-
-    for(
-      let y=0;
-      y<h;
-      y++
-    ){
-
-      col[y]=mask[y*w+x];
-
-    }
-
-    const run =
-      longestRun(col,3);
-
-    const ratio =
-      run.len/h;
-
-    if(ratio>=0.20){
-
-      cols.push({
-        x,
-        run,
-        ratio
-      });
-
-    }
-
-  }
-
-
-  /*
-    Merge nearby vertical lines.
-  */
-
-  const vertical=[];
-
-  for(const r of cols){
-
-    const last =
-      vertical[vertical.length-1];
-
-    if(
-      !last ||
-      r.x-last.lastX>4
-    ){
-
-      vertical.push({
-        firstX:r.x,
-        lastX:r.x,
-        items:[r]
-      });
-
-    }else{
-
-      last.lastX=r.x;
-      last.items.push(r);
-
-    }
-
-  }
-
-
-  const vLines =
-    vertical.map(g=>{
-
-      let strongest =
-        g.items[0];
-
-      for(const x of g.items){
-
-        if(x.run.len>strongest.run.len)
-          strongest=x;
-
-      }
-
-      return {
-        x:
-          Math.round(
-            (g.firstX+g.lastX)/2
-          ),
-        start:strongest.run.start,
-        end:strongest.run.end,
-        ratio:strongest.ratio
-      };
-
-    });
-
-
-  let best=null;
-
-
-  /*
-    Search combinations of two vertical borders
-    and two horizontal borders.
-  */
-
-  for(let li=0;li<vLines.length;li++){
-
-    for(
-      let ri=li+1;
-      ri<vLines.length;
-      ri++
-    ){
-
-      const left=vLines[li];
-      const right=vLines[ri];
-
-      const width =
-        right.x-left.x;
-
-      if(
-        width < w*0.25 ||
-        width > w*0.98
-      )
-        continue;
-
-
-      for(let ti=0;ti<hLines.length;ti++){
-
-        for(
-          let bi=ti+1;
-          bi<hLines.length;
-          bi++
-        ){
-
-          const top=hLines[ti];
-          const bottom=hLines[bi];
-
-          const height =
-            bottom.y-top.y;
-
-          if(
-            height<h*0.20 ||
-            height>h*0.95
-          )
-            continue;
-
-
-          /*
-            Borders should actually meet
-            each other.
-          */
-
-          const topOverlap =
-            Math.max(
-              0,
-              Math.min(
-                right.x,
-                top.end
-              )-
-              Math.max(
-                left.x,
-                top.start
-              )
-            );
-
-
-          const bottomOverlap =
-            Math.max(
-              0,
-              Math.min(
-                right.x,
-                bottom.end
-              )-
-              Math.max(
-                left.x,
-                bottom.start
-              )
-            );
-
-
-          const verticalTop =
-            Math.max(
-              0,
-              Math.min(
-                bottom.y,
-                left.end
-              )-
-              Math.max(
-                top.y,
-                left.start
-              )
-            );
-
-
-          const verticalRight =
-            Math.max(
-              0,
-              Math.min(
-                bottom.y,
-                right.end
-              )-
-              Math.max(
-                top.y,
-                right.start
-              )
-            );
-
-
-          const horizontalOverlap =
-            (
-              topOverlap+
-              bottomOverlap
-            )/(2*width);
-
-
-          const verticalOverlap =
-            (
-              verticalTop+
-              verticalRight
-            )/(2*height);
-
-
-          if(
-            horizontalOverlap<0.55 ||
-            verticalOverlap<0.45
-          )
-            continue;
-
-
-          /*
-            Important for Flipkart/Ekart:
-
-            The label usually starts close to the
-            top of the page and its bottom border is
-            BEFORE the Tax Invoice section.
-          */
-
-          const topRatio=top.y/h;
-          const bottomRatio=bottom.y/h;
-
-
-          if(topRatio>0.30)
-            continue;
-
-          if(bottomRatio>0.96)
-            continue;
-
-
-          /*
-            Prefer broad outer rectangles.
-          */
-
-          const widthRatio=width/w;
-          const heightRatio=height/h;
-
-
-          const topPreference =
-            1-
-            Math.min(
-              1,
-              topRatio/0.25
-            );
-
-
-          const bottomPreference =
-            bottomRatio<0.90
-              ? 1
-              : 0.5;
-
-
-          const sizeScore =
-            widthRatio+
-            heightRatio;
-
-
-          const score =
-            horizontalOverlap*4+
-            verticalOverlap*4+
-            topPreference*2+
-            bottomPreference*2+
-            sizeScore*1.5+
-            left.ratio+
-            right.ratio;
-
-
-          if(
-            !best ||
-            score>best.score
-          ){
-
-            best={
-              score,
-              left:left.x,
-              right:right.x,
-              top:top.y,
-              bottom:bottom.y
-            };
-
-          }
-
-        }
-
-      }
-
-    }
-
-  }
-
-
-  if(!best)
-    return null;
-
-
-  /*
-    Very small safety padding.
-
-    This is intentional because the user wants
-    barcode / B4 / printed date to remain complete.
-  */
-
-  const padX =
-    Math.max(
-      3,
-      Math.round(w*0.006)
-    );
-
-  const padY =
-    Math.max(
-      3,
-      Math.round(h*0.006)
-    );
-
-
-  const x1 =
-    clamp(
-      best.left-padX,
-      0,
-      w-1
-    );
-
-  const y1 =
-    clamp(
-      best.top-padY,
-      0,
-      h-1
-    );
-
-  const x2 =
-    clamp(
-      best.right+padX,
-      x1+1,
-      w
-    );
-
-  const y2 =
-    clamp(
-      best.bottom+padY,
-      y1+1,
-      h
-    );
-
-
-  return {
-
-    x:x1/w,
-    y:y1/h,
-
-    w:(x2-x1)/w,
-    h:(y2-y1)/h,
-
-    confidence:0.98,
-
-    method:"ekart-full-outer-border"
-
-  };
-
-}
-
-
-/* =========================================================
-   FALLBACK DETECTION
-   ========================================================= */
-
-function detectFallback(canvas){
-
-  const c =
-    createDetectionCanvas(canvas);
-
-  const w=c.width;
-  const h=c.height;
-
-  const mask =
-    getDarkMask(c);
-
-
-  /*
-    Search for the strongest horizontal separator
-    between shipping label and invoice.
-  */
-
-  let bestY=
-    Math.floor(h*0.55);
-
-  let bestScore=-Infinity;
-
-
-  for(
-    let y=Math.floor(h*0.18);
-    y<Math.floor(h*0.90);
-    y++
-  ){
-
-    const row =
-      mask.subarray(
-        y*w,
-        (y+1)*w
-      );
-
-    const run =
-      longestRun(row,3);
-
-    const ratio =
-      run.len/w;
-
-
-    if(ratio<0.18)
-      continue;
-
-
-    const center =
-      (
-        run.start+
-        run.len/2
-      )/w;
-
-
-    const widthScore =
-      Math.max(
-        0,
-        1-
-        Math.abs(ratio-0.65)/0.65
-      );
-
-
-    const centerScore =
-      Math.max(
-        0,
-        1-
-        Math.abs(center-0.5)/0.5
-      );
-
-
-    const positionScore =
-      Math.max(
-        0,
-        1-
-        Math.abs(
-          y/h-0.58
-        )/0.42
-      );
-
-
-    const score =
-      ratio*3+
-      widthScore*2+
-      centerScore+
-      positionScore;
-
-
-    if(score>bestScore){
-
-      bestScore=score;
-      bestY=y;
-
-    }
-
-  }
-
-
-  /*
-    Find ink above separator.
-  */
-
-  let minX=w;
-  let maxX=0;
-  let minY=h;
-  let found=0;
-
-
-  for(
-    let y=0;
-    y<bestY;
-    y++
-  ){
-
-    for(
-      let x=0;
-      x<w;
-      x++
-    ){
-
-      if(mask[y*w+x]){
-
-        minX=Math.min(minX,x);
-        maxX=Math.max(maxX,x);
-        minY=Math.min(minY,y);
-
-        found++;
-
-      }
-
-    }
-
-  }
-
-
-  if(found<50){
-
-    return {
-      x:0.02,
-      y:0.02,
-      w:0.96,
-      h:Math.max(
-        0.25,
-        bestY/h-0.01
-      ),
-      confidence:0.20,
-      method:"fallback"
-    };
-
-  }
-
-
-  const px =
-    Math.max(
-      3,
-      Math.round(w*0.006)
-    );
-
-  const py =
-    Math.max(
-      3,
-      Math.round(h*0.006)
-    );
-
-
-  minX=clamp(
-    minX-px,
-    0,
-    w-1
-  );
-
-  maxX=clamp(
-    maxX+px,
-    minX+1,
-    w
-  );
-
-  minY=clamp(
-    minY-py,
-    0,
-    bestY-1
-  );
-
-
-  return {
-
-    x:minX/w,
-    y:minY/h,
-
-    w:(maxX-minX)/w,
-    h:(bestY-minY)/h,
-
-    confidence:0.60,
-
-    method:"separator-fallback"
-
-  };
-
-}
-
-
-/* =========================================================
-   MAIN DETECTOR
-   ========================================================= */
-
-function detectRegion(canvas){
-
-  const border =
-    detectOuterBorder(canvas);
-
-  if(border)
-    return border;
-
-
-  return detectFallback(canvas);
-
-}
-
-
-/* =========================================================
-   THUMBNAIL
-   ========================================================= */
-
-function thumb(canvas,r){
-
-  const c =
-    document.createElement("canvas");
-
-
-  const cropW =
-    canvas.width*r.w;
-
-  const cropH =
-    canvas.height*r.h;
-
-
-  const scale =
-    Math.min(
-      1,
-      220/cropW
-    );
-
-
-  c.width =
-    Math.max(
-      1,
-      Math.round(cropW*scale)
-    );
-
-  c.height =
-    Math.max(
-      1,
-      Math.round(cropH*scale)
-    );
-
-
-  c.getContext("2d").drawImage(
-
-    canvas,
-
-    canvas.width*r.x,
-    canvas.height*r.y,
-
-    cropW,
-    cropH,
-
-    0,
-    0,
-
-    c.width,
-    c.height
-
-  );
-
-
-  return c.toDataURL(
-    "image/jpeg",
-    0.72
-  );
-
-}
-
-
-/* =========================================================
-   PDF PAGE RENDER
-   ========================================================= */
-
-async function renderPage(page){
-
-  const base =
-    page.getViewport({
-      scale:1
-    });
-
-
-  const scale =
-    Math.min(
-      1.8,
-      1600/
-      Math.max(
-        base.width,
-        base.height
-      )
-    );
-
-
-  const viewport =
-    page.getViewport({
-      scale
-    });
-
-
-  const canvas =
-    document.createElement("canvas");
-
-
-  canvas.width =
-    Math.ceil(viewport.width);
-
-  canvas.height =
-    Math.ceil(viewport.height);
-
-
-  const ctx =
-    canvas.getContext("2d");
-
-
-  await page.render({
-    canvasContext:ctx,
-    viewport
-  }).promise;
-
-
-  return {
-
-    pdfPage:page,
-
-    canvas,
-
-    width:canvas.width,
-    height:canvas.height,
-
-    pdfWidth:base.width,
-    pdfHeight:base.height
-
-  };
-
-}
-
-
-/* =========================================================
-   LOAD MULTIPLE PDF FILES
-   ========================================================= */
-
-async function loadFiles(list){
-
-  sourceFiles =
-    [...list].filter(
-      f =>
-        f.type==="application/pdf" ||
-        /\.pdf$/i.test(f.name)
-    );
-
-
-  if(!sourceFiles.length){
-
-    setStatus(
-      "Please select one or more PDF files.",
-      false
-    );
-
-    return;
-
-  }
-
-
-  const tooBig =
-    sourceFiles.find(
-      f=>f.size>50*1024*1024
-    );
-
-
-  if(tooBig){
-
-    setStatus(
-      `${tooBig.name} is larger than 50MB.`,
-      false
-    );
-
-    return;
-
-  }
-
-
-  pages=[];
-  labels=[];
-  selected=0;
-
-
-  $("preview").innerHTML =
-    "<span style='font-size:11px;color:#7c899b'>Detecting complete shipping labels…</span>";
-
-
-  step(2);
-
-
-  try{
-
-    let totalPages=0;
-
-
-    for(
-      let fileIndex=0;
-      fileIndex<sourceFiles.length;
-      fileIndex++
-    ){
-
-      const file =
-        sourceFiles[fileIndex];
-
-
-      setStatus(
-        `Loading ${fileIndex+1} of ${sourceFiles.length}: ${file.name}…`
-      );
-
-
-      const data =
-        await file.arrayBuffer();
-
-
-      const doc =
-        await pdfjsLib
-          .getDocument({
-            data
-          })
-          .promise;
-
-
-      totalPages+=doc.numPages;
-
-
-      for(
-        let pageNo=1;
-        pageNo<=doc.numPages;
-        pageNo++
-      ){
-
-        setStatus(
-          `Detecting ${file.name} — page ${pageNo} of ${doc.numPages}…`
-        );
-
-
-        const page =
-          await doc.getPage(pageNo);
-
-
-        const rendered =
-          await renderPage(page);
-
-
-        pages.push({
-
-          ...rendered,
-
-          sourceName:file.name,
-
-          sourceIndex:fileIndex
-
-        });
-
-
-        let region;
-
-
-        if(
-          $("mode").value==="page"
-        ){
-
-          region={
-            x:0,
-            y:0,
-            w:1,
-            h:1,
-            confidence:1,
-            method:"whole-page"
-          };
-
-        }else{
-
-          region =
-            detectRegion(
-              rendered.canvas
-            );
-
-        }
-
-
-        labels.push({
-
-          page:pageNo,
-
-          r:region,
-
-          thumb:
-            thumb(
-              rendered.canvas,
-              region
-            ),
-
-          pageCanvas:
-            rendered.canvas,
-
-          sourceName:
-            file.name,
-
-          sourceIndex:
-            fileIndex,
-
-          pdfWidth:
-            rendered.pdfWidth,
-
-          pdfHeight:
-            rendered.pdfHeight
-
-        });
-
-      }
-
-    }
-
-
-    renderList();
-
-
-    if(labels.length){
-
-      selectLabel(0);
-
-      setStatus(
-        `Smart Detection Complete — ${labels.length} label(s) detected.`
-      );
-
-    }else{
-
-      setStatus(
-        "No clear shipping label found. Use Manual mode.",
-        false
-      );
-
-    }
-
-
-    $("summary").textContent =
-      `${totalPages} page(s) · ${labels.length} detected label(s) · ${sourceFiles.length} PDF file(s)`;
-
-
-    step(
-      labels.length
-        ?4
-        :2
-    );
-
-
-  }catch(error){
-
-    console.error(error);
-
-    setStatus(
-      "PDF loading/detection failed: "+
-      error.message,
-      false
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   RE-DETECT
-   ========================================================= */
-
-function redetect(){
-
-  if(!pages.length)
-    return;
-
-
-  labels=[];
-
-
-  pages.forEach((page)=>{
-
-    let region;
-
-
-    if(
-      $("mode").value==="page"
-    ){
-
-      region={
-        x:0,
-        y:0,
-        w:1,
-        h:1,
-        confidence:1,
-        method:"whole-page"
-      };
-
-    }else{
-
-      region =
-        detectRegion(
-          page.canvas
-        );
-
-    }
-
-
-    labels.push({
-
-      page:
-        pages.indexOf(page)+1,
-
-      r:region,
-
-      thumb:
-        thumb(
-          page.canvas,
-          region
-        ),
-
-      pageCanvas:
-        page.canvas,
-
-      sourceName:
-        page.sourceName,
-
-      sourceIndex:
-        page.sourceIndex,
-
-      pdfWidth:
-        page.pdfWidth,
-
-      pdfHeight:
-        page.pdfHeight
-
-    });
-
-  });
-
-
-  selected=0;
-
-  renderList();
-
-
-  if(labels.length)
-    selectLabel(0);
-
-
-  setStatus(
-    `Re-detected ${labels.length} label(s).`
-  );
-
-
-  step(
-    labels.length
-      ?4
-      :2
-  );
-
-}
-
-
-/* =========================================================
-   CURRENT RECTANGLE
-   ========================================================= */
-
-function rectFromLabel(label){
-
-  let r={
-    ...label.r
-  };
-
-
-  if(
-    $("mode").value==="manual"
-  ){
-
-    r={
-      x:+$("x").value/100,
-      y:+$("y").value/100,
-      w:+$("w").value/100,
-      h:+$("h").value/100
-    };
-
-  }
-
-
-  if(
-    $("mode").value==="page"
-  ){
-
-    r={
-      x:0,
-      y:0,
-      w:1,
-      h:1
-    };
-
-  }
-
-
-  r.x=
-    clamp(
-      r.x,
-      0,
-      0.999
-    );
-
-  r.y=
-    clamp(
-      r.y,
-      0,
-      0.999
-    );
-
-  r.w=
-    clamp(
-      r.w,
-      0.001,
-      1-r.x
-    );
-
-  r.h=
-    clamp(
-      r.h,
-      0.001,
-      1-r.y
-    );
-
-
-  return r;
-
-}
-
-
-/* =========================================================
-   VECTOR PRESERVING PDF CROP
-   ========================================================= */
-
-async function makeVectorPDF(label){
-
-  const source =
-    sourceFiles[
-      label.sourceIndex
-    ];
-
-
-  const bytes =
-    new Uint8Array(
-      await source.arrayBuffer()
-    );
-
-
-  const src =
-    await PDFDocument.load(
-      bytes,
-      {
-        ignoreEncryption:true
-      }
-    );
-
-
-  const out =
-    await PDFDocument.create();
-
-
-  const sourcePage =
-    src.getPage(
-      label.page-1
-    );
-
-
-  const media =
-    sourcePage.getMediaBox();
-
-
-  const r =
-    rectFromLabel(label);
-
-
-  /*
-    PDF coordinate system starts from bottom-left.
-    Our detection coordinates start from top-left.
-  */
-
-  const cropBox={
-
-    x:
-      media.x+
-      r.x*media.width,
-
-    y:
-      media.y+
-      (1-r.y-r.h)*
-      media.height,
-
-    width:
-      r.w*
-      media.width,
-
-    height:
-      r.h*
-      media.height
-
-  };
-
-
-  const [page] =
-    await out.copyPages(
-      src,
-      [label.page-1]
-    );
-
-
-  out.addPage(page);
-
-
-  /*
-    4 × 6 inch thermal printer.
-    1 inch = 72 PDF points.
-  */
-
-  const targetWidth=288;
-  const targetHeight=432;
-
-
-  const scaleX =
-    targetWidth/
-    cropBox.width;
-
-  const scaleY =
-    targetHeight/
-    cropBox.height;
-
-
-  const scale =
-    Math.min(
-      scaleX,
-      scaleY
-    );
-
-
-  const finalWidth =
-    cropBox.width*scale;
-
-  const finalHeight =
-    cropBox.height*scale;
-
-
-  const offsetX =
-    (targetWidth-finalWidth)/2;
-
-  const offsetY =
-    (targetHeight-finalHeight)/2;
-
-
-  /*
-    Scale and translate original vector
-    PDF content instead of converting it to image.
-  */
-
-  page.scaleContent(
-    scale,
-    scale
-  );
-
-
-  page.translateContent(
-
-    offsetX-
-    cropBox.x*scale,
-
-    offsetY-
-    cropBox.y*scale
-
-  );
-
-
-  page.setMediaBox(
-    0,
-    0,
-    targetWidth,
-    targetHeight
-  );
-
-
-  page.setCropBox(
-    0,
-    0,
-    targetWidth,
-    targetHeight
-  );
-
-
-  return await out.save();
-
-}
-
-
-/* =========================================================
-   IMAGE CROP
-   ========================================================= */
-
-async function cropCanvas(label){
-
-  const r =
-    rectFromLabel(label);
-
-
-  const source =
-    label.pageCanvas;
-
-
-  const output =
-    document.createElement("canvas");
-
-
-  output.width =
-    Math.max(
-      1,
-      Math.round(
-        source.width*r.w
-      )
-    );
-
-
-  output.height =
-    Math.max(
-      1,
-      Math.round(
-        source.height*r.h
-      )
-    );
-
-
-  const ctx =
-    output.getContext("2d");
-
-
-  ctx.drawImage(
-
-    source,
-
-    source.width*r.x,
-    source.height*r.y,
-
-    source.width*r.w,
-    source.height*r.h,
-
-    0,
-    0,
-
-    output.width,
-    output.height
-
-  );
-
-
-  return output;
-
-}
-
-
-/* =========================================================
-   DOWNLOAD
-   ========================================================= */
-
-function downloadBlob(blob,name){
-
-  const url =
-    URL.createObjectURL(blob);
-
-
-  const a =
-    document.createElement("a");
-
-
-  a.href=url;
-  a.download=name;
-
-
-  document.body.appendChild(a);
-
-  a.click();
-
-
-  setTimeout(()=>{
-
-    URL.revokeObjectURL(url);
-    a.remove();
-
-  },1800);
-
-}
-
-
-/* =========================================================
-   SINGLE DOWNLOAD
-   ========================================================= */
-
-async function oneDownload(){
-
-  if(!labels.length){
-
-    alert(
-      "Upload a PDF first."
-    );
-
-    return;
-
-  }
-
-
-  try{
-
-    const label =
-      labels[selected];
-
-    const format =
-      $("format").value;
-
-
-    step(5);
-
-    setStatus(
-      "Preparing download…"
-    );
-
-
-    const base =
-      label.sourceName
-        .replace(
-          /\.pdf$/i,
-          ""
-        );
-
-
-    if(format==="pdf"){
-
-      const bytes =
-        await makeVectorPDF(
-          label
-        );
-
-
-      downloadBlob(
-
-        new Blob(
-          [bytes],
-          {
-            type:
-              "application/pdf"
-          }
-        ),
-
-        `${base}_label_${label.page}.pdf`
-
-      );
-
-    }else{
-
-      const canvas =
-        await cropCanvas(
-          label
-        );
-
-
-      canvas.toBlob(
-
-        blob=>{
-
-          downloadBlob(
-
-            blob,
-
-            `${base}_label_${label.page}.${format}`
-
-          );
-
-        },
-
-        format==="png"
-          ? "image/png"
-          : "image/jpeg",
-
-        0.96
-
-      );
-
-    }
-
-
-    setStatus(
-      "Download ready."
-    );
-
-
-  }catch(error){
-
-    console.error(error);
-
-    setStatus(
-      "Download failed: "+
-      error.message,
-      false
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   ZIP DOWNLOAD
-   ========================================================= */
-
-async function zipDownload(){
-
-  if(!labels.length){
-
-    alert(
-      "Upload a PDF first."
-    );
-
-    return;
-
-  }
-
-
-  try{
-
-    const zip =
-      new JSZip();
-
-
-    const format =
-      $("format").value;
-
-
-    setStatus(
-      "Creating ZIP…"
-    );
-
-
-    for(
-      let i=0;
-      i<labels.length;
-      i++
-    ){
-
-      const label =
-        labels[i];
-
-
-      const base =
-        label.sourceName
-          .replace(
-            /\.pdf$/i,
-            ""
-          )+
-        `_label_${label.page}`;
-
-
-      if(format==="pdf"){
-
-        const bytes =
-          await makeVectorPDF(
-            label
-          );
-
-
-        zip.file(
-          base+".pdf",
-          bytes
-        );
-
-      }else{
-
-        const canvas =
-          await cropCanvas(
-            label
-          );
-
-
-        const blob =
-          await new Promise(
-            resolve =>
-              canvas.toBlob(
-                resolve,
-                format==="png"
-                  ? "image/png"
-                  : "image/jpeg",
-                0.96
-              )
-          );
-
-
-        zip.file(
-          base+"."+format,
-          blob
-        );
-
-      }
-
-    }
-
-
-    const zipBlob =
-      await zip.generateAsync({
-        type:"blob",
-        compression:"DEFLATE",
-        compressionOptions:{
-          level:6
-        }
-      });
-
-
-    downloadBlob(
-      zipBlob,
-      "EcomPilot_cropped_labels.zip"
-    );
-
-
-    setStatus(
-      `ZIP ready — ${labels.length} label(s).`
-    );
-
-
-    step(5);
-
-
-  }catch(error){
-
-    console.error(error);
-
-    setStatus(
-      "ZIP creation failed: "+
-      error.message,
-      false
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   LABEL LIST
-   ========================================================= */
-
-function renderList(){
-
-  $("count").textContent =
-    labels.length;
-
-
-  if(!labels.length){
-
-    $("list").innerHTML =
-      `
-      <div style="
-        padding:35px 8px;
-        text-align:center;
-        color:#7c899b;
-        font-size:11px
-      ">
-        No labels detected
-      </div>
-      `;
-
-    return;
-
-  }
-
-
-  $("list").innerHTML =
-    labels.map(
-      (label,index)=>{
-
-        const r=label.r;
-
-
-        const pct =
-          `X ${Math.round(r.x*1000)/10}% · `+
-          `Y ${Math.round(r.y*1000)/10}% · `+
-          `${Math.round(r.w*1000)/10}% × `+
-          `${Math.round(r.h*1000)/10}%`;
-
-
-        const method =
-          r.method==="ekart-full-outer-border"
-            ? "Complete Ekart/Flipkart outer border"
-            : "Fallback detection";
-
-
-        return `
-
-        <div
-          class="label-card ${index===selected?'selected':''}"
-          data-i="${index}"
-        >
-
-          <img
-            src="${label.thumb}"
-            alt="Label ${index+1}"
-          >
-
-          <div>
-
-            <b>
-              Label ${index+1}
-            </b>
-
-            <small>
-              ${escapeHtml(label.sourceName)}
-            </small>
-
-            <small>
-              Page ${label.page} · ${pct}
-            </small>
-
-            <small>
-              ${method}
-            </small>
-
-          </div>
-
-        </div>
-
-        `;
-
-      }
-    ).join("");
-
-
-  [
-    ...$("list")
-      .querySelectorAll(".label-card")
-  ]
-  .forEach(
-    element => {
-
-      element.onclick =
-        () =>
-          selectLabel(
-            +element.dataset.i
-          );
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   SELECT LABEL
-   ========================================================= */
-
-function selectLabel(index){
-
-  if(!labels.length)
-    return;
-
-
-  selected =
-    clamp(
-      index,
-      0,
-      labels.length-1
-    );
-
-
-  const label =
-    labels[selected];
-
-
-  const r =
-    rectFromLabel(label);
-
-
-  $("x").value =
-    (r.x*100).toFixed(1);
-
-
-  $("y").value =
-    (r.y*100).toFixed(1);
-
-
-  $("w").value =
-    (r.w*100).toFixed(1);
-
-
-  $("h").value =
-    (r.h*100).toFixed(1);
-
-
-  $("preview").innerHTML="";
-
-
-  const preview =
-    document.createElement("canvas");
-
-
-  const cropped =
-    cropCanvas(label);
-
-
-  preview.width =
-    cropped.width;
-
-
-  preview.height =
-    cropped.height;
-
-
-  preview
-    .getContext("2d")
-    .drawImage(
-      cropped,
-      0,
-      0
-    );
-
-
-  $("preview")
-    .appendChild(
-      preview
-    );
-
-
-  renderList();
-
-
-  step(4);
-
-
-  setStatus(
-    `Selected label ${selected+1} of ${labels.length}.`
-  );
-
-}
-
-
-/* =========================================================
-   HELP
-   ========================================================= */
-
-function showHelp(){
-
-  alert(
-
-`1) Upload one or more PDFs.
-
-2) EcomPilot analyzes every PDF page.
-
-3) Auto (Full Label) searches for the complete Ekart/Flipkart outer border.
-
-4) The crop is designed to include:
-   • Shipping label border
-   • QR code
-   • Customer address
-   • SKU
-   • Bottom barcode
-   • B4
-   • Not for resale
-   • Printed date/time
-
-5) The Tax Invoice below the label is excluded.
-
-6) PDF output is generated from the original PDF so text/barcodes/QR remain sharp.
-
-7) You can also use Manual mode if a special template needs adjustment.
-
-8) Multiple PDFs can be processed and downloaded as ZIP.`
-
-  );
-
-}
-
-
-/* =========================================================
-   EVENTS
-   ========================================================= */
-
-$("file").onchange =
-  e =>
-    loadFiles(
-      e.target.files
-    );
-
-
-$("drop").ondragover =
-  e => {
-
-    e.preventDefault();
-
-    $("drop").style.background =
-      "#eef7ff";
-
-  };
-
-
-$("drop").ondragleave =
-  () => {
-
-    $("drop").style.background="";
-
-  };
-
-
-$("drop").ondrop =
-  e => {
-
-    e.preventDefault();
-
-    $("drop").style.background="";
-
-    loadFiles(
-      e.dataTransfer.files
-    );
-
-  };
-
-
-$("downloadOne").onclick =
-  oneDownload;
-
-
-$("downloadZip").onclick =
-  zipDownload;
-
-
-/*
-  Editing X/Y/Width/Height automatically switches
-  to Manual mode.
-*/
-
-[
-  "x",
-  "y",
-  "w",
-  "h"
-]
-.forEach(
-  id => {
-
-    $(id).oninput =
-      () => {
-
-        $("mode").value =
-          "manual";
-
-        if(labels.length)
-          selectLabel(selected);
-
-        step(4);
-
-      };
-
-  }
-);
-
-
-/*
-  Smart Detect checkbox.
-*/
-
-$("smart").onchange =
-  () => {
-
-    if(
-      $("smart").checked &&
-      pages.length
-    ){
-
-      $("mode").value =
-        "auto";
-
-      redetect();
-
-    }
-
-  };
-
-
-$("mode").onchange =
-  () => {
-
-    if(
-      labels.length &&
-      $("mode").value!=="manual"
-    ){
-
-      redetect();
-
-    }
-
-  };
-
-
-window.redetect =
-  redetect;
-
-
-window.showHelp =
-  showHelp;
+import * as pdfjsLib
+from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
 
 </script>
 
