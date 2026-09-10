@@ -1,544 +1,755 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>EcomPilot — Smart Label Cropper</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>EcomPilot — Smart PDF Label Cropper</title>
 
 <style>
-*{box-sizing:border-box}
-body{
-margin:0;
-font-family:Inter,Arial,sans-serif;
-background:#f5f7fb;
-color:#172033
-}
-header{
-background:linear-gradient(135deg,#111827,#273449);
-color:white;
-padding:16px 18px;
-position:sticky;
-top:0;
-z-index:10;
-box-shadow:0 3px 15px #0002
-}
-.header{
-max-width:1100px;
-margin:auto;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:15px
-}
-.logo{
-font-size:22px;
-font-weight:900;
-letter-spacing:-.5px
-}
-.logo span{color:#60a5fa}
-.badge{
-font-size:11px;
-background:#ffffff18;
-border:1px solid #ffffff25;
-padding:6px 9px;
-border-radius:20px
+:root{
+  --blue:#0878f9;
+  --navy:#081d35;
+  --bg:#f4f8fc;
+  --line:#dfe7ef;
+  --muted:#667085;
+  --green:#159447;
+  --danger:#d92d20
 }
 
-.container{
-max-width:1100px;
-margin:22px auto;
-padding:0 15px
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:#152238
+}
+
+button,input,select{font:inherit}
+button{cursor:pointer}
+
+.top{
+  height:68px;
+  background:#fff;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  gap:24px;
+  padding:0 5%;
+  position:sticky;
+  top:0;
+  z-index:5
+}
+
+.brand{
+  font-weight:800;
+  font-size:20px;
+  color:var(--blue);
+  white-space:nowrap
+}
+
+.brand span{color:#111}
+
+.tag{
+  font-size:11px;
+  color:#667085
+}
+
+.nav{
+  margin-left:auto;
+  display:flex;
+  gap:22px
+}
+
+.nav a{
+  color:#26364a;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:600
+}
+
+.btn{
+  border:1px solid #cbd8e6;
+  background:#fff;
+  color:var(--blue);
+  padding:10px 16px;
+  border-radius:9px;
+  font-weight:700
+}
+
+.primary{
+  background:var(--blue);
+  border-color:var(--blue);
+  color:#fff
 }
 
 .hero{
-background:white;
-border-radius:18px;
-padding:25px;
-box-shadow:0 5px 25px #1f293710;
-margin-bottom:18px
+  padding:48px 7%;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:35px;
+  align-items:center;
+  background:linear-gradient(120deg,#eaf5ff,#fff)
 }
+
 .hero h1{
-margin:0 0 8px;
-font-size:27px
+  font-size:46px;
+  line-height:1.02;
+  margin:12px 0
 }
+
+.hero h1 b{color:var(--blue)}
+
 .hero p{
-margin:0;
-color:#667085;
-line-height:1.5
+  color:#5f6f82;
+  line-height:1.65;
+  max-width:600px
 }
 
-.grid{
-display:grid;
-grid-template-columns:350px 1fr;
-gap:18px
+.eyebrow{
+  display:inline-block;
+  background:#dceeff;
+  color:#0878f9;
+  padding:7px 12px;
+  border-radius:99px;
+  font-size:11px;
+  font-weight:800
 }
 
-.card{
-background:white;
-border-radius:18px;
-padding:18px;
-box-shadow:0 5px 25px #1f293710
+.hero-art{
+  background:#fff;
+  border:1px solid #dce6f0;
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 18px 45px #0b315d16
+}
+
+.mock{
+  background:#f3f7fb;
+  border-radius:14px;
+  padding:18px;
+  display:grid;
+  grid-template-columns:110px 1fr;
+  gap:12px;
+  min-height:230px
+}
+
+.mock-side{
+  background:var(--navy);
+  color:#fff;
+  border-radius:10px;
+  padding:14px;
+  font-size:11px
+}
+
+.mock-side div{padding:8px 0}
+
+.mock-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px
+}
+
+.mock-card{
+  background:#fff;
+  border:2px solid #9cc9ff;
+  border-radius:8px;
+  padding:12px;
+  font-size:10px
+}
+
+.features{
+  padding:20px 7%;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px
+}
+
+.feature{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:16px
+}
+
+.feature strong{
+  display:block;
+  font-size:13px
+}
+
+.feature small{
+  color:#667085;
+  line-height:1.4
+}
+
+.app{
+  margin:10px auto 40px;
+  max-width:1250px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:205px 1fr;
+  box-shadow:0 12px 40px #12304b0d
+}
+
+.side{
+  background:var(--navy);
+  color:#fff;
+  padding:24px 15px
+}
+
+.side h3{
+  margin:0 0 22px;
+  font-size:18px
+}
+
+.side .item{
+  padding:11px 12px;
+  border-radius:8px;
+  font-size:12px;
+  margin:3px 0;
+  color:#d8e4f1
+}
+
+.side .active{
+  background:var(--blue);
+  color:#fff
+}
+
+.main{padding:24px}
+
+.apphead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px
+}
+
+.apphead h2{
+  margin:0;
+  font-size:20px
+}
+
+.apphead p{
+  margin:5px 0;
+  color:var(--muted);
+  font-size:12px
+}
+
+.steps{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+  margin:22px 0
+}
+
+.step{
+  font-size:11px;
+  color:#758297;
+  text-align:center
+}
+
+.step i{
+  display:inline-grid;
+  place-items:center;
+  width:25px;
+  height:25px;
+  border-radius:50%;
+  background:#edf2f7;
+  font-style:normal;
+  font-weight:800;
+  margin-right:5px
+}
+
+.step.on i{
+  background:var(--blue);
+  color:#fff
+}
+
+.workspace{
+  display:grid;
+  grid-template-columns:1fr 330px;
+  gap:14px
+}
+
+.panel{
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:14px
 }
 
 .upload{
-border:2px dashed #b8c3d6;
-border-radius:16px;
-padding:25px 15px;
-text-align:center;
-cursor:pointer;
-transition:.2s;
-background:#fafbfe
-}
-.upload:hover{
-border-color:#2563eb;
-background:#f5f8ff
-}
-.upload .icon{
-font-size:38px;
-margin-bottom:7px
-}
-.upload strong{
-display:block;
-font-size:16px
-}
-.upload small{
-display:block;
-margin-top:6px;
-color:#667085
-}
-input[type=file]{display:none}
-
-.file-list{
-margin-top:15px;
-display:flex;
-flex-direction:column;
-gap:7px;
-max-height:190px;
-overflow:auto
-}
-.file{
-padding:9px 10px;
-border-radius:10px;
-background:#f4f6fa;
-font-size:12px;
-display:flex;
-justify-content:space-between;
-gap:8px
-}
-.file b{
-overflow:hidden;
-text-overflow:ellipsis;
-white-space:nowrap
+  min-height:430px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  background:#fbfdff
 }
 
-label{
-display:block;
-font-size:12px;
-font-weight:700;
-margin:15px 0 7px;
-color:#475467
+.drop{
+  border:2px dashed #b9d8f8;
+  border-radius:12px;
+  width:100%;
+  padding:55px 15px
 }
 
-select,input[type=number]{
-width:100%;
-border:1px solid #d0d5dd;
-border-radius:10px;
-padding:11px;
-font-size:14px;
-background:white;
-outline:none
+.drop .icon{
+  font-size:42px;
+  color:var(--blue)
 }
 
-input[type=range]{
-width:100%
-}
+.drop h3{margin:12px 0 5px}
 
-.check{
-display:flex;
-align-items:center;
-gap:8px;
-font-size:13px;
-margin-top:13px;
-color:#475467
-}
-.check input{width:auto}
-
-button{
-border:0;
-border-radius:11px;
-padding:12px 15px;
-font-weight:800;
-cursor:pointer;
-font-size:13px
-}
-.primary{
-background:#2563eb;
-color:white;
-width:100%;
-margin-top:17px
-}
-.primary:hover{background:#1d4ed8}
-.secondary{
-background:#eef2ff;
-color:#3730a3;
-width:100%;
-margin-top:9px
-}
-.success{
-background:#059669;
-color:white;
-width:100%;
-margin-top:9px
-}
-button:disabled{
-opacity:.45;
-cursor:not-allowed
+.drop p{
+  font-size:12px;
+  color:var(--muted)
 }
 
 .status{
-margin-top:14px;
-font-size:12px;
-color:#667085;
-line-height:1.5
+  margin-top:12px;
+  padding:9px;
+  border-radius:8px;
+  background:#edf9f0;
+  color:#237a3c;
+  font-size:12px
 }
 
-.preview-card{
-min-height:500px;
-display:flex;
-flex-direction:column
-}
-.preview-head{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-margin-bottom:12px
-}
-.preview-head h3{
-margin:0;
-font-size:16px
-}
-.preview-wrap{
-flex:1;
-background:#e9edf4;
-border-radius:14px;
-padding:15px;
-display:flex;
-justify-content:center;
-align-items:center;
-overflow:hidden;
-min-height:450px
-}
-canvas{
-max-width:100%;
-max-height:650px;
-background:white;
-box-shadow:0 4px 20px #0002
+.preview{
+  width:100%;
+  max-height:500px;
+  overflow:auto;
+  text-align:center;
+  margin-top:12px;
+  background:#f4f7fa;
+  border-radius:9px
 }
 
-.progress{
-height:7px;
-background:#e5e7eb;
-border-radius:10px;
-overflow:hidden;
-margin-top:12px;
-display:none
-}
-.progress div{
-height:100%;
-width:0%;
-background:#2563eb;
-transition:.2s
+.preview canvas{
+  max-width:100%;
+  height:auto
 }
 
-.info{
-margin-top:14px;
-padding:12px;
-border-radius:11px;
-background:#eff6ff;
-font-size:12px;
-color:#1e40af;
-line-height:1.5
+.list{
+  max-height:430px;
+  overflow:auto
 }
 
-.results{
-margin-top:18px
-}
-.result{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-padding:12px;
-border-bottom:1px solid #edf0f5;
-font-size:13px
-}
-.result:last-child{border-bottom:0}
-.result-name{
-overflow:hidden;
-text-overflow:ellipsis;
-white-space:nowrap
+.label-card{
+  display:flex;
+  gap:9px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  padding:8px;
+  margin:7px 0;
+  align-items:center
 }
 
-.download{
-background:#111827;
-color:white;
-padding:8px 11px;
-border-radius:8px;
-font-size:11px
+.label-card.selected{
+  border:2px solid var(--blue)
+}
+
+.label-card img{
+  width:68px;
+  height:75px;
+  object-fit:contain;
+  background:#f5f6f8;
+  border-radius:5px
+}
+
+.label-card b{font-size:12px}
+
+.label-card small{
+  display:block;
+  color:var(--muted);
+  margin-top:3px
+}
+
+.controls{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:12px
+}
+
+.controls label{
+  font-size:11px;
+  color:#667085
+}
+
+.controls input,
+.controls select{
+  width:100%;
+  margin-top:5px;
+  border:1px solid #d2dbe5;
+  border-radius:8px;
+  padding:9px;
+  background:#fff
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:12px
+}
+
+.full{grid-column:1/-1}
+
+.bottom{
+  display:flex;
+  justify-content:space-between;
+  color:#6d7b8c;
+  font-size:11px;
+  padding:12px 2px
 }
 
 .hidden{display:none!important}
 
-@media(max-width:800px){
-header{position:relative}
-.container{margin:14px auto}
-.grid{grid-template-columns:1fr}
-.hero{padding:20px}
-.hero h1{font-size:23px}
-.preview-card{min-height:400px}
-.preview-wrap{min-height:350px}
-canvas{max-height:500px}
+.note{
+  font-size:11px;
+  color:#667085;
+  margin-top:10px;
+  line-height:1.45
 }
 
-@media(max-width:420px){
-.container{padding:0 10px}
-.card{padding:14px}
-.header{align-items:flex-start}
-.badge{font-size:9px}
+footer{
+  text-align:center;
+  color:#7c899b;
+  font-size:11px;
+  padding:25px
+}
+
+@media(max-width:900px){
+
+  .hero{
+    grid-template-columns:1fr;
+    padding:32px 6%
+  }
+
+  .hero h1{font-size:38px}
+
+  .features{
+    grid-template-columns:repeat(2,1fr);
+    padding:15px 6%
+  }
+
+  .app{
+    margin:8px 10px 30px;
+    grid-template-columns:1fr
+  }
+
+  .side{display:none}
+
+  .workspace{grid-template-columns:1fr}
+
+  .main{padding:14px}
+
+  .nav{display:none}
+
+  .top{padding:0 16px}
+
+  .steps{
+    grid-template-columns:repeat(5,1fr)
+  }
+
+  .step{font-size:9px}
+
+  .step i{
+    display:block;
+    margin:0 auto 4px
+  }
+
+  .hero-art{display:none}
+}
+
+@media(max-width:520px){
+
+  .features{
+    grid-template-columns:1fr 1fr
+  }
+
+  .features .feature:nth-child(n+5){
+    display:none
+  }
+
+  .hero h1{font-size:34px}
+
+  .actions{grid-template-columns:1fr}
+
+  .controls{grid-template-columns:1fr 1fr}
+
+  .drop{padding:38px 10px}
 }
 </style>
 </head>
 
 <body>
 
-<header>
-<div class="header">
-<div class="logo">Ecom<span>Pilot</span></div>
-<div class="badge">SMART LABEL STUDIO</div>
-</div>
+<header class="top">
+
+  <div class="brand">
+    ✈ Ecom<span>Pilot</span>
+  </div>
+
+  <div class="tag">
+    Your Smart E-commerce Toolkit
+  </div>
+
+  <nav class="nav">
+    <a href="#home">Home</a>
+    <a href="#tools">All Tools</a>
+    <a href="#cropper">PDF Label Cropper</a>
+    <a href="#help">Help & Support</a>
+  </nav>
+
+  <button class="btn primary"
+    onclick="document.getElementById('file').click()">
+    Get Started Free
+  </button>
+
 </header>
 
-<div class="container">
 
-<div class="hero">
-<h1>Shipping Label Cropper</h1>
-<p>
-Upload Flipkart / Ekart shipping PDFs and automatically extract the shipping label while removing the invoice area.
-</p>
-</div>
+<section class="hero" id="home">
 
-<div class="grid">
+ <div>
 
-<div class="card">
+  <span class="eyebrow">
+    SMART E-COMMERCE TOOLS
+  </span>
 
-<div class="upload" id="uploadBox">
-<div class="icon">📄</div>
-<strong>Upload PDF Labels</strong>
-<small>Tap here or select multiple PDF files</small>
-</div>
+  <h1>
+    PDF Label<br>
+    <b>Cropper</b>
+  </h1>
 
-<input id="fileInput" type="file" accept="application/pdf" multiple>
+  <p>
+    Automatically detect, crop and download shipping labels from
+    multi-page PDF files. Label boundaries and size are detected
+    from the actual page content.
+  </p>
 
-<div id="fileList" class="file-list"></div>
+  <button class="btn primary"
+    onclick="document.getElementById('file').click()">
+    Upload PDF File →
+  </button>
 
-<label>Output Size</label>
-<select id="size">
-<option value="4x6">4 × 6 inch — Thermal</option>
-<option value="100x150">100 × 150 mm — Thermal</option>
-<option value="6x4">6 × 4 inch — Landscape</option>
-<option value="detected">Detected Size — Crop Only</option>
-</select>
+  <button class="btn"
+    onclick="document.getElementById('cropper').scrollIntoView({behavior:'smooth'})">
+    Explore All Tools
+  </button>
 
-<label>Crop Mode</label>
-<select id="mode">
-<option value="auto">Auto Detect Shipping Label</option>
-<option value="top">Top Label / Remove Invoice</option>
-<option value="full">Full Page</option>
-</select>
+  <div class="note">
+    ✓ Smart detection &nbsp;
+    ✓ Auto label size &nbsp;
+    ✓ PDF / PNG / JPG &nbsp;
+    ✓ Mobile friendly
+  </div>
 
-<label>
-Bottom Boundary
-<span id="bottomValue">Auto</span>
-</label>
+ </div>
 
-<input id="bottomRange" type="range" min="15" max="90" value="50">
 
-<div class="check">
-<input id="manualBottom" type="checkbox">
-<span>Use manual bottom boundary</span>
-</div>
+ <div class="hero-art">
 
-<div class="check">
-<input id="fitSize" type="checkbox" checked>
-<span>Fit label to selected thermal size</span>
-</div>
+  <div class="mock">
 
-<button id="cropBtn" class="primary" disabled>
-✂️ Crop Shipping Labels
-</button>
+   <div class="mock-side">
 
-<button id="mergeBtn" class="secondary" disabled>
-📑 Merge Cropped PDFs
-</button>
+    <b>EcomPilot</b>
 
-<button id="zipBtn" class="success" disabled>
-📦 Download All as ZIP
-</button>
+    <div>⌂ Home</div>
+    <div>▣ PDF Label Cropper</div>
+    <div>▤ Label Splitter</div>
+    <div>▧ Image Resizer</div>
 
-<div class="progress" id="progress">
-<div id="progressBar"></div>
-</div>
+   </div>
 
-<div id="status" class="status">
-No PDF selected.
-</div>
+   <div class="mock-grid">
 
-<div class="info">
-<b>Vector Quality:</b><br>
-The final PDF is cropped from the original PDF page. QR codes, barcodes and text are not converted into JPG/PNG.
-</div>
+    <div class="mock-card">
+      ORDER<br>
+      <b>123456</b><br><br>
+      Customer Name<br>
+      Address Lines
+    </div>
 
-</div>
+    <div class="mock-card">
+      PREPAID<br>
+      <b>AWB: 1234567890</b><br><br>
+      Shipping Label
+    </div>
 
-<div class="card preview-card">
+    <div class="mock-card">
+      BARCODE<br>
+      Product Details
+    </div>
 
-<div class="preview-head">
-<h3>Label Preview</h3>
-<span id="pageInfo" style="font-size:11px;color:#667085">No file</span>
-</div>
+    <div class="mock-card">
+      DELIVERY<br>
+      Address & Mobile
+    </div>
 
-<div class="preview-wrap">
-<canvas id="preview"></canvas>
-</div>
+   </div>
 
-</div>
+  </div>
 
-</div>
+ </div>
 
-<div id="resultsCard" class="card results hidden">
-<h3 style="margin-top:0">Processed Labels</h3>
-<div id="results"></div>
-</div>
+</section>
 
-</div>
 
-<script type="module">
+<section class="features" id="tools">
 
-import * as pdfjsLib
-from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
+ <div class="feature">
+  ⚡
+  <strong>Fast & Easy</strong>
+  <small>Upload, detect and download.</small>
+ </div>
 
-import {PDFDocument}
-from "https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/+esm";
+ <div class="feature">
+  🎯
+  <strong>Smart Detection</strong>
+  <small>Find actual label regions automatically.</small>
+ </div>
 
-import JSZip
-from "https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm";
+ <div class="feature">
+  📄
+  <strong>Multiple Formats</strong>
+  <small>PDF, PNG and JPG.</small>
+ </div>
 
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
+ <div class="feature">
+  🔒
+  <strong>100% Browser Based</strong>
+  <small>Your PDF stays in your browser.</small>
+ </div>
 
-const $ = id => document.getElementById(id);
+ <div class="feature">
+  📱
+  <strong>All Devices</strong>
+  <small>Desktop, tablet and mobile.</small>
+ </div>
 
-const uploadBox = $("uploadBox");
-const fileInput = $("fileInput");
-const fileList = $("fileList");
-const cropBtn = $("cropBtn");
-const mergeBtn = $("mergeBtn");
-const zipBtn = $("zipBtn");
-const status = $("status");
-const preview = $("preview");
-const pageInfo = $("pageInfo");
-const resultsCard = $("resultsCard");
-const results = $("results");
-const progress = $("progress");
-const progressBar = $("progressBar");
-const bottomRange = $("bottomRange");
-const bottomValue = $("bottomValue");
-const manualBottom = $("manualBottom");
+</section>
 
-let files = [];
-let processed = [];
-let previewFile = null;
 
-uploadBox.onclick = () => fileInput.click();
+<section class="app" id="cropper">
 
-fileInput.onchange = e => {
-files = [...e.target.files].filter(
-f => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf")
-);
+<aside class="side">
 
-renderFileList();
+ <h3>✈ EcomPilot</h3>
 
-if(files.length){
-previewFile = files[0];
-awaitPreview(previewFile);
-}
+ <div class="item">⌂ Home</div>
 
-updateButtons();
-};
+ <div class="item active">
+   ▣ PDF Label Cropper
+ </div>
 
-bottomRange.oninput = () => {
-bottomValue.textContent = manualBottom.checked
-? bottomRange.value + "%"
-: "Auto";
-};
+ <div class="item">
+   ▤ Label Splitter
+ </div>
 
-manualBottom.onchange = () => {
-bottomValue.textContent = manualBottom.checked
-? bottomRange.value + "%"
-: "Auto";
-};
+ <div class="item">
+   ▧ PDF Merger / Splitter
+ </div>
 
-function renderFileList(){
+ <br>
 
-fileList.innerHTML = "";
+ <small>Image Tools</small>
 
-files.forEach((file,i)=>{
+ <div class="item">
+   ▧ Image Resizer
+ </div>
 
-const div = document.createElement("div");
-div.className = "file";
+ <div class="item">
+   ⇄ Image Converter
+ </div>
 
-div.innerHTML =
-`<b>${i+1}. ${escapeHtml(file.name)}</b>
-<span>${formatBytes(file.size)}</span>`;
+ <br>
 
-fileList.appendChild(div);
+ <small>Utility Tools</small>
 
-});
+ <div class="item">
+   ⌁ Shipping Label Manager
+ </div>
 
-status.textContent =
-files.length
-? `${files.length} PDF file${files.length>1?"s":""} selected.`
-: "No PDF selected.";
+ <div class="item">
+   ⇩ Bulk Download (ZIP)
+ </div>
 
-}
+</aside>
 
-function updateButtons(){
 
-const has = files.length > 0;
+<main class="main">
 
-cropBtn.disabled = !has;
-mergeBtn.disabled = processed.length < 2;
-zipBtn.disabled = processed.length < 1;
+ <div class="apphead">
 
-}
+  <div>
 
-function escapeHtml(s){
+   <h2>
+     📄 PDF Label Cropper
+   </h2>
 
-return s.replace(/[&<>"']/g,m=>({
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-}[m]));
+   <p>
+     Detect label regions, review them, adjust the crop
+     and download only what you need.
+   </p>
 
-}
+  </div>
 
-function formatBytes(bytes){
+  <button class="btn" onclick="showHelp()">
+    ⓘ How it works?
+  </button>
 
-if(bytes < 1024) return bytes+" B";
-if(bytes < 1024*1024)
-return (bytes/1024).toFixed(1)+" KB";
+ </div>
 
-return (bytes/
+
+ <div class="steps">
+
+  <div class="step on">
+    <i>1</i>Upload PDF
+  </div>
+
+  <div class="step" id="s2">
+    <i>2</i>Detect Labels
+  </div>
+
+  <div class="step" id="s3">
+    <i>3</i>Crop & Adjust
+  </div>
+
+  <div class="step" id="s4">
+    <i>4</i>Preview
+  </div>
+
+  <div class="step" id="s5">
+    <i>5</i>Download
+  </div>
+
+ </div>
+
+
+ <div class="workspace">
+
+
+  <section class="panel upload" id="uploadPanel">
+
+   <div class="drop" id="drop">
+
+    <div class="icon">
+      ☁
+    </div>
+
+    <h3>
+      Drag & Drop your PDF here
+    </h3>
+
+    <p>
+      or click to browse
+    </p>
+
+    <button class="
