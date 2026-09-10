@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>EcomPilot — Smart PDF Label Cropper</title>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
 <style>
 :root{
  --blue:#0878f9;
@@ -12,6 +16,8 @@
  --bg:#f4f8fc;
  --line:#dfe7ef;
  --muted:#667085;
+ --green:#159447;
+ --danger:#d92d20
 }
 
 *{box-sizing:border-box}
@@ -360,9 +366,7 @@ button{cursor:pointer}
  border-radius:5px
 }
 
-.label-card b{
- font-size:12px
-}
+.label-card b{font-size:12px}
 
 .label-card small{
  display:block;
@@ -399,9 +403,7 @@ button{cursor:pointer}
  margin-top:12px
 }
 
-.full{
- grid-column:1/-1
-}
+.full{grid-column:1/-1}
 
 .bottom{
  display:flex;
@@ -411,9 +413,7 @@ button{cursor:pointer}
  padding:12px 2px
 }
 
-.hidden{
- display:none!important
-}
+.hidden{display:none!important}
 
 .note{
  font-size:11px;
@@ -436,9 +436,7 @@ footer{
   padding:32px 6%
  }
 
- .hero h1{
-  font-size:38px
- }
+ .hero h1{font-size:38px}
 
  .features{
   grid-template-columns:repeat(2,1fr);
@@ -466,18 +464,14 @@ footer{
   grid-template-columns:repeat(5,1fr)
  }
 
- .step{
-  font-size:9px
- }
+ .step{font-size:9px}
 
  .step i{
   display:block;
   margin:0 auto 4px
  }
 
- .hero-art{
-  display:none
- }
+ .hero-art{display:none}
 }
 
 @media(max-width:520px){
@@ -490,9 +484,7 @@ footer{
   display:none
  }
 
- .hero h1{
-  font-size:34px
- }
+ .hero h1{font-size:34px}
 
  .actions{
   grid-template-columns:1fr
@@ -580,14 +572,11 @@ footer{
   <div class="mock">
 
    <div class="mock-side">
-
     <b>EcomPilot</b>
-
     <div>⌂ Home</div>
     <div>▣ PDF Label Cropper</div>
     <div>▤ Label Splitter</div>
     <div>▧ Image Resizer</div>
-
    </div>
 
    <div class="mock-grid">
@@ -666,42 +655,23 @@ footer{
  <h3>✈ EcomPilot</h3>
 
  <div class="item">⌂ Home</div>
-
- <div class="item active">
-  ▣ PDF Label Cropper
- </div>
-
- <div class="item">
-  ▤ Label Splitter
- </div>
-
- <div class="item">
-  ▧ PDF Merger / Splitter
- </div>
+ <div class="item active">▣ PDF Label Cropper</div>
+ <div class="item">▤ Label Splitter</div>
+ <div class="item">▧ PDF Merger / Splitter</div>
 
  <br>
 
  <small>Image Tools</small>
 
- <div class="item">
-  ▧ Image Resizer
- </div>
-
- <div class="item">
-  ⇄ Image Converter
- </div>
+ <div class="item">▧ Image Resizer</div>
+ <div class="item">⇄ Image Converter</div>
 
  <br>
 
  <small>Utility Tools</small>
 
- <div class="item">
-  ⌁ Shipping Label Manager
- </div>
-
- <div class="item">
-  ⇩ Bulk Download (ZIP)
- </div>
+ <div class="item">⌁ Shipping Label Manager</div>
+ <div class="item">⇩ Bulk Download (ZIP)</div>
 
 </aside>
 
@@ -711,20 +681,14 @@ footer{
  <div class="apphead">
 
   <div>
-
-   <h2>
-    📄 PDF Label Cropper
-   </h2>
-
+   <h2>📄 PDF Label Cropper</h2>
    <p>
     Detect label regions, review them, adjust the crop
     and download only what you need.
    </p>
-
   </div>
 
-  <button class="btn"
-  onclick="showHelp()">
+  <button class="btn" onclick="showHelp()">
    ⓘ How it works?
   </button>
 
@@ -759,7 +723,7 @@ footer{
  <div class="workspace">
 
 
-  <section class="panel upload">
+  <section class="panel upload" id="uploadPanel">
 
    <div class="drop" id="drop">
 
@@ -779,24 +743,18 @@ footer{
      Choose PDF File
     </button>
 
-    <p>
-     PDF up to 50MB
-    </p>
+    <p>PDF up to 50MB</p>
 
    </div>
-
 
    <div class="status" id="status">
     Ready — choose a PDF to begin.
    </div>
 
-
    <div class="preview" id="preview">
-
     <span style="font-size:11px;color:#7c899b">
      Page preview appears here
     </span>
-
    </div>
 
   </section>
@@ -804,26 +762,15 @@ footer{
 
   <section class="panel">
 
-
-   <div style="
-   display:flex;
-   justify-content:space-between;
-   align-items:center">
+   <div style="display:flex;justify-content:space-between;align-items:center">
 
     <b>
-     Detected Labels
-     (<span id="count">0</span>)
+     Detected Labels (<span id="count">0</span>)
     </b>
 
     <label style="font-size:11px">
-
      Smart Detect
-
-     <input
-     id="smart"
-     type="checkbox"
-     checked>
-
+     <input id="smart" type="checkbox" checked>
     </label>
 
    </div>
@@ -831,14 +778,8 @@ footer{
 
    <div class="list" id="list">
 
-    <div style="
-    padding:35px 8px;
-    text-align:center;
-    color:#7c899b;
-    font-size:11px">
-
+    <div style="padding:35px 8px;text-align:center;color:#7c899b;font-size:11px">
      Upload a PDF to detect labels
-
     </div>
 
    </div>
@@ -846,100 +787,42 @@ footer{
 
    <div class="controls">
 
-
     <label>
      Crop Mode
-
      <select id="mode">
-
-      <option value="auto">
-       Auto
-      </option>
-
-      <option value="manual">
-       Manual
-      </option>
-
-      <option value="page">
-       Whole Page
-      </option>
-
+      <option value="auto">Auto</option>
+      <option value="manual">Manual</option>
+      <option value="page">Whole Page</option>
      </select>
-
     </label>
-
 
     <label>
      Format
-
      <select id="format">
-
-      <option value="pdf">
-       PDF
-      </option>
-
-      <option value="png">
-       PNG
-      </option>
-
-      <option value="jpg">
-       JPG
-      </option>
-
+      <option value="pdf">PDF</option>
+      <option value="png">PNG</option>
+      <option value="jpg">JPG</option>
      </select>
-
     </label>
-
 
     <label>
      X %
-
-     <input
-     id="x"
-     type="number"
-     min="0"
-     max="100"
-     step=".1">
-
+     <input id="x" type="number" min="0" max="100" step=".1">
     </label>
-
 
     <label>
      Y %
-
-     <input
-     id="y"
-     type="number"
-     min="0"
-     max="100"
-     step=".1">
-
+     <input id="y" type="number" min="0" max="100" step=".1">
     </label>
-
 
     <label>
      Width %
-
-     <input
-     id="w"
-     type="number"
-     min=".1"
-     max="100"
-     step=".1">
-
+     <input id="w" type="number" min=".1" max="100" step=".1">
     </label>
-
 
     <label>
      Height %
-
-     <input
-     id="h"
-     type="number"
-     min=".1"
-     max="100"
-     step=".1">
-
+     <input id="h" type="number" min=".1" max="100" step=".1">
     </label>
 
    </div>
@@ -947,21 +830,15 @@ footer{
 
    <div class="actions">
 
-    <button
-    class="btn primary"
-    id="downloadOne">
+    <button class="btn primary" id="downloadOne">
      Crop & Download
     </button>
 
-    <button
-    class="btn"
-    id="downloadZip">
+    <button class="btn" id="downloadZip">
      Download All as ZIP
     </button>
 
-    <button
-    class="btn full"
-    onclick="redetect()">
+    <button class="btn full" onclick="redetect()">
      ↻ Re-detect Labels
     </button>
 
@@ -969,12 +846,9 @@ footer{
 
 
    <div class="note">
-
-    Auto detection searches for the complete
-    Ekart/Flipkart outer label border and keeps the
-    bottom barcode, B4, Not for resale and printed date
-    while excluding the tax invoice below.
-
+    Auto mode finds the complete Ekart/Flipkart outer border,
+    keeps the bottom barcode, B4 and printed-date row,
+    and excludes the Tax Invoice below.
    </div>
 
   </section>
@@ -989,8 +863,7 @@ footer{
   </span>
 
   <span>
-   For best results, use PDFs with clear whitespace
-   between labels.
+   For best results, use PDFs with clear whitespace between labels.
   </span>
 
  </div>
@@ -1010,28 +883,21 @@ footer{
  type="file"
  accept="application/pdf,.pdf"
  multiple
- class="hidden">
+ class="hidden"
+>
 
 
-<script type="module">
+<script>
 
-import * as pdfjsLib from
-"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
-
-import { PDFDocument }
-from "https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/+esm";
-
-import JSZip
-from "https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm";
-
+const pdfjsLib = window.pdfjsLib;
+const PDFDocument = window.PDFLib.PDFDocument;
+const JSZip = window.JSZip;
 
 pdfjsLib.GlobalWorkerOptions.workerSrc =
-"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
 
-const $ = id =>
-document.getElementById(id);
-
+const $ = id => document.getElementById(id);
 
 let pages = [];
 let labels = [];
@@ -1039,16 +905,26 @@ let selected = 0;
 let sourceFiles = [];
 
 
-function setStatus(text,good=true){
+if(!pdfjsLib || !window.PDFLib || !window.JSZip){
 
- $("status").textContent = text;
+ document.getElementById("status").textContent =
+ "Required PDF libraries could not load. Please refresh the page.";
+
+ throw new Error(
+  "EcomPilot libraries failed to load"
+ );
+}
+
+
+function setStatus(t,good=true){
+
+ $("status").textContent = t;
 
  $("status").style.background =
  good ? "#edf9f0" : "#fff1f0";
 
  $("status").style.color =
  good ? "#237a3c" : "#b42318";
-
 }
 
 
@@ -1056,32 +932,29 @@ function step(n){
 
  for(let i=2;i<=5;i++){
 
-  const el = $("s"+i);
-
-  if(el)
-   el.classList.toggle("on",i<=n);
+  $("s"+i).classList.toggle(
+   "on",
+   i<=n
+  );
 
  }
-
 }
 
 
-function clamp(v,a,b){
-
- return Math.max(a,Math.min(b,v));
-
-}
-
-
-/* ============================
-   IMAGE / INK DETECTION
-   ============================ */
+const clamp =
+(v,a,b) =>
+Math.max(a,Math.min(b,v));
 
 
 function inkMask(ctx,w,h){
 
  const d =
- ctx.getImageData(0,0,w,h).data;
+ ctx.getImageData(
+  0,
+  0,
+  w,
+  h
+ ).data;
 
  const m =
  new Uint8Array(w*h);
@@ -1092,92 +965,87 @@ function inkMask(ctx,w,h){
   i+=4,p++
  ){
 
-  const lum =
-  .299*d[i] +
-  .587*d[i+1] +
-  .114*d[i+2];
-
   m[p] =
-  lum < 225 ? 1 : 0;
+  (
+   .299*d[i] +
+   .587*d[i+1] +
+   .114*d[i+2]
+  ) < 225 ? 1 : 0;
 
  }
 
  return m;
-
 }
 
 
 function run(row,gap=2){
 
  let best=0;
- let bestStart=0;
+ let bs=0;
+ let r=0;
+ let g=0;
+ let st=0;
 
- let current=0;
- let white=0;
- let start=0;
-
-
- for(let x=0;x<row.length;x++){
+ for(
+  let x=0;
+  x<row.length;
+  x++
+ ){
 
   if(row[x]){
 
-   current++;
-   white=0;
+   r++;
+   g=0;
 
-  }else if(white<gap){
+  }else if(g<gap){
 
-   white++;
-   current++;
+   g++;
+   r++;
 
   }else{
 
-   if(current>best){
+   if(r>best){
 
-    best=current;
-    bestStart=start;
+    best=r;
+    bs=st;
 
    }
 
-   current=0;
-   white=0;
-   start=x+1;
+   r=0;
+   g=0;
+   st=x+1;
 
   }
 
  }
 
+ if(r>best){
 
- if(current>best){
-
-  best=current;
-  bestStart=start;
+  best=r;
+  bs=st;
 
  }
 
-
- return {
+ return{
   len:best,
-  start:bestStart,
-  end:bestStart+best
+  start:bs,
+  end:bs+best
  };
 
 }
 
 
-/* Horizontal line detection */
-
 function horizontalLines(mask,w,h){
 
  let a=[];
 
-
  for(
   let y=Math.floor(h*.01);
-  y<Math.floor(h*.92);
+  y<Math.floor(h*.90);
   y++
  ){
 
-  const q =
+  let q =
   run(
    mask.subarray(
     y*w,
@@ -1185,7 +1053,6 @@ function horizontalLines(mask,w,h){
    ),
    2
   );
-
 
   if(q.len/w>.16){
 
@@ -1200,19 +1067,18 @@ function horizontalLines(mask,w,h){
 
  }
 
-
- let groups=[];
-
+ let g=[];
 
  for(const q of a){
 
-  const z =
-  groups[groups.length-1];
+  let z=g[g.length-1];
 
+  if(
+   !z ||
+   q.y>z.last+3
+  ){
 
-  if(!z || q.y>z.last+3){
-
-   groups.push({
+   g.push({
     a:[q],
     last:q.y
    });
@@ -1226,22 +1092,19 @@ function horizontalLines(mask,w,h){
 
  }
 
-
- return groups.map(
-  z=>z.a.reduce(
-   (a,b)=>b.len>a.len?b:a
+ return g.map(z =>
+  z.a.reduce(
+   (a,b)=>
+   b.len>a.len ? b : a
   )
  );
 
 }
 
 
-/* Vertical line detection */
-
 function verticalLines(mask,w,h){
 
  let a=[];
-
 
  for(
   let x=Math.floor(w*.01);
@@ -1249,21 +1112,22 @@ function verticalLines(mask,w,h){
   x++
  ){
 
-  const col =
+  let col =
   new Uint8Array(h);
 
-
-  for(let y=0;y<h;y++){
+  for(
+   let y=0;
+   y<h;
+   y++
+  ){
 
    col[y] =
    mask[y*w+x];
 
   }
 
-
-  const q =
+  let q =
   run(col,2);
-
 
   if(q.len/h>.22){
 
@@ -1278,19 +1142,18 @@ function verticalLines(mask,w,h){
 
  }
 
-
- let groups=[];
-
+ let g=[];
 
  for(const q of a){
 
-  const z =
-  groups[groups.length-1];
+  let z=g[g.length-1];
 
+  if(
+   !z ||
+   q.x>z.last+3
+  ){
 
-  if(!z || q.x>z.last+3){
-
-   groups.push({
+   g.push({
     a:[q],
     last:q.x
    });
@@ -1304,10 +1167,10 @@ function verticalLines(mask,w,h){
 
  }
 
-
- return groups.map(
-  z=>z.a.reduce(
-   (a,b)=>b.len>a.len?b:a
+ return g.map(z =>
+  z.a.reduce(
+   (a,b)=>
+   b.len>a.len ? b : a
   )
  );
 
@@ -1334,33 +1197,48 @@ function scaledCanvas(src){
   Math.round(src.height*scale)
  );
 
-
  const c =
  document.createElement("canvas");
-
 
  c.width=w;
  c.height=h;
 
-
  c.getContext("2d")
- .drawImage(
-  src,
-  0,
-  0,
-  w,
-  h
- );
-
+  .drawImage(
+   src,
+   0,
+   0,
+   w,
+   h
+  );
 
  return c;
-
 }
 
 
-/* ==========================================
-   EKART / FLIPKART OUTER BORDER DETECTION
-   ========================================== */
+/*
+ IMPORTANT DETECTION LOGIC
+
+ Detects the complete outer Ekart/Flipkart
+ shipping-label rectangle.
+
+ The bottom border is preferred over the
+ Tax Invoice separator.
+
+ This keeps:
+
+ - Bottom barcode
+ - B4 box
+ - Not for resale
+ - Printed date
+
+ And excludes:
+
+ - Tax Invoice
+ - Billing address section
+ - Product invoice table
+*/
+
 
 function detectRegions(src){
 
@@ -1376,23 +1254,33 @@ function detectRegions(src){
   {willReadFrequently:true}
  );
 
-
  const mask =
- inkMask(ctx,w,h);
+ inkMask(
+  ctx,
+  w,
+  h
+ );
 
  const hs =
- horizontalLines(mask,w,h);
+ horizontalLines(
+  mask,
+  w,
+  h
+ );
 
  const vs =
- verticalLines(mask,w,h);
-
+ verticalLines(
+  mask,
+  w,
+  h
+ );
 
  const out=[];
 
 
  /*
-  Find rectangles created by strong
-  horizontal + vertical borders.
+  Find complete outer shipping-label
+  rectangles.
  */
 
  for(
@@ -1410,64 +1298,86 @@ function detectRegions(src){
    const L=vs[i];
    const R=vs[j];
 
-   const rw =
-   (R.x-L.x)/w;
+   const x=L.x/w;
+   const rw=(R.x-L.x)/w;
 
+
+   /*
+    Ekart label normally occupies
+    a large portion of page width.
+   */
 
    if(
-    rw<.18 ||
-    rw>.98
+    rw<.45 ||
+    rw>.995
    ) continue;
 
 
+   /*
+    TOP BORDER
+   */
+
    const tops =
-   hs.filter(q=>
+   hs.filter(q =>
+
+    q.y/h<.22 &&
 
     q.y >=
-    Math.min(L.start,R.start)
-    -h*.04
-
-    &&
+    Math.min(
+     L.start,
+     R.start
+    ) - h*.035 &&
 
     q.y <=
-    Math.max(L.start,R.start)
-    +h*.04
-
-    &&
+    Math.max(
+     L.start,
+     R.start
+    ) + h*.035 &&
 
     q.start <=
-    L.x+w*.05
-
-    &&
+    L.x+w*.04 &&
 
     q.end >=
-    R.x-w*.05
+    R.x-w*.04
 
    );
 
 
+   /*
+    BOTTOM BORDER
+
+    Notice this is limited to the
+    shipping-label region.
+
+    Tax invoice is normally below
+    this area and its dashed line
+    is therefore ignored.
+   */
+
    const bots =
-   hs.filter(q=>
+   hs.filter(q =>
+
+    q.y/h>.18 &&
+
+    q.y/h<.78 &&
 
     q.y >=
-    Math.min(L.end,R.end)
-    -h*.04
-
-    &&
+    Math.min(
+     L.end,
+     R.end
+    ) - h*.035 &&
 
     q.y <=
-    Math.max(L.end,R.end)
-    +h*.04
-
-    &&
+    Math.max(
+     L.end,
+     R.end
+    ) + h*.035 &&
 
     q.start <=
-    L.x+w*.05
-
-    &&
+    L.x+w*.04 &&
 
     q.end >=
-    R.x-w*.05
+    R.x-w*.04
 
    );
 
@@ -1479,58 +1389,131 @@ function detectRegions(src){
 
 
    /*
-    Prefer the outer-most bottom line.
-    This is important because the label itself
-    contains many internal horizontal lines.
+    Try every possible top/bottom
+    combination and score it.
    */
 
-   const T =
-   tops.sort(
-    (a,b)=>a.y-b.y
-   )[0];
+   for(
+    const T of tops
+   ){
+
+    for(
+     const B of bots
+    ){
+
+     const y=T.y/h;
+     const bh=(B.y-T.y)/h;
 
 
-   const B =
-   bots.sort(
-    (a,b)=>b.y-a.y
-   )[0];
+     /*
+      Typical Ekart label dimensions.
+     */
+
+     if(
+      y>.16 ||
+      bh<.25 ||
+      bh>.70 ||
+      B.y<=T.y
+     ) continue;
 
 
-   if(
-    B.y-T.y<h*.22 ||
-    B.y>h*.90
-   ) continue;
+     const leftSpan =
+     Math.max(
+      0,
+      L.end-T.y
+     )/h;
+
+     const rightSpan =
+     Math.max(
+      0,
+      R.end-T.y
+     )/h;
 
 
-   const score =
-   (T.len+B.len)/w +
+     /*
+      Make sure left/right borders
+      actually surround the complete
+      label.
+     */
 
-   (L.len+R.len)/h +
-
-   Math.max(
-    0,
-    1-
-    Math.abs(rw-.70)/.55
-   );
+     if(
+      leftSpan<bh*.72 ||
+      rightSpan<bh*.72
+     ) continue;
 
 
-   out.push({
+     const topFit =
+     Math.min(
+      1,
+      T.len/
+      (R.x-L.x+w*.001)
+     );
 
-    x:L.x/w,
 
-    y:T.y/h,
+     const botFit =
+     Math.min(
+      1,
+      B.len/
+      (R.x-L.x+w*.001)
+     );
 
-    w:(R.x-L.x)/w,
 
-    h:(B.y-T.y)/h,
+     const topNear =
+     1-y/.16;
 
-    score,
 
-    confidence:.98,
+     const idealWidth =
+     1-Math.min(
+      1,
+      Math.abs(rw-.88)/.45
+     );
 
-    method:"border"
 
-   });
+     const score =
+     topFit*2.2 +
+     botFit*2.8 +
+     topNear*2.0 +
+     idealWidth +
+     Math.min(
+      leftSpan,
+      rightSpan
+     );
+
+
+     out.push({
+
+      x:Math.max(
+       0,
+       x
+      ),
+
+      y:Math.max(
+       0,
+       y
+      ),
+
+      w:Math.min(
+       1-x,
+       rw
+      ),
+
+      h:Math.min(
+       1-y,
+       bh
+      ),
+
+      score,
+
+      confidence:.995,
+
+      method:
+      "ekart-outer-border"
+
+     });
+
+    }
+
+   }
 
   }
 
@@ -1538,14 +1521,94 @@ function detectRegions(src){
 
 
  /*
-  If page is already a label,
-  use page/ink bounds.
+  FALLBACK
+
+  If border is slightly broken,
+  use strongest shipping separator.
+ */
+
+ if(!out.length){
+
+  const strong =
+  hs.filter(
+   q=>q.len/w>.45
+  );
+
+
+  if(strong.length){
+
+   const top =
+   strong
+   .filter(
+    q=>q.y/h<.20
+   )
+   .sort(
+    (a,b)=>a.y-b.y
+   )[0];
+
+
+   if(top){
+
+    /*
+     Prefer a solid horizontal separator
+     around the normal bottom-label area.
+    */
+
+    const bottom =
+    strong
+    .filter(
+     q =>
+      q.y>top.y+h*.20 &&
+      q.y<top.y+h*.70
+    )
+    .sort(
+     (a,b)=>
+      Math.abs(
+       (b.y-top.y)/h-.48
+      ) -
+      Math.abs(
+       (a.y-top.y)/h-.48
+      )
+    )[0];
+
+
+    if(bottom){
+
+     out.push({
+
+      x:.005,
+      y:top.y/h,
+      w:.99,
+      h:(bottom.y-top.y)/h,
+
+      score:5,
+
+      confidence:.90,
+
+      method:
+      "shipping-separator"
+
+     });
+
+    }
+
+   }
+
+  }
+
+ }
+
+
+ /*
+  LAST RESORT
+
+  If page is itself a shipping label,
+  use page ink bounds.
  */
 
  if(!out.length){
 
   let ys=[];
-
 
   for(
    let y=0;
@@ -1553,7 +1616,7 @@ function detectRegions(src){
    y++
   ){
 
-   const q =
+   let q =
    run(
     mask.subarray(
      y*w,
@@ -1562,21 +1625,19 @@ function detectRegions(src){
     1
    );
 
+   if(q.len/w>.55){
 
-   if(q.len/w>.55)
-   ys.push(y);
+    ys.push(y);
+
+   }
 
   }
 
 
   if(ys.length){
 
-   const y =
-   Math.min(...ys);
-
-   const b =
-   Math.max(...ys);
-
+   let y=Math.min(...ys);
+   let b=Math.max(...ys);
 
    out.push({
 
@@ -1598,7 +1659,8 @@ function detectRegions(src){
 
     confidence:.75,
 
-    method:"full-label"
+    method:
+    "full-label"
 
    });
 
@@ -1608,59 +1670,53 @@ function detectRegions(src){
 
 
  /*
-  Remove duplicate / nested rectangles.
+  Remove duplicate/nested regions.
+
+  Important:
+  We keep multiple separate labels
+  on the same PDF page.
  */
 
  out.sort(
-  (a,b)=>b.score-a.score
+  (a,b)=>
+   b.score-a.score
  );
-
 
  const keep=[];
 
-
- for(const r of out){
+ for(
+  const r of out
+ ){
 
   if(
-   r.w<.15 ||
-   r.h<.15
+   r.w<.35 ||
+   r.h<.20
   ) continue;
 
 
-  const duplicate =
-  keep.some(k=>
-
-   Math.abs(k.x-r.x)<.015 &&
-
-   Math.abs(k.y-r.y)<.015 &&
-
-   Math.abs(k.w-r.w)<.03
-
-   &&
-
-   Math.abs(k.h-r.h)<.03
-
+  const dup =
+  keep.some(
+   k =>
+    Math.abs(k.x-r.x)<.012 &&
+    Math.abs(k.y-r.y)<.012 &&
+    Math.abs(k.w-r.w)<.025 &&
+    Math.abs(k.h-r.h)<.035
   );
 
 
   const nested =
-  keep.some(k=>
-
-   r.x>=k.x-.01 &&
-
-   r.y>=k.y-.01 &&
-
-   r.x+r.w<=k.x+k.w+.01 &&
-
-   r.y+r.h<=k.y+k.h+.01 &&
-
-   r.w*k.w<.9
-
+  keep.some(
+   k =>
+    r.x>=k.x-.012 &&
+    r.y>=k.y-.012 &&
+    r.x+r.w<=k.x+k.w+.012 &&
+    r.y+r.h<=k.y+k.h+.012 &&
+    r.w*k.w<.95
   );
 
 
   if(
-   !duplicate &&
+   !dup &&
    !nested
   ){
 
@@ -1678,15 +1734,16 @@ function detectRegions(src){
 }
 
 
-/* ============================
-   THUMBNAIL
-   ============================ */
+/*
+ THUMBNAIL
+*/
 
 function thumb(c,r){
 
  const o =
- document.createElement("canvas");
-
+ document.createElement(
+  "canvas"
+ );
 
  const s =
  Math.min(
@@ -1694,24 +1751,24 @@ function thumb(c,r){
   220/(c.width*r.w)
  );
 
-
  o.width =
  Math.max(
   1,
-  Math.round(c.width*r.w*s)
+  Math.round(
+   c.width*r.w*s
+  )
  );
-
 
  o.height =
  Math.max(
   1,
-  Math.round(c.height*r.h*s)
+  Math.round(
+   c.height*r.h*s
+  )
  );
-
 
  o.getContext("2d")
  .drawImage(
-
   c,
 
   c.width*r.x,
@@ -1725,9 +1782,7 @@ function thumb(c,r){
 
   o.width,
   o.height
-
  );
-
 
  return o.toDataURL(
   "image/jpeg",
@@ -1737,9 +1792,9 @@ function thumb(c,r){
 }
 
 
-/* ============================
-   PDF PAGE RENDER
-   ============================ */
+/*
+ PDF PAGE RENDER
+*/
 
 async function renderPage(p){
 
@@ -1747,7 +1802,6 @@ async function renderPage(p){
  p.getViewport({
   scale:1
  });
-
 
  const scale =
  Math.min(
@@ -1759,16 +1813,15 @@ async function renderPage(p){
   )
  );
 
-
  const vp =
  p.getViewport({
   scale
  });
 
-
  const c =
- document.createElement("canvas");
-
+ document.createElement(
+  "canvas"
+ );
 
  c.width =
  Math.ceil(vp.width);
@@ -1787,7 +1840,7 @@ async function renderPage(p){
  }).promise;
 
 
- return {
+ return{
 
   canvas:c,
 
@@ -1802,40 +1855,36 @@ async function renderPage(p){
 }
 
 
-/* ============================
-   ADD LABELS
-   ============================ */
+/*
+ ADD LABELS FROM EVERY PAGE
+*/
 
 function addLabelsForPage(
  pageObj,
+ docPage,
  pageNo,
  file,
  sourceIndex
 ){
 
- let regions;
-
+ let rs;
 
  if(
   $("mode").value==="page"
  ){
 
-  regions=[{
-
+  rs=[{
    x:0,
    y:0,
    w:1,
    h:1,
-
    confidence:1,
-
    method:"page"
-
   }];
 
  }else{
 
-  regions =
+  rs=
   detectRegions(
    pageObj.canvas
   );
@@ -1843,55 +1892,57 @@ function addLabelsForPage(
  }
 
 
- regions.forEach(
- (r,n)=>{
+ rs.forEach(
+  (r,n)=>{
 
-  labels.push({
+   labels.push({
 
-   page:pageNo,
+    page:pageNo,
 
-   region:n+1,
+    region:n+1,
 
-   r,
+    r,
 
-   thumb:
-   thumb(
+    thumb:
+    thumb(
+     pageObj.canvas,
+     r
+    ),
+
+    pageCanvas:
     pageObj.canvas,
-    r
-   ),
 
-   pageCanvas:
-   pageObj.canvas,
+    sourceName:
+    file.name,
 
-   sourceName:
-   file.name,
+    sourceIndex,
 
-   sourceIndex,
+    pdfWidth:
+    pageObj.pdfWidth,
 
-   pdfWidth:
-   pageObj.pdfWidth,
+    pdfHeight:
+    pageObj.pdfHeight
 
-   pdfHeight:
-   pageObj.pdfHeight
+   });
 
-  });
-
- });
+  }
+ );
 
 }
 
 
-/* ============================
-   LOAD MULTIPLE PDFs
-   ============================ */
+/*
+ LOAD MULTIPLE PDF FILES
+*/
 
 async function loadFiles(list){
 
  sourceFiles =
- [...list].filter(
-  f=>
-  f.type==="application/pdf" ||
-  /\.pdf$/i.test(f.name)
+ [...list]
+ .filter(
+  f =>
+   f.type==="application/pdf" ||
+   /\.pdf$/i.test(f.name)
  );
 
 
@@ -1903,13 +1954,14 @@ async function loadFiles(list){
   );
 
   return;
-
  }
 
 
- const bad =
+ let bad =
  sourceFiles.find(
-  f=>f.size>50*1024*1024
+  f =>
+   f.size>
+   50*1024*1024
  );
 
 
@@ -1921,7 +1973,6 @@ async function loadFiles(list){
   );
 
   return;
-
  }
 
 
@@ -1930,14 +1981,10 @@ async function loadFiles(list){
  selected=0;
 
 
- $("preview").innerHTML=
- `
- <span style="
- font-size:11px;
- color:#7c899b">
+ $("preview").innerHTML =
+ `<span style="font-size:11px;color:#7c899b">
  Detecting all shipping labels…
- </span>
- `;
+ </span>`;
 
 
  step(2);
@@ -1957,7 +2004,6 @@ async function loadFiles(list){
    const f=
    sourceFiles[fi];
 
-
    const data=
    await f.arrayBuffer();
 
@@ -1970,9 +2016,12 @@ async function loadFiles(list){
    .promise;
 
 
-   total +=
-   doc.numPages;
+   total+=doc.numPages;
 
+
+   /*
+    CHECK EVERY PAGE
+   */
 
    for(
     let i=1;
@@ -1985,17 +2034,19 @@ async function loadFiles(list){
     );
 
 
-    const p =
+    const p=
     await doc.getPage(i);
 
 
-    const obj =
+    const obj=
     await renderPage(p);
 
 
     pages.push({
 
      ...obj,
+
+     docPage:p,
 
      pageNo:i,
 
@@ -2008,6 +2059,7 @@ async function loadFiles(list){
 
     addLabelsForPage(
      obj,
+     p,
      i,
      f,
      fi
@@ -2039,8 +2091,11 @@ async function loadFiles(list){
   renderList();
 
 
-  if(labels.length)
-  selectLabel(0);
+  if(labels.length){
+
+   selectLabel(0);
+
+  }
 
 
   $("summary").textContent =
@@ -2052,8 +2107,8 @@ async function loadFiles(list){
   console.error(e);
 
   setStatus(
-   "PDF loading/detection failed: "
-   + e.message,
+   "PDF loading/detection failed: "+
+   e.message,
    false
   );
 
@@ -2062,44 +2117,40 @@ async function loadFiles(list){
 }
 
 
-/* ============================
-   RE-DETECT
-   ============================ */
+/*
+ RE-DETECT
+*/
 
 function redetect(){
 
- if(!pages.length)
- return;
+ if(!pages.length)return;
 
 
  labels=[];
 
 
- for(const p of pages){
+ for(
+  const p of pages
+ ){
 
-  let regions;
-
+  let rs;
 
   if(
    $("mode").value==="page"
   ){
 
-   regions=[{
-
+   rs=[{
     x:0,
     y:0,
     w:1,
     h:1,
-
     confidence:1,
-
     method:"page"
-
    }];
 
   }else{
 
-   regions =
+   rs=
    detectRegions(
     p.canvas
    );
@@ -2107,41 +2158,42 @@ function redetect(){
   }
 
 
-  regions.forEach(
-  (r,n)=>{
+  rs.forEach(
+   (r,n)=>{
 
-   labels.push({
+    labels.push({
 
-    page:p.pageNo,
+     page:p.pageNo,
 
-    region:n+1,
+     region:n+1,
 
-    r,
+     r,
 
-    thumb:
-    thumb(
+     thumb:
+     thumb(
+      p.canvas,
+      r
+     ),
+
+     pageCanvas:
      p.canvas,
-     r
-    ),
 
-    pageCanvas:
-    p.canvas,
+     sourceName:
+     p.sourceName,
 
-    sourceName:
-    p.sourceName,
+     sourceIndex:
+     p.sourceIndex,
 
-    sourceIndex:
-    p.sourceIndex,
+     pdfWidth:
+     p.pdfWidth,
 
-    pdfWidth:
-    p.pdfWidth,
+     pdfHeight:
+     p.pdfHeight
 
-    pdfHeight:
-    p.pdfHeight
+    });
 
-   });
-
-  });
+   }
+  );
 
  }
 
@@ -2150,19 +2202,15 @@ function redetect(){
 
  renderList();
 
+ if(labels.length){
 
- if(labels.length)
- selectLabel(0);
+  selectLabel(0);
 
-
- $("count").textContent =
- labels.length;
-
+ }
 
  setStatus(
   `Re-detected ${labels.length} label(s).`
  );
-
 
  step(
   labels.length ? 4 : 2
@@ -2171,15 +2219,13 @@ function redetect(){
 }
 
 
-/* ============================
-   CURRENT CROP RECTANGLE
-   ============================ */
+/*
+ CURRENT CROP RECTANGLE
+*/
 
 function rect(l){
 
- let r={
-  ...l.r
- };
+ let r={...l.r};
 
 
  if(
@@ -2215,31 +2261,28 @@ function rect(l){
  }
 
 
- r.x =
+ r.x=
  clamp(
   r.x,
   0,
   .999
  );
 
-
- r.y =
+ r.y=
  clamp(
   r.y,
   0,
   .999
  );
 
-
- r.w =
+ r.w=
  clamp(
   r.w,
   .001,
   1-r.x
  );
 
-
- r.h =
+ r.h=
  clamp(
   r.h,
   .001,
@@ -2252,49 +2295,43 @@ function rect(l){
 }
 
 
-/* ============================
-   UPDATE X/Y/W/H
-   ============================ */
+/*
+ UPDATE MANUAL FIELDS
+*/
 
 function updateFields(l){
 
- const r =
+ let r=
  rect(l);
 
 
- $("x").value =
+ $("x").value=
  (r.x*100).toFixed(1);
 
-
- $("y").value =
+ $("y").value=
  (r.y*100).toFixed(1);
 
-
- $("w").value =
+ $("w").value=
  (r.w*100).toFixed(1);
 
-
- $("h").value =
+ $("h").value=
  (r.h*100).toFixed(1);
 
 }
 
 
-/* ============================
-   PREVIEW
-   ============================ */
+/*
+ LABEL PREVIEW
+*/
 
 function selectLabel(i){
 
  selected=i;
 
-
  const l=
  labels[i];
 
-
- if(!l)
- return;
+ if(!l)return;
 
 
  updateFields(l);
@@ -2303,21 +2340,23 @@ function selectLabel(i){
  $("preview").innerHTML="";
 
 
- const c =
- document.createElement("canvas");
+ const c=
+ document.createElement(
+  "canvas"
+ );
 
 
- const r =
+ const r=
  rect(l);
 
 
- c.width =
+ c.width=
  Math.round(
   l.pageCanvas.width*r.w
  );
 
 
- c.height =
+ c.height=
  Math.round(
   l.pageCanvas.height*r.h
  );
@@ -2329,11 +2368,9 @@ function selectLabel(i){
   l.pageCanvas,
 
   l.pageCanvas.width*r.x,
-
   l.pageCanvas.height*r.y,
 
   l.pageCanvas.width*r.w,
-
   l.pageCanvas.height*r.h,
 
   0,
@@ -2354,89 +2391,96 @@ function selectLabel(i){
 }
 
 
-/* ============================
-   LABEL LIST
-   ============================ */
+/*
+ DETECTED LABEL LIST
+*/
 
 function renderList(){
 
- $("count").textContent =
+ $("count").textContent=
  labels.length;
 
 
  $("list").innerHTML =
  labels.map(
- (l,i)=>`
+  (l,i)=>`
 
- <div
- class="label-card ${i===selected?'selected':''}"
- data-i="${i}">
+   <div
+    class="label-card ${i===selected?'selected':''}"
+    data-i="${i}"
+   >
 
-  <img src="${l.thumb}">
+    <img src="${l.thumb}">
 
-  <div>
+    <div>
 
-   <b>
-    Label ${i+1}
-   </b>
+     <b>
+      Label ${i+1}
+     </b>
 
-   <small>
-    ${l.sourceName}
-   </small>
+     <small>
+      ${l.sourceName}
+     </small>
 
-   <small>
-    Page ${l.page}
-    ${l.region>1
-     ? ' · Region '+l.region
-     : ''}
-    ·
-    ${(l.r.x*100).toFixed(1)}%
-    ×
-    ${(l.r.y*100).toFixed(1)}%
-   </small>
+     <small>
+      Page ${l.page}
+      ${l.region>1?
+       ' · Region '+l.region:
+       ''
+      }
+      · ${(l.r.x*100).toFixed(1)}%
+      × ${(l.r.y*100).toFixed(1)}%
+     </small>
 
-   <small>
-    ${
-     l.r.method==="border"
-     ? "Complete Ekart/Flipkart outer border"
-     : "Detected label region"
-    }
-   </small>
+     <small>
+      ${l.r.method==='ekart-outer-border'
+       ?
+       'Complete Ekart/Flipkart outer border'
+       :
+       'Detected label region'
+      }
+     </small>
 
-  </div>
+    </div>
 
- </div>
+   </div>
 
- `
+  `
  ).join("");
 
 
  document
  .querySelectorAll(".label-card")
  .forEach(
-  e=>
-  e.onclick=()=>
-  selectLabel(
-   +e.dataset.i
-  )
+  e =>
+   e.onclick=
+   () =>
+   selectLabel(
+    +e.dataset.i
+   )
  );
 
 }
 
 
-/* ============================
-   VECTOR PDF - ONE LABEL
-   ============================ */
+/*
+ VECTOR PDF OUTPUT
+
+ Final PDF remains based on
+ original PDF content.
+
+ 4 × 6 inch thermal format.
+*/
 
 async function makeVectorPDF(l){
 
- const source =
+ const source=
  sourceFiles[
   l.sourceIndex
  ];
 
 
- const src =
+ const src=
  await PDFDocument.load(
   await source.arrayBuffer(),
   {
@@ -2445,25 +2489,25 @@ async function makeVectorPDF(l){
  );
 
 
- const out =
+ const out=
  await PDFDocument.create();
 
 
- const page =
+ const page=
  src.getPage(
   l.page-1
  );
 
 
- const media =
+ const media=
  page.getMediaBox();
 
 
- const r =
+ const r=
  rect(l);
 
 
- const [p] =
+ const [p]=
  await out.copyPages(
   src,
   [l.page-1]
@@ -2485,37 +2529,37 @@ async function makeVectorPDF(l){
   media.height,
 
   width:
-  r.w*media.width,
+  r.w*
+  media.width,
 
   height:
-  r.h*media.height
+  r.h*
+  media.height
 
  };
 
 
  /*
-  4 × 6 inch thermal label
-  72 points = 1 inch
-  4 inch = 288
-  6 inch = 432
+  4 × 6 inch
+  = 288 × 432 PDF points
  */
 
  const tw=288;
  const th=432;
 
 
- const scale =
+ const scale=
  Math.min(
   tw/box.width,
   th/box.height
  );
 
 
- const ox =
+ const ox=
  (tw-box.width*scale)/2;
 
 
- const oy =
+ const oy=
  (th-box.height*scale)/2;
 
 
@@ -2552,154 +2596,26 @@ async function makeVectorPDF(l){
 }
 
 
-/* ============================
-   VECTOR PDF - ALL LABELS
-   ============================ */
-
-async function makeAllVectorPDF(){
-
- const out =
- await PDFDocument.create();
-
-
- for(
-  const l of labels
- ){
-
-  const source =
-  sourceFiles[
-   l.sourceIndex
-  ];
-
-
-  const src =
-  await PDFDocument.load(
-   await source.arrayBuffer(),
-   {
-    ignoreEncryption:true
-   }
-  );
-
-
-  const page =
-  src.getPage(
-   l.page-1
-  );
-
-
-  const media =
-  page.getMediaBox();
-
-
-  const r =
-  rect(l);
-
-
-  const [p] =
-  await out.copyPages(
-   src,
-   [l.page-1]
-  );
-
-
-  out.addPage(p);
-
-
-  const box={
-
-   x:
-   media.x+
-   r.x*media.width,
-
-   y:
-   media.y+
-   (1-r.y-r.h)*
-   media.height,
-
-   width:
-   r.w*media.width,
-
-   height:
-   r.h*media.height
-
-  };
-
-
-  const tw=288;
-  const th=432;
-
-
-  const scale =
-  Math.min(
-   tw/box.width,
-   th/box.height
-  );
-
-
-  const ox =
-  (tw-box.width*scale)/2;
-
-
-  const oy =
-  (th-box.height*scale)/2;
-
-
-  p.scaleContent(
-   scale,
-   scale
-  );
-
-
-  p.translateContent(
-   ox-box.x*scale,
-   oy-box.y*scale
-  );
-
-
-  p.setMediaBox(
-   0,
-   0,
-   tw,
-   th
-  );
-
-
-  p.setCropBox(
-   0,
-   0,
-   tw,
-   th
-  );
-
- }
-
-
- return out.save();
-
-}
-
-
-/* ============================
-   CANVAS CROP
-   ============================ */
+/*
+ IMAGE CROP
+*/
 
 async function cropCanvas(l){
 
- const r =
+ const r=
  rect(l);
 
-
- const c =
+ const c=
  l.pageCanvas;
 
 
- const o =
+ const o=
  document.createElement(
   "canvas"
  );
 
 
- o.width =
+ o.width=
  Math.max(
   1,
   Math.round(
@@ -2708,7 +2624,7 @@ async function cropCanvas(l){
  );
 
 
- o.height =
+ o.height=
  Math.max(
   1,
   Math.round(
@@ -2742,33 +2658,37 @@ async function cropCanvas(l){
 }
 
 
-/* ============================
-   DOWNLOAD
-   ============================ */
+/*
+ DOWNLOAD HELPER
+*/
 
 function dl(blob,name){
 
- const a =
- document.createElement("a");
+ const a=
+ document.createElement(
+  "a"
+ );
 
-
- a.href =
- URL.createObjectURL(blob);
-
+ a.href=
+ URL.createObjectURL(
+  blob
+ );
 
  a.download=name;
 
-
  document.body.appendChild(a);
-
 
  a.click();
 
 
  setTimeout(
   ()=>{
-   URL.revokeObjectURL(a.href);
+   URL.revokeObjectURL(
+    a.href
+   );
+
    a.remove();
+
   },
   1500
  );
@@ -2776,168 +2696,110 @@ function dl(blob,name){
 }
 
 
-/* ============================
-   CROP & DOWNLOAD
-   ============================ */
+/*
+ SINGLE LABEL DOWNLOAD
+*/
 
 async function oneDownload(){
 
  if(!labels.length){
 
-  alert(
+  return alert(
    "Upload a PDF first."
   );
-
-  return;
 
  }
 
 
- const fmt =
+ const l=
+ labels[selected];
+
+
+ const fmt=
  $("format").value;
 
 
  step(5);
 
-
  setStatus(
-  `Preparing ${labels.length} label(s)…`
+  "Preparing download…"
  );
 
 
- /*
-  PDF:
-  ALL labels -> ONE multi-page PDF
- */
-
  if(fmt==="pdf"){
 
-  const bytes =
-  await makeAllVectorPDF();
+  const b=
+  await makeVectorPDF(l);
 
 
   dl(
 
    new Blob(
-    [bytes],
+    [b],
     {
-     type:"application/pdf"
+     type:
+     "application/pdf"
     }
    ),
 
-   "EcomPilot_all_cropped_labels.pdf"
+   `${l.sourceName.replace(/\.pdf$/i,'')}_label_${l.page}${l.region>1?'_'+l.region:''}.pdf`
 
   );
 
+ }else{
 
-  setStatus(
-   `Download ready — ${labels.length} label(s).`
-  );
-
- }
+  const c=
+  await cropCanvas(l);
 
 
- /*
-  PNG/JPG:
-  ALL labels -> ZIP
- */
+  c.toBlob(
 
- else{
+   b=>
+   dl(
+    b,
+    `${l.sourceName.replace(/\.pdf$/i,'')}_label_${l.page}.${fmt}`
+   ),
 
-  const z =
-  new JSZip();
+   fmt==="png"
+   ?
+   "image/png"
+   :
+   "image/jpeg",
 
+   .95
 
-  for(
-   const l of labels
-  ){
-
-   const c =
-   await cropCanvas(l);
-
-
-   const b =
-   await new Promise(
-    resolve=>
-
-    c.toBlob(
-     resolve,
-     fmt==="png"
-     ? "image/png"
-     : "image/jpeg",
-     .95
-    )
-
-   );
-
-
-   const base =
-   l.sourceName.replace(
-    /\.pdf$/i,
-    ""
-   )
-   +
-   `_label_${l.page}`
-   +
-   (
-    l.region>1
-    ? `_${l.region}`
-    : ""
-   );
-
-
-   z.file(
-    base+"."+fmt,
-    b
-   );
-
-  }
-
-
-  const blob =
-  await z.generateAsync({
-   type:"blob",
-   compression:"DEFLATE"
-  });
-
-
-  dl(
-   blob,
-   `EcomPilot_all_cropped_labels_${fmt}.zip`
-  );
-
-
-  setStatus(
-   `ZIP ready — ${labels.length} label(s).`
   );
 
  }
+
+
+ setStatus(
+  "Download ready."
+ );
 
 }
 
 
-/* ============================
-   DOWNLOAD ALL ZIP
-   ============================ */
+/*
+ ZIP DOWNLOAD
+*/
 
 async function zipDownload(){
 
  if(!labels.length){
 
-  alert(
+  return alert(
    "Upload a PDF first."
   );
-
-  return;
 
  }
 
 
- const z =
+ const z=
  new JSZip();
 
 
- const fmt =
+ const fmt=
  $("format").value;
 
 
@@ -2950,19 +2812,18 @@ async function zipDownload(){
   const l of labels
  ){
 
-  const base =
+  const base=
   l.sourceName.replace(
    /\.pdf$/i,
-   ""
-  )
-  +
-  `_label_${l.page}`
-  +
-  (
+   ''
+  )+
+  `_label_${l.page}${
    l.region>1
-   ? `_${l.region}`
-   : ""
-  );
+   ?
+   '_'+l.region
+   :
+   ''
+  }`;
 
 
   if(fmt==="pdf"){
@@ -2974,22 +2835,22 @@ async function zipDownload(){
 
   }else{
 
-   const c =
+   const c=
    await cropCanvas(l);
 
 
-   const b =
+   const b=
    await new Promise(
-    resolve=>
-
+    res=>
     c.toBlob(
-     resolve,
+     res,
      fmt==="png"
-     ? "image/png"
-     : "image/jpeg",
+     ?
+     "image/png"
+     :
+     "image/jpeg",
      .95
     )
-
    );
 
 
@@ -3003,16 +2864,15 @@ async function zipDownload(){
  }
 
 
- const blob =
- await z.generateAsync({
-  type:"blob",
-  compression:"DEFLATE"
- });
-
-
  dl(
-  blob,
+
+  await z.generateAsync({
+   type:"blob",
+   compression:"DEFLATE"
+  }),
+
   "EcomPilot_cropped_labels.zip"
+
  );
 
 
@@ -3026,59 +2886,54 @@ async function zipDownload(){
 }
 
 
-/* ============================
-   HELP
-   ============================ */
+/*
+ HELP
+*/
 
 function showHelp(){
 
  alert(
 
-  "Upload one or more PDFs.\n\n" +
+  "Upload one or more PDFs. " +
 
-  "EcomPilot checks every PDF page and " +
+  "EcomPilot checks every page and can find " +
 
-  "detects complete Ekart/Flipkart shipping " +
+  "multiple bordered shipping-label regions. " +
 
-  "label regions.\n\n" +
+  "The crop keeps the bottom barcode, B4 " +
 
-  "The crop keeps the bottom barcode, B4, " +
+  "and printed date inside the label while " +
 
-  "Not for resale and Printed date while " +
-
-  "excluding the Tax Invoice below.\n\n" +
+  "excluding the Tax Invoice below. " +
 
   "PDF output is cropped from the original " +
 
-  "PDF so vector text/barcodes remain sharp.\n\n" +
-
-  "Crop & Download creates one multi-page " +
-
-  "PDF containing ALL detected labels.\n\n" +
-
-  "Download All as ZIP creates separate files."
+  "PDF to preserve vector quality."
 
  );
 
 }
 
 
-/* ============================
-   EVENTS
-   ============================ */
+/*
+ FILE INPUT
+*/
 
 $("file").onchange =
 e =>
 loadFiles(
  e.target.files
- );
+);
 
+
+/*
+ DRAG & DROP
+*/
 
 $("drop").ondragover =
 e=>{
  e.preventDefault();
- $("drop").style.background =
- "#eef7ff";
+ $("drop").style.background="#eef7ff";
 };
 
 
@@ -3102,45 +2957,46 @@ e=>{
 };
 
 
+/*
+ BUTTONS
+*/
+
 $("downloadOne").onclick =
 oneDownload;
-
 
 $("downloadZip").onclick =
 zipDownload;
 
 
 /*
- Manual X/Y/W/H changes
- */
+ MANUAL X/Y/W/H
+*/
 
-["x","y","w","h"]
-.forEach(
- id=>{
+["x","y","w","h"].forEach(
+ id =>
 
-  $(id).oninput =
-  ()=>{
+ $(id).oninput =
+ ()=>{
 
-   $("mode").value =
-   "manual";
+  $("mode").value="manual";
 
+  if(labels[selected]){
 
-   if(labels[selected])
-   selectLabel(selected);
+   selectLabel(
+    selected
+   );
 
+  }
 
-   step(4);
-
-  };
+  step(4);
 
  }
 );
 
 
 /*
- Changing mode:
- Auto / Whole Page
- */
+ MODE CHANGE
+*/
 
 $("mode").onchange =
 ()=>{
@@ -3157,12 +3013,11 @@ $("mode").onchange =
 };
 
 
-window.redetect =
+window.redetect=
 redetect;
 
-window.showHelp =
+window.showHelp=
 showHelp;
-
 
 </script>
 
